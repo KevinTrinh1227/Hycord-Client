@@ -5,19 +5,22 @@ import json
 class MinecraftDisplayCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        try:
+            with open("mc_accounts.json", "r") as f:
+                self.data = json.load(f)
+        except FileNotFoundError:
+            with open("mc_accounts.json", "w") as f:
+                json.dump({}, f)
 
     @commands.command()
-    async def displaytest(self, ctx):
-        """Displays your linked Minecraft username."""
-        # Load the data from the JSON file
-        with open('minecraft_data.json', 'r') as f:
-            data = json.load(f)
-
-        # Check if the user has a linked Minecraft account
-        if str(ctx.author.id) in data:
-            await ctx.send(f'Your linked Minecraft username is {data[str(ctx.author.id)]["minecraft_username"]}')
+    async def mcname(self, ctx):
+        """Displays the linked Minecraft account's name"""
+        user_id = str(ctx.author.id)
+        if user_id in self.data:
+            mc_username = self.data[user_id]
+            await ctx.send(f"Your linked Minecraft account is: {mc_username}.")
         else:
-            await ctx.send('You have not linked a Minecraft account to your Discord account.')
+            await ctx.send("Your Discord account is not linked to a Minecraft account.")
             
 async def setup(client):
     await client.add_cog(MinecraftDisplayCog(client))

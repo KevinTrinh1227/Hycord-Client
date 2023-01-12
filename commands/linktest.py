@@ -5,18 +5,31 @@ import json
 class MinecraftCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.data = {}
+        try:
+            with open("mc_accounts.json", "r") as f:
+                self.data = json.load(f)
+        except FileNotFoundError:
+            with open("mc_accounts.json", "w") as f:
+                json.dump({}, f)
+
+    async def save_data(self):
+        with open("mc_accounts.json", "w") as f:
+            json.dump(self.data, f)
 
     @commands.command()
-    async def linktest(self, ctx, minecraft_username: str):
-        """Links your Discord account to a Minecraft account."""
-        # Save the data in a JSON file
-        data = {}
-        data['minecraft_username'] = minecraft_username
-        data['discord_id'] = ctx.author.id
-        with open('minecraft_data.json', 'w') as f:
-            json.dump(data, f)
+    async def linkmc(self, ctx, mc_username: str, classification_role_id: int):
+        """Links the user's Discord account to a Minecraft account"""
+        user_id = str(ctx.author.id)
+        if user_id in self.data:
+            return await ctx.send("You have already linked your account.")
+        self.data[user_id] = {
+            "mc_username":mc_username, 
+            "classification_role_id":classification_role_id
+            }
+        await ctx.send(f'Linked Minecraft account {mc_username} to Discord account {ctx.author.name} with classification role id {classification_role_id}.')
+        await self.save_data()
 
-        await ctx.send(f'Successfully linked Minecraft account {minecraft_username} to Discord ID {ctx.author.id}')
         
 async def setup(client):
     await client.add_cog(MinecraftCog(client))
