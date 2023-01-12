@@ -22,14 +22,14 @@ class verify_mcaccount(commands.Cog):
         self.client = client
         self.data = {}
         try:
-            with open("mc_accounts.json", "r") as f:
+            with open("linked_accounts.json", "r") as f:
                 self.data = json.load(f)
         except FileNotFoundError:
-            with open("mc_accounts.json", "w") as f:
+            with open("linked_accounts.json", "w") as f:
                 json.dump({}, f)
 
     async def save_data(self):
-        with open("mc_accounts.json", "w") as f:
+        with open("linked_accounts.json", "w") as f:
             json.dump(self.data, f)
     
     #bedwars stats command
@@ -126,6 +126,12 @@ class verify_mcaccount(commands.Cog):
                             embed.add_field(name='UUID', value=uuid, inline=True)
                             embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/128/{uuid}")
                             embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
+                            
+                            #saves user data in json file
+                            self.data[user_id] = {
+                                "mc_uuid":uuid, 
+                                "classification_role_id":classification_role_id
+                                }
                             
                             await ctx.author.edit(nick=new_nickname)    #change username of discord user to ingame name
                             await ctx.author.add_roles(classification_role, verified_linked_role)
