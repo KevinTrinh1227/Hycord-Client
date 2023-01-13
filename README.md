@@ -4,8 +4,7 @@
 
    ```sh
    DISCORD_BOT_TOKEN=<YOUR_DISCORD_BOT_TOKEN>
-   TWITCH_CLIENT_ID=<YOUR_TWITCH_APP_CLIENT ID>
-   TWITCH_CLIENT_SECRET=<YOUR_TWITCH_APP_CLIENT_SECRET>
+   HYPIXEL_API_KEY=<YOUR_HYPIXEL_API_KEY>
    ```
 
 2. Configure the config.json file appropriately
@@ -14,7 +13,6 @@
     {
     "bot_prefix": "<DESIRED_PREEFIX>",
     "embed_color": "<HEX_COLOR_CODE>",
-    "twitch_username": "<YOUR_TWITCH_USERNAME>"
     }
    ```
 
