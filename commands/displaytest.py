@@ -6,10 +6,10 @@ class MinecraftDisplayCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         try:
-            with open("linked_accounts.json", "r") as f:
+            with open("verified_accounts.json", "r") as f:
                 self.data = json.load(f)
         except FileNotFoundError:
-            with open("linked_accounts.json", "w") as f:
+            with open("verified_accounts.json", "w") as f:
                 json.dump({}, f)
 
     @commands.command()
