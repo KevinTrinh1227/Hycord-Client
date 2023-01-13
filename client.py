@@ -8,6 +8,11 @@ import asyncio
 import datetime
 import os
 
+#global variables for channel name usage
+global_member_count = 0
+global_online_members = 0
+global_online_and_sweaty = 0
+
 
 def activateBot (discord_bot_token, bot_prefix, embed_color):
     intents = discord.Intents.all()
@@ -31,16 +36,40 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
     #2 channel names changes per 10 minutes (1 every 5 mins)
     @tasks.loop(seconds=301.0) #refreshes every x seconds + 1 second to avoid warning
     async def change_stats_channels():
-        member_count = len(client.guilds[0].members)
+        
         member_count_channel = client.get_channel(934779378905284678) #ID of voice channel that changes
         members_online_channel = client.get_channel(1054814195004215408) #ID of voice channel online members
         sweats_online_channel = client.get_channel(1054814333613375549) #Sweats online voice channel
         sweaty_role = discord.utils.get(client.guilds[0].roles, id=1052120803585568818)
+    
+    
+        #if a change has been detected.
+        #this helps with being rate limited by discord
+        
+        member_count = len(client.guilds[0].members)
+        global global_member_count
+        if (global_member_count != member_count):
+            global_member_count = member_count
+            await member_count_channel.edit(name=f"Member Count: {member_count}")
+        else:
+            pass
+        
         online_members = [member for member in client.guilds[0].members if member.status != discord.Status.offline]
+        global global_online_members
+        if (global_online_members != online_members):
+            global_online_members = online_members
+            await members_online_channel.edit(name=f"Online Members: {len(online_members)}")
+        else:
+            pass
+        
         online_and_sweaty_members = [member for member in client.guilds[0].members if sweaty_role in member.roles and member.status != discord.Status.offline]
-        await member_count_channel.edit(name=f"Member Count: {member_count}")
-        await members_online_channel.edit(name=f"Online Members: {len(online_members)}")
-        await sweats_online_channel.edit(name=f"Online Sweats: {len(online_and_sweaty_members)}")
+        global global_online_and_sweaty
+        if (global_online_and_sweaty != online_and_sweaty_members):
+            global_online_and_sweaty = online_and_sweaty_members
+            await sweats_online_channel.edit(name=f"Online Sweats: {len(online_and_sweaty_members)}")
+        else:
+            pass
+        
             
             
     #on member join event        

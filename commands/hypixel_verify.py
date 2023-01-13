@@ -39,7 +39,20 @@ class verify_mcaccount(commands.Cog):
         
         user_id = str(ctx.author.id)
         if user_id in self.data:
-            return await ctx.send("You have already linked your account.")
+            
+            existing_uuid = self.data[user_id]["uuid"]
+            
+            embed = discord.Embed(
+                title = f"**Your account is already linked**  ❌",
+                url = f"https://plancke.io/hypixel/player/stats/{existing_uuid}",
+                description = f"**UUID:** `{existing_uuid}`\n\nYou already have an account linked to this discord. Please use `!unverify` to unlink your account then try again.",
+                color = embed_color
+            )
+            embed.set_author(name = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+            embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/128/{existing_uuid}")
+            embed.timestamp = datetime.datetime.now()
+            embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
+            await ctx.send(embed=embed)
 
         else:
             try: #if player exist it will work
