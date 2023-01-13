@@ -14,7 +14,6 @@
     {
     "bot_prefix": "<DESIRED_PREEFIX>",
     "embed_color": "<HEX_COLOR_CODE>",
-    "twitch_username": "<YOUR_TWITCH_USERNAME>"
     }
    ```
 
