@@ -14,7 +14,6 @@ class ping(commands.Cog):
     def __init__(self, client):
         self.client = client
         
-    
     @commands.command(aliases = ["lt", "pong"], pass_context=True, brief="ping",description="View bot latency connection")
     async def ping(self, ctx):
         await ctx.channel.purge(limit = 1)

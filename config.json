@@ -1,4 +1,12 @@
 {
     "bot_prefix": "!",
-    "embed_color": "#2f3136"
+    "embed_color": "#2f3136",
+    "member_count_chanel_id": "934779378905284678",
+    "members_online_channel_id": "1054814195004215408",
+    "sweats_online_channel_id": "1054814333613375549",
+    "sweat_role_id": "1052120803585568818",
+    "inactivity_channel_id": "",
+    "private_staff_channel_id": "",
+    "welcome_channel_id": "934410994975928400",
+    "basic_member_role_id": "934427489328062524"
 }

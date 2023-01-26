@@ -7,12 +7,24 @@ import discord.ui
 import asyncio
 import datetime
 import os
+import json
+
+# Open the JSON file and read in the data
+with open('config.json') as json_file:
+    data = json.load(json_file)
+
+#json data to get channel IDs
+welcome_channel_id = int(data["welcome_channel_id"])
+member_role_id = int(data["basic_member_role_id"])
+member_count_chanel_id = int(data["member_count_chanel_id"])
+members_online_channel_id = int(data["members_online_channel_id"])
+sweats_online_channel_id = int(data["sweats_online_channel_id"])
+sweat_role_id = int(data["sweat_role_id"])
 
 #global variables for channel name usage
 global_member_count = 0
 global_online_members = 0
 global_online_and_sweaty = 0
-
 
 def activateBot (discord_bot_token, bot_prefix, embed_color):
     intents = discord.Intents.all()
@@ -37,10 +49,10 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
     @tasks.loop(seconds=301.0) #refreshes every x seconds + 1 second to avoid warning
     async def change_stats_channels():
         
-        member_count_channel = client.get_channel(934779378905284678) #ID of voice channel that changes
-        members_online_channel = client.get_channel(1054814195004215408) #ID of voice channel online members
-        sweats_online_channel = client.get_channel(1054814333613375549) #Sweats online voice channel
-        sweaty_role = discord.utils.get(client.guilds[0].roles, id=1052120803585568818)
+        member_count_channel = client.get_channel(member_count_chanel_id) #ID of voice channel that changes
+        members_online_channel = client.get_channel(members_online_channel_id) #ID of voice channel online members
+        sweats_online_channel = client.get_channel(sweats_online_channel_id) #Sweats online voice channel
+        sweaty_role = discord.utils.get(client.guilds[0].roles, id=sweat_role_id)
     
     
         #if a change has been detected.
@@ -76,15 +88,13 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
     @client.event
     async def on_member_join(member):
         #Auto role feature
-        role = member.guild.get_role(934427489328062524) #ID of normal member role
+        role = member.guild.get_role(member_role_id) #ID of normal member role
         roleStr = str(role)
         autoRole = discord.utils.get(member.guild.roles, name = roleStr)
         await member.add_roles(autoRole)
         #welcome embed
-        welcomeChannel = 934410994975928400 #welcome channel ID
         member_count = len(member.guild.members)
-        channel = client.get_channel(welcomeChannel)
-        name = member.display_name
+        channel = client.get_channel(welcome_channel_id)
         embed = discord.Embed(
             title=(f"Welcome to {member.guild.name} (#{member_count})"),
             description = f"Welcome to the Sweaty Sanctum's Community! Link/verify your account using `!link [your IGN]`.\n\nMember: {member.mention} \n\n**Verify Account ➜** <#1057045238729953412> \n**Information ➜** <#934776549717184552> \n**Select Roles ➜** <#934418278888144906> \n",
