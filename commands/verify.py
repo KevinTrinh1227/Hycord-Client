@@ -21,12 +21,6 @@ class verify_mcaccount(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.data = {}
-        try:
-            with open("verified_accounts.json", "r") as f:
-                self.data = json.load(f)
-        except FileNotFoundError:
-            with open("verified_accounts.json", "w") as f:
-                json.dump({}, f)
 
     async def save_data(self):
         with open("verified_accounts.json", "w") as f:
@@ -36,6 +30,13 @@ class verify_mcaccount(commands.Cog):
     #bedwars stats command
     @commands.command(aliases=["verify", "connect"], brief="link [Minecraft User Name]",description="link/verify your minecraft account")
     async def link(self, ctx, *, username):
+        
+        try:
+            with open("verified_accounts.json", "r") as f:
+                self.data = json.load(f)
+        except FileNotFoundError:
+            with open("verified_accounts.json", "w") as f:
+                json.dump({}, f)
         
         user_id = str(ctx.author.id)
         if user_id in self.data:
@@ -147,6 +148,8 @@ class verify_mcaccount(commands.Cog):
                                 "classification_role_id":classification_role_id
                                 }
                             await self.save_data()
+                            with open('verified_accounts.json', 'w') as f:
+                                json.dump(self.data, f, indent=4)
                             
                             #modifies user's roles and nickname
                             await ctx.author.edit(nick=new_nickname)

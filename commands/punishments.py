@@ -14,7 +14,7 @@ embed_color = int(data["embed_color"].strip("#"), 16) #convert hex color to hexa
 
 #private staff channel ID number
 #this is where the priv_embed will be displayed.
-priv_staff_channel = 1054336803013935115
+priv_staff_channel = int(data["private_staff_channel_id"])
 
 
 class punishments(commands.Cog):

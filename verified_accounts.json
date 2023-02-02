@@ -1,1 +1,18 @@
-{}
+{
+    "888777457220587521": {
+        "uuid": "ce1349aa144c44cc8c4310ef375a35a1",
+        "classification_role_id": 1057027312014610553
+    },
+    "295215186594234368": {
+        "uuid": "f5a4f98e1ee6434b8a6fb4ce116f4473",
+        "classification_role_id": 1057332228906041364
+    },
+    "567609670936821760": {
+        "uuid": "96fc35398cad43ce85504f5c473899da",
+        "classification_role_id": 1057348592978899004
+    },
+    "753251683408150588": {
+        "uuid": "9bfcfb14fc4a4377b78369efd5e44d9c",
+        "classification_role_id": 1057332228906041364
+    }
+}

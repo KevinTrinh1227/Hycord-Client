@@ -8,4 +8,7 @@ __pycache__/
 #Ignore .zip files
 .zip
 
+#Ignore JSON file filled with all server member's data
+verified_accounts.json
+
 commands/__pycache__
