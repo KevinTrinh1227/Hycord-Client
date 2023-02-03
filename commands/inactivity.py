@@ -14,16 +14,17 @@ embed_color = int(data["embed_color"].strip("#"), 16) #convert hex color to hexa
 class inactive(commands.Cog):
     def __init__(self, client):
         self.client = client
+    
+    
+    @commands.command(aliases = ["inactivity", "mia"], pass_context=True, brief="inactive",description="Let others know that you will be inactive")
+    async def inactive(self, ctx):
+        
         try:
             with open("verified_accounts.json", "r") as f:
                 self.data = json.load(f)
         except FileNotFoundError:
             with open("verified_accounts.json", "w") as f:
                 json.dump({}, f)
-    
-    
-    @commands.command(aliases = ["inactivity", "mia"], pass_context=True, brief="inactive",description="Let others know that you will be inactive")
-    async def inactive(self, ctx):
         
         try:
             user_id = str(ctx.author.id)
