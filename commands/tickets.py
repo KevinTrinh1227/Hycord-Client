@@ -210,8 +210,7 @@ class Ticket(commands.Cog):
     @commands.command(aliases=["close"], brief="close", description="Closes the current ticket")
     async def close_ticket(self, ctx):
         if not ctx.channel.name.startswith("ticket-"):
-            #await ctx.send("This command can only be used in a ticket channel.")
-            pass
+            await ctx.send("This command can only be used in a ticket channel.")
             return
 
         # Create a confirmation message

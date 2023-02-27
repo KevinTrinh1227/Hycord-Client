@@ -2,4 +2,3 @@ discord.py
 requests
 python-dotenv
 pytz
-chat-exporter
