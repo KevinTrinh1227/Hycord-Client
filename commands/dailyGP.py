@@ -18,14 +18,14 @@ embed_color = int(data["embed_color"].strip("#"), 16) #convert hex color to hexa
 hypixel_guild_id = data["hypixel_guild_id"]
 
 
-class guildList(commands.Cog):
+class dailygp(commands.Cog):
     def __init__(self, client):
         self.client = client
     
     #chat purge command (and command removal)   
     @commands.has_permissions(manage_messages = True)
-    @commands.command(aliases = ["gl"], brief="guildlist",description="Show a list of all guild members")
-    async def guildlist(self, ctx):
+    @commands.command(aliases = ["dgp", "dailypoints", "dp"], brief="dailypoints",description="Show the guild's daily points earned")
+    async def dailygp(self, ctx):
         
         hypixel_api_key = os.getenv("HYPIXEL_API_KEY")
 
@@ -35,23 +35,41 @@ class guildList(commands.Cog):
         
         guild_name = data['guild']['name']
 
+        members = data['guild']['members']
+        sorted_members = sorted(members, key=lambda x: sum(x['expHistory'].values()), reverse=True)
+
         players = []
-        for i, member in enumerate(data['guild']['members']):
+        for i, member in enumerate(sorted_members): # loop through first 10 sorted members only
             uuid = member['uuid']
             username_api = f'https://sessionserver.mojang.com/session/minecraft/profile/{uuid}'
             response = requests.get(username_api)
             data = response.json()
             username = data['name']
-            rank = member['rank']
-            players.append(f'***{i+1}.*** {username} - {rank} - `{uuid}`')
-            total_members = len(players)
+            exp_history = member['expHistory']
+            if exp_history:
+                today = datetime.date.today().strftime("%Y-%m-%d") # Hypixel GMT is 8 hours ahead of Pacific time
+                if today in exp_history:
+                    exp_today = int(exp_history[today])
+                    new_member = (username, exp_today)
+                    players.append(new_member)
+                else:
+                    pass
+            else:
+                pass
+        
+        output = []
+        new_users_sorted = sorted(players, key=lambda x: x[1], reverse=True)
 
-        # Send the usernames as a message to the Discord server
-        embed_string = "\n".join(players)
+        total_exp = 0
+        for i, (user, exp_today) in enumerate(new_users_sorted):
+            output.append(f"**{i+1}.** {user} - {exp_today}")
+            total_exp += exp_today
+
+        embed_string = "\n".join(output)
         
         embed = discord.Embed(
-            title = f"**{guild_name} Guild List**", 
-            description=f"**Total Members:** `{total_members}`/`125`\n\nNow displaying each guild member's username, rank, and uuid.\n\n{embed_string}",
+            title = f"**{guild_name} Guild Points**", 
+            description=f"A total of `{total_exp}` was earned thus far as of {today}\n\n{embed_string}",
             colour = embed_color
         )
         embed.set_author(name = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
@@ -62,6 +80,6 @@ class guildList(commands.Cog):
 
         
 async def setup(client):
-    await client.add_cog(guildList(client))
+    await client.add_cog(dailygp(client))
     
 
