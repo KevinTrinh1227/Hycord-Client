@@ -4,6 +4,8 @@ import discord.ui
 import datetime
 import json
 import asyncio
+import io
+import chat_exporter
 
 # Open the JSON file and read in the data
 with open('config.json') as json_file:
@@ -15,6 +17,8 @@ bot_prefix = data["bot_prefix"]
 
 category_id = int(data["tickets_category_id"])
 staff_role_id = int(data["staff_member_role_id"])
+transcript_channel_id = int(data["tickets_trascripts_channel_id"])
+bots_role_id = int(data["bots_role_id"])
 
 class Roles(discord.ui.View):
     def __init__(self):
@@ -237,10 +241,79 @@ class Ticket(commands.Cog):
             await ctx.send("Confirmation timed out. Ticket will not be closed. Run the command again to close.")
             return
 
-        # Close the ticket
+            
+        #saving the channel as a html
+        transcript = await chat_exporter.export(ctx.channel)
+        if transcript is None:
+            return
+
+        transcript_file = discord.File(
+            io.BytesIO(transcript.encode()),
+            filename=f"transcript-{ctx.channel.name}.html",
+        )
+
+        transcript_channel = self.client.get_channel(transcript_channel_id)
+        message = await transcript_channel.send(file=transcript_file)
+        link = await chat_exporter.link(message)
+        #await ctx.send("Click this link to view the transcript online: " + link)
+        
+        
+        #sends this embed message to a staff only chat as a record
+        embed3 = discord.Embed(
+            title="Ticket Closed",
+            url=link,
+            description="A ticket has been closed, below is a link to the transcript.",
+            colour=embed_color
+        )
+        embed3.timestamp = datetime.datetime.now()
+        embed3.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
+        embed3.add_field(
+            name="Closed By",
+            value=f"{ctx.author}"
+        )
+        embed3.add_field(
+            name="View transcript",
+            value=f"[Click here to view the transcript]({link})"
+        )
+        
+        
+        #sends this embed message to the ticket channel
+        embed2 = discord.Embed(
+            title="Closed | This ticket is now locked",
+            url=link,
+            description="Your support ticket is now locked. If you wish to keep a record of this ticket, please use the link provided below to view the transcript online and save it in your files.\n\n***This channel will be terminated in 1 minute.\n\n***",
+            colour=embed_color
+        )
+        #embed2.set_author(name = f"Closed by {ctx.author}", icon_url=ctx.author.avatar.url)
+        embed2.timestamp = datetime.datetime.now()
+        embed2.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
+        embed2.add_field(
+            name="Closed By",
+            value=f"{ctx.author}"
+        )
+        embed2.add_field(
+            name="View transcript",
+            value=f"[Click here to view the transcript]({link})"
+        )
+        
+        # to avoid being rate limited, it only affects users without the following roles...
+        role_ids = [bots_role_id, staff_role_id] #bot role, staff member role
+        
+        #deleting message above
         await ctx.channel.purge(limit=1)
-        await ctx.send("Your ticket will close shortly. Have a wonderful day!")
-        await asyncio.sleep(5)  # Wait for 5 seconds before deleting the channel
+        
+        #sending both embed messages to the channels...
+        await ctx.send(embed=embed2)
+        await transcript_channel.send(embed=embed3)
+
+        # Revoke the send messages permission for every user in the channel who doesn't have the specified roles
+        for member in ctx.channel.members:
+            if not any(role.id in role_ids for role in member.roles):
+                await ctx.channel.set_permissions(member, send_messages=False, read_messages=True)
+
+        
+        #wait a minute before deleting channel
+        await asyncio.sleep(60)  # Wait for 20 seconds before deleting the channel
         await ctx.channel.delete()
 
 async def setup(client):
