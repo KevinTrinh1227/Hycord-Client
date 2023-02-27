@@ -18,7 +18,7 @@ welcome_channel_id = int(data["welcome_channel_id"])
 member_role_id = int(data["basic_member_role_id"])
 member_count_chanel_id = int(data["member_count_chanel_id"])
 members_online_channel_id = int(data["members_online_channel_id"])
-sweats_online_channel_id = int(data["sweats_online_channel_id"])
+guild_member_online_channel_id = int(data["guild_member_online_channel_id"])
 sweat_role_id = int(data["sweat_role_id"])
 
 #global variables for channel name usage
@@ -51,7 +51,7 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
         
         member_count_channel = client.get_channel(member_count_chanel_id) #ID of voice channel that changes
         members_online_channel = client.get_channel(members_online_channel_id) #ID of voice channel online members
-        sweats_online_channel = client.get_channel(sweats_online_channel_id) #Sweats online voice channel
+        guild_member_online_channel = client.get_channel(guild_member_online_channel_id) #guild_member online voice channel
         sweaty_role = discord.utils.get(client.guilds[0].roles, id=sweat_role_id)
     
     
@@ -78,7 +78,7 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
         global global_online_and_sweaty
         if (global_online_and_sweaty != online_and_sweaty_members):
             global_online_and_sweaty = online_and_sweaty_members
-            await sweats_online_channel.edit(name=f"Online Sweats: {len(online_and_sweaty_members)}")
+            await guild_member_online_channel.edit(name=f"Guild Online: {len(online_and_sweaty_members)}/125")
         else:
             pass
         

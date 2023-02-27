@@ -1,12 +1,14 @@
 {
     "bot_prefix": "!",
-    "embed_color": "#2f3136",
-    "member_count_chanel_id": "934779378905284678",
-    "members_online_channel_id": "1054814195004215408",
-    "sweats_online_channel_id": "1054814333613375549",
-    "sweat_role_id": "1052120803585568818",
-    "inactivity_channel_id": "",
-    "private_staff_channel_id": "1057073772483592202",
-    "welcome_channel_id": "934410994975928400",
-    "basic_member_role_id": "934427489328062524"
+    "embed_color": "#ff0000",
+    "member_count_chanel_id": "1079600959455498310",
+    "members_online_channel_id": "1079601015743066204",
+    "guild_member_online_channel_id": "1079601034969751602",
+    "sweat_role_id": "1079603637875118160",
+    "inactivity_channel_id": "1079601906961354785",
+    "private_staff_channel_id": "1079602220519141416",
+    "welcome_channel_id": "1079601236011122740",
+    "basic_member_role_id": "1079603852841594880",
+    "tickets_category_id": "1030745022016004196",
+    "staff_member_role_id": "1079604173353517138"
 }
