@@ -24,7 +24,7 @@ class bot_status(commands.Cog):
     async def bot_status(self):
         global x
         if (x <= 60):
-            sweaty_role = discord.utils.get(self.client.guilds[0].roles, id=int(data["sweat_role_id"]))
+            sweaty_role = discord.utils.get(self.client.guilds[0].roles, id=int(data["guild_member_role_id"]))
             online_and_sweaty_members = len([member for member in self.client.guilds[0].members if sweaty_role in member.roles and member.status != discord.Status.offline])
             await self.client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{online_and_sweaty_members} sweats play 💦"))
             x += 1

@@ -11,6 +11,8 @@ with open('config.json') as json_file:
 
 embed_color = data["embed_color"]
 embed_color = int(data["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
+verified_role_id = int(data["verified_role_id"]) #verified role id
+guild_member_role_id = int(data["guild_member_role_id"]) #guild role
 
 class verifiedstats(commands.Cog):
     def __init__(self, client):
@@ -22,14 +24,14 @@ class verifiedstats(commands.Cog):
             data = json.load(f)
         num_linked = len(data)
 
-        role_id_1 = 1012653367069249576
-        role_id_2 = 976267024714068020
+        role_id_1 = verified_role_id #verified role id
+        role_id_2 = guild_member_role_id #guild role
 
         role_1 = discord.utils.get(ctx.guild.roles, id=role_id_1)
         role_2 = discord.utils.get(ctx.guild.roles, id=role_id_2)
         total_guild_members = len(role_2.members)
 
-        num_with_both_roles = len(set(role_1.members).intersection(set(role_2.members)))
+        num_with_both_roles = len(set(role_1.members).intersection(set(role_2.members))) #checks 
 
         num_bots = sum(1 for member in ctx.guild.members if member.bot) #gets the number of bots
         num_users = len(ctx.guild.members) #total members in server

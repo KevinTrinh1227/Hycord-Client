@@ -19,12 +19,12 @@ member_role_id = int(data["basic_member_role_id"])
 member_count_chanel_id = int(data["member_count_chanel_id"])
 members_online_channel_id = int(data["members_online_channel_id"])
 guild_member_online_channel_id = int(data["guild_member_online_channel_id"])
-sweat_role_id = int(data["sweat_role_id"])
+guild_member_role_id = int(data["guild_member_role_id"])
 
 #global variables for channel name usage
 global_member_count = 0
 global_online_members = 0
-global_online_and_sweaty = 0
+global_online_and_guild_membery = 0
 
 def activateBot (discord_bot_token, bot_prefix, embed_color):
     intents = discord.Intents.all()
@@ -52,7 +52,7 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
         member_count_channel = client.get_channel(member_count_chanel_id) #ID of voice channel that changes
         members_online_channel = client.get_channel(members_online_channel_id) #ID of voice channel online members
         guild_member_online_channel = client.get_channel(guild_member_online_channel_id) #guild_member online voice channel
-        sweaty_role = discord.utils.get(client.guilds[0].roles, id=sweat_role_id)
+        guild_membery_role = discord.utils.get(client.guilds[0].roles, id=guild_member_role_id)
     
     
         #if a change has been detected.
@@ -74,11 +74,11 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
         else:
             pass
         
-        online_and_sweaty_members = [member for member in client.guilds[0].members if sweaty_role in member.roles and member.status != discord.Status.offline]
-        global global_online_and_sweaty
-        if (global_online_and_sweaty != online_and_sweaty_members):
-            global_online_and_sweaty = online_and_sweaty_members
-            await guild_member_online_channel.edit(name=f"Guild Online: {len(online_and_sweaty_members)}/125")
+        online_and_guild_membery_members = [member for member in client.guilds[0].members if guild_membery_role in member.roles and member.status != discord.Status.offline]
+        global global_online_and_guild_membery
+        if (global_online_and_guild_membery != online_and_guild_membery_members):
+            global_online_and_guild_membery = online_and_guild_membery_members
+            await guild_member_online_channel.edit(name=f"Guild Online: {len(online_and_guild_membery_members)}/125")
         else:
             pass
         
@@ -97,7 +97,7 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
         channel = client.get_channel(welcome_channel_id)
         embed = discord.Embed(
             title=(f"Welcome to {member.guild.name} (#{member_count})"),
-            description = f"Welcome to the Sweaty Sanctum's Community! Link/verify your account using `!link [your IGN]`.\n\nMember: {member.mention} \n\n**Verify Account ➜** <#1057045238729953412> \n**Information ➜** <#934776549717184552> \n**Select Roles ➜** <#934418278888144906> \n",
+            description = f"Welcome to the guild_membery Sanctum's Community! Link/verify your account using `!link [your IGN]`.\n\nMember: {member.mention} \n\n**Verify Account ➜** <#1057045238729953412> \n**Information ➜** <#934776549717184552> \n**Select Roles ➜** <#934418278888144906> \n",
             colour= embed_color
             )
         embed.timestamp = datetime.datetime.now()

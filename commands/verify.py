@@ -15,6 +15,8 @@ with open('config.json') as json_file:
 
 embed_color = data["embed_color"]
 embed_color = int(data["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
+unverified_role_id = int(data["basic_member_role_id"])
+verified_role_id = int(data["verified_role_id"])
     
     
 class verify_mcaccount(commands.Cog):
@@ -93,26 +95,10 @@ class verify_mcaccount(commands.Cog):
                         guild_name = "Not in Guild"
                 except: #runs if player is not in a guild
                     guild_name = "No Guild"
+            
                 
-                
-                #finding a players tier classification
-                if bedwars_fkdr < 1:
-                    classification_role_id = 1057348592978899004
-                elif 1 <= bedwars_fkdr < 3:
-                    classification_role_id = 1057332228906041364
-                elif 3 <= bedwars_fkdr < 5:
-                    classification_role_id = 1057330483811328000
-                elif 5 <= bedwars_fkdr < 8:
-                    classification_role_id = 1057027267903094868
-                elif 8 <= bedwars_fkdr < 10:
-                    classification_role_id = 1057027175544537199
-                else: #fkdr 10+
-                    classification_role_id = 1057027312014610553
-                    
-                
-                role = discord.utils.get(ctx.guild.roles, id=classification_role_id)
-                unverified_role = discord.utils.get(ctx.guild.roles, id=934427489328062524)
-                verified_linked_role = discord.utils.get(ctx.guild.roles, id=1057334059291906068)
+                unverified_role = discord.utils.get(ctx.guild.roles, id=unverified_role_id) #default role id
+                verified_linked_role = discord.utils.get(ctx.guild.roles, id=verified_role_id) #verified role id
                 
                 
                 #check if the user even has social media activated
@@ -129,7 +115,7 @@ class verify_mcaccount(commands.Cog):
                             embed = discord.Embed(
                                 title = f"**Successfully Verified Account** ✅",
                                 url = f"https://plancke.io/hypixel/player/stats/{username}",
-                                description = f"You have **seccessfully** linked your accounts. Based on your stats, you classify as a {role.mention}",
+                                description = f"You have **seccessfully** linked your accounts.",
                                 color = embed_color               
                             )
                             embed.set_author(name = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
@@ -145,7 +131,6 @@ class verify_mcaccount(commands.Cog):
                             
                             self.data[user_id] = {
                                 "uuid":uuid, 
-                                "classification_role_id":classification_role_id
                                 }
                             await self.save_data()
                             with open('verified_accounts.json', 'w') as f:
@@ -153,7 +138,6 @@ class verify_mcaccount(commands.Cog):
                             
                             #modifies user's roles and nickname
                             await ctx.author.edit(nick=new_nickname)
-                            await ctx.author.add_roles(role)
                             await ctx.author.add_roles(verified_linked_role)
                             await ctx.author.remove_roles(unverified_role)
                             await ctx.send(f"{ctx.author.mention}'s account is now linked and updated.", embed=embed)

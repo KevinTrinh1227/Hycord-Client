@@ -4,11 +4,13 @@
     "member_count_chanel_id": "1079600959455498310",
     "members_online_channel_id": "1079601015743066204",
     "guild_member_online_channel_id": "1079601034969751602",
-    "sweat_role_id": "1079603637875118160",
+    "guild_member_role_id": "1079603637875118160",
     "inactivity_channel_id": "1079601906961354785",
     "private_staff_channel_id": "1079602220519141416",
     "welcome_channel_id": "1079601236011122740",
+    "verified_role_id": "1079603959972503684",
     "basic_member_role_id": "1079603852841594880",
-    "tickets_category_id": "1030745022016004196",
-    "staff_member_role_id": "1079604173353517138"
+    "tickets_category_id": "1079602377692295259",
+    "staff_member_role_id": "1079604173353517138",
+    "hypixel_guild_id": "5b153a030cf2cc01f1235d37"
 }
