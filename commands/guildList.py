@@ -7,6 +7,7 @@ import datetime
 import json
 import os
 from dotenv import load_dotenv
+import asyncio
 
 
 # Open the JSON file and read in the data
@@ -28,6 +29,10 @@ class guildList(commands.Cog):
     async def guildlist(self, ctx):
         
         hypixel_api_key = os.getenv("HYPIXEL_API_KEY")
+        
+        #adding the typing effect
+        async with ctx.typing():
+            await asyncio.sleep(1)
 
         api_link = f'https://api.hypixel.net/guild?key={hypixel_api_key}&id={hypixel_guild_id}'
         response = requests.get(api_link)
