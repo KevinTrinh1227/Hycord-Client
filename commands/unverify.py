@@ -37,10 +37,11 @@ class unverify(commands.Cog):
                 json.dump(verified_accounts, f, indent=4)
                 
             #removing roles from the user unlinking accounts
-            unverified_role = discord.utils.get(ctx.guild.roles, id=934427489328062524)
+            unverified_role = discord.utils.get(ctx.guild.roles, id=int(data["basic_member_role_id"]))
             try:
                 user_role_ids = [role.id for role in member.roles]
-                role_ids_to_check = [1057348592978899004, 1057332228906041364, 1057330483811328000, 1057027267903094868, 1057027175544537199, 1057027312014610553, 1057334059291906068] #baby tier -> God tier, last ID is verified role
+                #1057348592978899004, 1057332228906041364, 1057330483811328000, 1057027267903094868, 1057027175544537199, 1057027312014610553, 1057334059291906068 <-- before I removed it
+                role_ids_to_check = [int(data["verified_role_id"])] #baby tier -> God tier, last ID is verified role
                 role_ids_to_remove = [role_id for role_id in user_role_ids if role_id in role_ids_to_check]
                 for role_id in role_ids_to_remove:
                     role = discord.utils.get(ctx.guild.roles, id=role_id)
