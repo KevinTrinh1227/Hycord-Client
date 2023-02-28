@@ -9,6 +9,8 @@
   Visit the <a href="https://hycord.netlify.app" target="_blank"><strong>Hycord Project Page</strong></a> for more information.
 </p>
 
+![808afada7b715665ba13571e12d93d12](https://user-images.githubusercontent.com/48145892/221743593-96869bc8-dc68-4a10-a273-30489262cd5b.gif)(https://hycord.netlify.app)
+
 ## Getting Started
 
 ### 📋 Clone the Repository
