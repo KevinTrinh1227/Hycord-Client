@@ -12,11 +12,11 @@
 
 ## Bot Features
 
-| Bot Feature | Command Use | Command Aliasses    | Description                  |
+| Bot Feature | Command Usage | Aliasses    | Description                  |
 | :----------: | :---------:| :---------:| :--------------------------:|
-| Custom Welcome Message    | `N/A` | `N/A`   | Sends a customizable welcome message in a specified channel     |
-| Cycling Bot Status    | `N/A` | `N/A`   | Rotating bot statuses with placeholders inside     |
+| Link Account  | `!verify [Hypixel username]` | `link` `sync`  | Validates and syncs your Discord account to your Hypixel account  |
 | Auto Gexp Announcement    | `N/A` | `N/A`   | Sends an embed message of all guild points earned by every member in a specified channel     |
+| Ticket System  | `!tickets` | `t`  | Sends a ticket menu message with buttons that allows users to create their own support tickets  |
 | Display Guild Points    | `!guildpoints` | `dp` `dgp`   | Display current daily guild points from each guild member    |
 | Announcements    | `!announce [message]` | `say` `a`   | Have the bot send a custom embed message as an announcement    |
 | Avatar    | `!avatar [@mention member]` | `pfp` `av`   | Get a certain user's avatar profile picture    |
@@ -24,6 +24,8 @@
 | Guild List    | `!guildlist` | `gl`  | Show a list of all current members within the Hypixel guild    |
 | Help Command    | `!help` | `idk` `h` `aid`  | Show all bot commands, aliases, and command usage examples    |
 | Inactivity    | `!inactive` | `mia`  | Send a custom inactivity notice embed message to a specified channel     |
+| Custom Welcome Message    | `N/A` | `N/A`   | Sends a customizable welcome message in a specified channel     |
+| Cycling Bot Status    | `N/A` | `N/A`   | Rotating bot statuses with placeholders inside     |
 | Server Information    | `!information` | `info` `inform`  | Print out a custom information embed message for your server   |
 | Ping    | `!ping` | `lt`  | View your bot's current latency connection speed    |
 | Ban Player   | `!ban [@mention member]` | `b`  | Ban a player from your server. This punishment will also be logged in a specified channel  |
@@ -31,10 +33,8 @@
 | Purge Messages   | `!purge [integer value]` | `clear` `del`  | Clear a specified amount of message in that specific channel  |
 | Rules   | `!rules` | `r` `rule`  | Display the discord server rules in a customizable embed message  |
 | Role Claiming  | `!roles` | `sr`  | Sends a customizable public roles menu with buttons to select desired roles  |
-| Ticket System  | `!tickets` | `t`  | Sends a ticket menu message with buttons that allows users to create their own support tickets  |
-| Unverify Account | `!unverify` | `unlink`  | Unlinks your discord account from your in-game Hypixel account  |
+| Unlink Account | `!unverify` | `unlink`  | Unlinks your discord account from your in-game Hypixel account  |
 | User Info  | `!whois @[mention member]` | `who`  | Displays general information about a certain discord user  |
-| Verify Account  | `!verify [Hypixel username]` | `link` `sync`  | Validates and syncs your Discord account to your Hypixel account  |
 | Verification Stats  | `!vstats` | `vs`  | Sends your server's verified users report  |
 
 
