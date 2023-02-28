@@ -31,12 +31,28 @@
 
    ```sh
     {
-    "bot_prefix": "<DESIRED_PREEFIX>",
-    "embed_color": "<HEX_COLOR_CODE>",
+    "bot_prefix": "!",
+    "embed_color": "#A1B2C3",
+    "member_count_chanel_id": "1234567890",
+    "members_online_channel_id": "1234567890",
+    "guild_member_online_channel_id": "1234567890",
+    "guild_member_role_id": "1234567890",
+    "inactivity_channel_id": "1234567890",
+    "private_staff_channel_id": "1234567890",
+    "welcome_channel_id": "1234567890",
+    "verified_role_id": "1234567890",
+    "basic_member_role_id": "1234567890",
+    "tickets_category_id": "1234567890",
+    "tickets_trascripts_channel_id": "1234567890",
+    "staff_member_role_id": "1234567890",
+    "bots_role_id": "1234567890",
+    "hypixel_guild_id": "1234567890",
+    "daily_points_updates": "1234567890",
+    "discord_server_guild_id": "1234567890"
     }
    ```
 
-3. Install the modules
+3. Install dependencies
 
    ```sh
    pip install discord.py
@@ -47,7 +63,12 @@
    ```sh
    pip install requests
    ```
-
+   ```sh
+   pip install pytz
+   ```
+   ```sh
+   pip chat-exporter
+   ```
 ### 🚀 activate bot in terminal
 
 1. build and run Discord bot
