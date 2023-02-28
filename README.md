@@ -1,15 +1,42 @@
 <h1 align="center">
   <a href="https://www.hycord.netlify.app" target="_blank"><img src="https://user-images.githubusercontent.com/48145892/218457340-39c08f69-e027-4529-b907-b2414435af77.png">
 </h1>
-
-<p>
-  Hycord is essentially a <strong>Discord python</strong> program that is targeted toward Java Minecraft players who play on Hypixel. This bot is an all-in-one easy-to-use/setup bot that allows anyone to have their own fully customizable bot. This bot uses numerous APIs such as <strong><a href="https://api.hypixel.net/" target="_blank">Hypixel</a></strong> and <strong><a href="https://playerdb.co/" target="_blank">PlayerDB</a></strong> not only to retrieve player data but to also validate and allow users to verify/sync their accounts together. This is currently an active project that will continuously receive updates, changes, and bug fixes. So be on the lookup for <strong><a href="https://github.com/KevinTrinh1227/Hycord-Bot/commits/main" target="_blank">new updates</a></strong>.
+<p align="center">
+  An all in one fully customizable Discord bot to manage a Hypixel community.
 </p>
 <p align="center">
   Visit the <a href="https://hycord.netlify.app" target="_blank"><strong>Hycord Project Page</strong></a> for more information.
 </p>
 
-![808afada7b715665ba13571e12d93d12](https://user-images.githubusercontent.com/48145892/221743593-96869bc8-dc68-4a10-a273-30489262cd5b.gif)(https://hycord.netlify.app)
+[![808afada7b715665ba13571e12d93d12](https://user-images.githubusercontent.com/48145892/221743994-65274a3b-601b-4193-9b41-4e0851ca8578.gif)](https://kevintrinh.dev)
+
+## Bot Features
+
+| Bot Feature | Command Use | Command Aliasses    | Description                  |
+| :----------: | :---------:| :---------:| :--------------------------:|
+| Custom Welcome Message    | `N/A` | `N/A`   | Sends a customizable welcome message in a specified channel     |
+| Cycling Bot Status    | `N/A` | `N/A`   | Rotating bot statuses with placeholders inside     |
+| Auto Gexp Announcement    | `N/A` | `N/A`   | Sends an embed message of all guild points earned by every member in a specified channel     |
+| Display Guild Points    | `!guildpoints` | `dp` `dgp`   | Display current daily guild points from each guild member    |
+| Announcements    | `!announce [message]` | `say` `a`   | Have the bot send a custom embed message as an announcement    |
+| Avatar    | `!avatar [@mention member]` | `pfp` `av`   | Get a certain user's avatar profile picture    |
+| Bedwars Statistics    | `!bwstats [Hypixel username]` | `bws` `bwstat`   | View a certain Hypixel player's in-game bedwars statistics    |
+| Guild List    | `!guildlist` | `gl`  | Show a list of all current members within the Hypixel guild    |
+| Help Command    | `!help` | `idk` `h` `aid`  | Show all bot commands, aliases, and command usage examples    |
+| Inactivity    | `!inactive` | `mia`  | Send a custom inactivity notice embed message to a specified channel     |
+| Server Information    | `!information` | `info` `inform`  | Print out a custom information embed message for your server   |
+| Ping    | `!ping` | `lt`  | View your bot's current latency connection speed    |
+| Ban Player   | `!ban [@mention member]` | `b`  | Ban a player from your server. This punishment will also be logged in a specified channel  |
+| Kick Player   | `!kick @[mention member]` | `k`  | Kick a player from your server. This punishment will also be logged in a specified channel  |
+| Purge Messages   | `!purge [integer value]` | `clear` `del`  | Clear a specified amount of message in that specific channel  |
+| Rules   | `!rules` | `r` `rule`  | Display the discord server rules in a customizable embed message  |
+| Role Claiming  | `!roles` | `sr`  | Sends a customizable public roles menu with buttons to select desired roles  |
+| Ticket System  | `!tickets` | `t`  | Sends a ticket menu message with buttons that allows users to create their own support tickets  |
+| Unverify Account | `!unverify` | `unlink`  | Unlinks your discord account from your in-game Hypixel account  |
+| User Info  | `!whois @[mention member]` | `who`  | Displays general information about a certain discord user  |
+| Verify Account  | `!verify [Hypixel username]` | `link` `sync`  | Validates and syncs your Discord account to your Hypixel account  |
+| Verification Stats  | `!vstats` | `vs`  | Sends your server's verified users report  |
+
 
 ## Getting Started
 
