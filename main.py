@@ -15,6 +15,7 @@ import json
 import os
 
 #load in .env variables
+
 load_dotenv() 
 
 discord_bot_token = os.getenv("DISCORD_BOT_TOKEN")
