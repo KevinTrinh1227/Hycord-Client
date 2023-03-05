@@ -146,7 +146,29 @@ class forceVerify(commands.Cog):
                 await ctx.send(embed=embed)
             
 
-                
+    @forceVerify.error
+    async def forceVerify_error(self, ctx, error):
+        #if user does not have the permission node
+        if isinstance(error, commands.MissingPermissions):
+            embed = discord.Embed(
+                color = embed_color
+            )
+            embed.timestamp = datetime.datetime.now()
+            embed.set_image(url="https://imgur.com/nU9QbXv.png")
+            embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+            await ctx.send(embed=embed)
+        #if the command was missing arguments
+        elif isinstance(error, commands.MissingRequiredArgument):
+            embed = discord.Embed(
+                color = embed_color
+            )
+            embed.timestamp = datetime.datetime.now()
+            embed.set_image(url="https://imgur.com/tQzEKFv.png")
+            embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+            await ctx.send(embed=embed)
+        #other error
+        else:
+            print(error) # for other errors so they dont get suppressed
 
 async def setup(client):
     await client.add_cog(forceVerify(client))

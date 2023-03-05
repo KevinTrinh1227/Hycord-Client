@@ -39,8 +39,8 @@ class dailygpoints(commands.Cog):
         est = pytz.timezone('US/Eastern')
         current_time = datetime.datetime.now(est)
         
-        #sends when it is 11:59 EST
-        if current_time.hour == 11 and current_time.minute == 59:
+        #sends when it is 11:55 EST
+        if current_time.hour == 11 and current_time.minute == 55:
             #print("It is currently 11:59pm in Eastern Standard Time (EST)")
             #print(f"Current time in EST: {current_time.strftime('%I:%M %p')}")
             #print(f"Current hour: {current_time.hour}")
