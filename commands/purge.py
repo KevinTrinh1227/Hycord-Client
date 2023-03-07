@@ -29,20 +29,22 @@ class purge(commands.Cog):
         #if user does not have the permission node
         if isinstance(error, commands.MissingPermissions):
             embed = discord.Embed(
+                title = f"**You are lacking permissions** ",
+                description = f"You do not have the necessary permissions to run this command, please contact a staff member if you believe this is incorrect.",
                 color = embed_color
             )
             embed.timestamp = datetime.datetime.now()
-            embed.set_image(url="https://imgur.com/nU9QbXv.png")
-            embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+            embed.set_author(name = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+            embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
             await ctx.send(embed=embed)
         #if the command was missing arguments
         elif isinstance(error, commands.MissingRequiredArgument):
             embed = discord.Embed(
                 color = embed_color
             )
+            embed.set_author(name = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
             embed.timestamp = datetime.datetime.now()
-            embed.set_image(url="https://imgur.com/tQzEKFv.png")
-            embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+            embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
             await ctx.send(embed=embed)
         #other error
         else:
@@ -50,5 +52,3 @@ class purge(commands.Cog):
         
 async def setup(client):
     await client.add_cog(purge(client))
-    
-

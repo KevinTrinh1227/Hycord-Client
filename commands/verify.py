@@ -115,7 +115,7 @@ class verify_mcaccount(commands.Cog):
                             embed = discord.Embed(
                                 title = f"**Successfully Verified Account** ✅",
                                 url = f"https://plancke.io/hypixel/player/stats/{username}",
-                                description = f"You have **seccessfully** linked your accounts.",
+                                description = f"You have **successfully** linked your accounts.",
                                 color = embed_color               
                             )
                             embed.set_author(name = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)

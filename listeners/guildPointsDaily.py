@@ -29,7 +29,7 @@ class dailygpoints(commands.Cog):
         self.dailygpoints.start()
     
     
-    @tasks.loop(seconds=10.0)
+    @tasks.loop(seconds=30.0)
     async def dailygpoints(self):
         
         channel = self.client.get_channel(daily_points_channel_id)
@@ -39,8 +39,8 @@ class dailygpoints(commands.Cog):
         est = pytz.timezone('US/Eastern')
         current_time = datetime.datetime.now(est)
         
-        #sends when it is 11:55 EST
-        if current_time.hour == 11 and current_time.minute == 55:
+        #sends when it is 11:55 EST in 24 hour time format is 23:55
+        if current_time.hour == 23 and current_time.minute == 55:
             #print("It is currently 11:59pm in Eastern Standard Time (EST)")
             #print(f"Current time in EST: {current_time.strftime('%I:%M %p')}")
             #print(f"Current hour: {current_time.hour}")
