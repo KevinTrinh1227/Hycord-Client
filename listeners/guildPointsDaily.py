@@ -18,6 +18,7 @@ embed_color = int(data["embed_color"].strip("#"), 16) #convert hex color to hexa
 hypixel_guild_id = data["hypixel_guild_id"]
 daily_points_channel_id = int(data["daily_points_updates"])
 guild_id = int(data["discord_server_guild_id"])
+command_prefix = data["bot_prefix"]
 
 already_sent = False
 
@@ -29,7 +30,7 @@ class dailygpoints(commands.Cog):
         self.dailygpoints.start()
     
     
-    @tasks.loop(seconds=30.0)
+    @tasks.loop(seconds=10.0)
     async def dailygpoints(self):
         
         channel = self.client.get_channel(daily_points_channel_id)
@@ -41,6 +42,7 @@ class dailygpoints(commands.Cog):
         
         #sends when it is 11:55 EST in 24 hour time format is 23:55
         if current_time.hour == 23 and current_time.minute == 55:
+        #if 1 == 1:
             #print("It is currently 11:59pm in Eastern Standard Time (EST)")
             #print(f"Current time in EST: {current_time.strftime('%I:%M %p')}")
             #print(f"Current hour: {current_time.hour}")
@@ -91,8 +93,8 @@ class dailygpoints(commands.Cog):
                 guild_icon_url = guild.icon.url
                 
                 embed = discord.Embed(
-                    title = f"**{guild_name} Guild Points**", 
-                    description=f"A total of `{total_exp}` was earned thus far as of {today}\n\n```{embed_string}```",
+                    title = f"**{guild_name}'s Daily Guild Points**", 
+                    description=f"A total of `{total_exp}` was earned today! Daily top resets everyday at Midnight EST. Please use `{command_prefix}dgp` to see current guild points.\n```{embed_string}```",
                     colour = embed_color
                 )
                 embed.set_thumbnail(url = guild_icon_url),
@@ -110,9 +112,9 @@ class dailygpoints(commands.Cog):
             #print(f"Current time in EST: {current_time.strftime('%I:%M %p')}")
             #print(f"Current hour: {current_time.hour}")
             #print(f"Current minute: {current_time.minute}")
-            #already_sent = False
+            already_sent = False
             #print(already_sent)
-            pass
+            #pass
 
         
         
