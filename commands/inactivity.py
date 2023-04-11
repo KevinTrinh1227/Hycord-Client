@@ -10,6 +10,7 @@ with open('config.json') as json_file:
 
 embed_color = data["embed_color"]
 embed_color = int(data["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
+inactivity_channel_id = int(data["inactivity_channel_id"]) #channel id from json file
 
 class inactive(commands.Cog):
     def __init__(self, client):
@@ -42,6 +43,9 @@ class inactive(commands.Cog):
                 user_data = username_requests.json()
                 username = user_data["data"]["player"]["username"]
                 
+                #grabbing inactivity channel from json file
+                channel = self.client.get_channel(inactivity_channel_id)
+                
                 embed = discord.Embed(
                     title = f"**Inactivity Notice from {ctx.author.name} ⌛**", 
                     colour = embed_color
@@ -54,7 +58,9 @@ class inactive(commands.Cog):
                 embed.set_thumbnail(url = f"https://visage.surgeplay.com/head/192/{uuid}?y=15")
                 embed.timestamp = datetime.datetime.now()
                 embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
-                await ctx.send(embed=embed)
+                
+                await ctx.send(f"Your inactivity notice has been listed on {channel.mention}.")
+                await channel.send(embed=embed)
                 
             else:
                 await ctx.send("Your Discord account is not linked to a Minecraft account.")
