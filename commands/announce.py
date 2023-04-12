@@ -68,7 +68,7 @@ class announce(commands.Cog):
             image_url = msg.content
             # If the user provided an image URL, add it to the embed
             if image_url != "skip":
-                embed = discord.Embed(url=image_url, color=embed_color)
+                embed = discord.Embed(color=embed_color)
                 if title:
                     embed.title = title
                 if description:
