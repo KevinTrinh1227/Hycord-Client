@@ -8,7 +8,7 @@ import json
 with open('config.json') as json_file:
     data = json.load(json_file)
 
-command_prefix = data["bot_prefix"]
+command_prefix = data["general"]["bot_prefix"]
 #global variable to switch statuses
 x = 0
 
@@ -24,7 +24,7 @@ class bot_status(commands.Cog):
     async def bot_status(self):
         global x
         if (x <= 60):
-            sweaty_role = discord.utils.get(self.client.guilds[0].roles, id=int(data["guild_member_role_id"]))
+            sweaty_role = discord.utils.get(self.client.guilds[0].roles, id=int(data["role_ids"]["guild_member"]))
             online_and_sweaty_members = len([member for member in self.client.guilds[0].members if sweaty_role in member.roles and member.status != discord.Status.offline])
             await self.client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{online_and_sweaty_members} Guild Members"))
             x += 1

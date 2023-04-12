@@ -11,10 +11,9 @@ from dotenv import load_dotenv
 with open('config.json') as json_file:
     data = json.load(json_file)
 
-embed_color = data["embed_color"]
-embed_color = int(data["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
-unverified_role_id = int(data["basic_member_role_id"])
-verified_role_id = int(data["verified_role_id"])
+embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
+unverified_role_id = int(data["role_ids"]["unverified_member"])
+verified_role_id = int(data["role_ids"]["verified_member"])
     
     
 class forceVerify(commands.Cog):

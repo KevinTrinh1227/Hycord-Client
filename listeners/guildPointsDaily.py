@@ -12,13 +12,12 @@ from dotenv import load_dotenv
 # Open the JSON file and read in the data
 with open('config.json') as json_file:
     data = json.load(json_file)
-    
-embed_color = data["embed_color"]
-embed_color = int(data["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
-hypixel_guild_id = data["hypixel_guild_id"]
-daily_points_channel_id = int(data["daily_points_updates"])
-guild_id = int(data["discord_server_guild_id"])
-command_prefix = data["bot_prefix"]
+
+embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
+hypixel_guild_id = data["hypixel_ids"]["guild_id"]
+daily_points_channel_id = int(data["text_channel_ids"]["daily_guild_points"])
+guild_id = int(data["general"]["discord_server_guild_id"])
+command_prefix = data["general"]["bot_prefix"]
 
 already_sent = False
 

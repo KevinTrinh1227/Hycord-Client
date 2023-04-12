@@ -14,12 +14,12 @@ with open('config.json') as json_file:
     data = json.load(json_file)
 
 #json data to get channel IDs
-welcome_channel_id = int(data["welcome_channel_id"])
-member_role_id = int(data["basic_member_role_id"])
-member_count_chanel_id = int(data["member_count_chanel_id"])
-members_online_channel_id = int(data["members_online_channel_id"])
-guild_member_online_channel_id = int(data["guild_member_online_channel_id"])
-guild_member_role_id = int(data["guild_member_role_id"])
+welcome_channel_id = int(data["text_channel_ids"]["welcome"])
+member_role_id = int(data["role_ids"]["unverified_member"])
+member_count_chanel_id = int(data["voice_channel_ids"]["member_count"])
+members_online_channel_id = int(data["voice_channel_ids"]["members_online"])
+guild_member_online_channel_id = int(data["voice_channel_ids"]["guild_member_online"])
+guild_member_role_id = int(data["role_ids"]["guild_member"])
 
 #global variables for channel name usage
 global_member_count = 0

@@ -11,14 +11,13 @@ import chat_exporter
 with open('config.json') as json_file:
     data = json.load(json_file)
 
-embed_color = data["embed_color"]
-embed_color = int(data["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
-bot_prefix = data["bot_prefix"]
+embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
+bot_prefix = data["general"]["bot_prefix"]
 
-category_id = int(data["tickets_category_id"])
-staff_role_id = int(data["staff_member_role_id"])
-transcript_channel_id = int(data["tickets_trascripts_channel_id"])
-bots_role_id = int(data["bots_role_id"])
+category_id = int(data["category_ids"]["tickets_category"])
+staff_role_id = int(data["role_ids"]["staff_member"])
+transcript_channel_id = int(data["text_channel_ids"]["tickets_trascripts"])
+bots_role_id = int(data["role_ids"]["bots"])
 
 class Roles(discord.ui.View):
     def __init__(self):

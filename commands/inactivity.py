@@ -8,9 +8,8 @@ import datetime
 with open('config.json') as json_file:
     data = json.load(json_file)
 
-embed_color = data["embed_color"]
-embed_color = int(data["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
-inactivity_channel_id = int(data["inactivity_channel_id"]) #channel id from json file
+embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
+inactivity_channel_id = int(data["text_channel_ids"]["inactivity_notice"]) #channel id from json file
 
 class inactive(commands.Cog):
     def __init__(self, client):

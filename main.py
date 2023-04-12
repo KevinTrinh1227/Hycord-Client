@@ -25,9 +25,8 @@ with open('config.json') as json_file:
     data = json.load(json_file)
 
 #json data to run bot
-bot_prefix = data["bot_prefix"]
-embed_color = data["embed_color"]
-embed_color = int(data["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
+bot_prefix = data["general"]["bot_prefix"]
+embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
 
 
 if __name__ == "__main__":

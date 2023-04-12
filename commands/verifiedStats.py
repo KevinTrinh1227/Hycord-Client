@@ -9,10 +9,9 @@ import json
 with open('config.json') as json_file:
     data = json.load(json_file)
 
-embed_color = data["embed_color"]
-embed_color = int(data["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
-verified_role_id = int(data["verified_role_id"]) #verified role id
-guild_member_role_id = int(data["guild_member_role_id"]) #guild role
+embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
+verified_role_id = int(data["role_ids"]["verified_member"]) #verified role id
+guild_member_role_id = int(data["role_ids"]["guild_member"]) #guild role
 
 class verifiedstats(commands.Cog):
     def __init__(self, client):

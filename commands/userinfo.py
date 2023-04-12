@@ -7,8 +7,7 @@ import discord.ui
 with open('config.json') as json_file:
     data = json.load(json_file)
 
-embed_color = data["embed_color"]
-embed_color = int(data["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
+embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
     
     
 class userinformation(commands.Cog):

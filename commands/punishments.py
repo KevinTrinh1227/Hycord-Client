@@ -1,7 +1,5 @@
 import discord
 from discord.ext import commands
-from discord import app_commands
-from discord.ext.commands import has_permissions
 import datetime
 import json
 
@@ -9,12 +7,11 @@ import json
 with open('config.json') as json_file:
     data = json.load(json_file)
 
-embed_color = data["embed_color"]
-embed_color = int(data["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
+embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
 
 #private staff channel ID number
 #this is where the priv_embed will be displayed.
-priv_staff_channel = int(data["private_staff_channel_id"])
+priv_staff_channel = int(data["text_channel_ids"]["staff_chat"])
 
 
 class punishments(commands.Cog):
