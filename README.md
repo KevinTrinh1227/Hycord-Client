@@ -18,7 +18,8 @@
 | Auto Gexp Announcement    | `N/A` | `N/A`   | Sends an embed message of all guild points earned by every member in a specified channel     |
 | Ticket System  | `!tickets` | `t`  | Sends a ticket menu message with buttons that allows users to create their own support tickets  |
 | Display Guild Points    | `!guildpoints` | `dp` `dgp`   | Display current daily guild points from each guild member    |
-| Announcements    | `!announce [message]` | `say` `a`   | Have the bot send a custom embed message as an announcement    |
+| Announcements    | `!announce` | `announcement` `a`   | Create a custom embed message and send it to any channel    |
+| Say    | `!say [Message]` | `yell` `s`   | Send any message as an embed to current channel    |
 | Avatar    | `!avatar [@mention member]` | `pfp` `av`   | Get a certain user's avatar profile picture    |
 | Bedwars Statistics    | `!bwstats [Hypixel username]` | `bws` `bwstat`   | View a certain Hypixel player's in-game bedwars statistics    |
 | Guild List    | `!guildlist` | `gl`  | Show a list of all current members within the Hypixel guild    |
