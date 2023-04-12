@@ -16,7 +16,7 @@ bot_prefix = data["general"]["bot_prefix"]
 
 category_id = int(data["category_ids"]["tickets_category"])
 staff_role_id = int(data["role_ids"]["staff_member"])
-transcript_channel_id = int(data["text_channel_ids"]["tickets_trascripts"])
+transcript_channel_id = int(data["text_channel_ids"]["tickets_transcripts"])
 bots_role_id = int(data["role_ids"]["bots"])
 
 class Roles(discord.ui.View):

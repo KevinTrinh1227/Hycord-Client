@@ -26,7 +26,7 @@ class announce(commands.Cog):
             await ctx.send("What channel would you like to post the embed in? Please mention the channel or provide the channel ID.")
             # Wait for the user's response
             try:
-                msg = await self.client.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel, timeout=20.0)
+                msg = await self.client.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel, timeout=120.0)
             except asyncio.TimeoutError:
                 await ctx.send("Sorry, you took too long to respond. Please try again.")
                 return
@@ -43,7 +43,7 @@ class announce(commands.Cog):
             await ctx.send("What would you like the title of the embed to be? Type 'skip' to skip this step.")
             # Wait for the user's response
             try:
-                msg = await self.client.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel, timeout=20.0)
+                msg = await self.client.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel, timeout=120.0)
             except asyncio.TimeoutError:
                 await ctx.send("Sorry, you took too long to respond. Please try again.")
                 return
@@ -52,7 +52,7 @@ class announce(commands.Cog):
             await ctx.send("What would you like the description of the embed to be? Type 'skip' to skip this step.")
             # Wait for the user's response
             try:
-                msg = await self.client.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel, timeout=20.0)
+                msg = await self.client.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel, timeout=120.0)
             except asyncio.TimeoutError:
                 await ctx.send("Sorry, you took too long to respond. Please try again.")
                 return
@@ -61,7 +61,7 @@ class announce(commands.Cog):
             await ctx.send("Do you have an image URL for the embed? Please provide the link, or type 'skip' to skip this step.")
             # Wait for the user's response
             try:
-                msg = await self.client.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel, timeout=20.0)
+                msg = await self.client.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel, timeout=120.0)
             except asyncio.TimeoutError:
                 await ctx.send("Sorry, you took too long to respond. Please try again.")
                 return
