@@ -2,7 +2,8 @@
     "general": {
         "bot_prefix": "!",
         "embed_color": "#ff0000",
-        "discord_server_guild_id": "1079599357550145647"
+        "discord_server_guild_id": "1079599357550145647",
+        "filtered_chat": "True"
     },
     "category_ids": {
         "tickets_category": "1079602377692295259"
@@ -14,6 +15,7 @@
     },
     "text_channel_ids": {
         "welcome": "1079601236011122740",
+        "rules": "1079601313060503662",
         "inactivity_notice": "1079601906961354785",
         "staff_chat": "1079602220519141416",
         "tickets_transcripts": "1079894928529825812",
