@@ -21,67 +21,71 @@ class announce(commands.Cog):
     @commands.command(aliases=["announcement", "an"], brief="announce", description="Create a fully costomizable embed message to send in a specific channel")
     async def announce(self, ctx):
 
-        # Prompt the user for the channel they want to send the embed to
-        await ctx.send("What channel should I send the embed to? (mention or name)")
-        channel_response = await self.wait_for_message(ctx)
-
-        # Try to get the specified channel
-        if channel_response.content.startswith("#"):
-            channel_name = channel_response.content[1:]
-        else:
-            channel_name = channel_response.content
-        channel = discord.utils.get(ctx.guild.channels, name=channel_name.strip())
-        if channel is None:
-            await ctx.send("Sorry, I couldn't find that channel.")
-            return
-
-        # Prompt the user for the title of the embed
-        await ctx.send("What should the title of the embed be?")
-        title_response = await self.wait_for_message(ctx, timeout=60)
-
-        # Prompt the user for the description of the embed
-        await ctx.send("What should the description of the embed be?")
-        description_response = await self.wait_for_message(ctx, timeout=60)
-
-        # Prompt the user for the image URL of the embed
-        await ctx.send("What should the image URL of the embed be? (or type N/A)")
-        image_response = await self.wait_for_message(ctx, timeout=60)
-
-        # Create the embed
-        embed = discord.Embed(color = embed_color)
-        embed.timestamp = datetime.datetime.now()
-        embed.set_footer(text=f"© {ctx.guild.name}", icon_url = ctx.guild.icon.url)
-
-        if title_response and title_response.content != "N/A":
-            embed.title = title_response.content
-
-        if description_response and description_response.content != "N/A":
-            embed.description = description_response.content
-
-        if image_response and image_response.content != "N/A":
-            if self.is_valid_image_url(image_response.content):
-                embed.set_image(url=image_response.content)
-            else:
-                await ctx.send("Sorry, that's not a valid image URL.")
-                return
-
-        # Send the embed to the specified channel
-        await channel.send(embed=embed)
-
-
-    # waiting for message time out
-    async def wait_for_message(self, ctx, timeout=60):
         try:
-            message = await self.client.wait_for("message", timeout=timeout, check=lambda m: m.author == ctx.author)
-        except asyncio.TimeoutError:
-            await ctx.send("Sorry, you took too long to respond.")
-            return None
-        return message
-
-    # validating image url
-    def is_valid_image_url(self, url):
-        pattern = re.compile(r'\bhttps?://\S+(?:png|jpg|gif)\b', re.IGNORECASE)
-        return bool(pattern.match(url))
+            # Prompt the user to select a channel
+            await ctx.send("What channel would you like to post the embed in? Please mention the channel or provide the channel ID.")
+            # Wait for the user's response
+            try:
+                msg = await self.client.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel, timeout=20.0)
+            except asyncio.TimeoutError:
+                await ctx.send("Sorry, you took too long to respond. Please try again.")
+                return
+            # Try to convert the response into a channel object
+            try:
+                channel = await commands.TextChannelConverter().convert(ctx, msg.content)
+            except commands.errors.ChannelNotFound:
+                channel = None
+            # If the channel is not valid, send an error message
+            if not channel:
+                await ctx.send("Sorry, I couldn't find that channel. Please try again.")
+                return
+            # Prompt the user to enter the embed title (optional)
+            await ctx.send("What would you like the title of the embed to be? Type 'skip' to skip this step.")
+            # Wait for the user's response
+            try:
+                msg = await self.client.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel, timeout=20.0)
+            except asyncio.TimeoutError:
+                await ctx.send("Sorry, you took too long to respond. Please try again.")
+                return
+            title = msg.content if msg.content != "skip" else None
+            # Prompt the user to enter the embed description (optional)
+            await ctx.send("What would you like the description of the embed to be? Type 'skip' to skip this step.")
+            # Wait for the user's response
+            try:
+                msg = await self.client.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel, timeout=20.0)
+            except asyncio.TimeoutError:
+                await ctx.send("Sorry, you took too long to respond. Please try again.")
+                return
+            description = msg.content if msg.content != "skip" else None
+            # Prompt the user to enter the embed image URL (optional)
+            await ctx.send("Do you have an image URL for the embed? Please provide the link, or type 'skip' to skip this step.")
+            # Wait for the user's response
+            try:
+                msg = await self.client.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel, timeout=20.0)
+            except asyncio.TimeoutError:
+                await ctx.send("Sorry, you took too long to respond. Please try again.")
+                return
+            image_url = msg.content
+            # If the user provided an image URL, add it to the embed
+            if image_url != "skip":
+                embed = discord.Embed(url=image_url, color=embed_color)
+                if title:
+                    embed.title = title
+                if description:
+                    embed.description = description
+                embed.set_image(url=image_url)
+            else:
+                embed = discord.Embed(color=embed_color)
+                if title:
+                    embed.title = title
+                if description:
+                    embed.description = description
+            # Send the embed to the selected channel
+            await channel.send(embed=embed)
+            await ctx.send(f"The following embed has been posted in {channel.mention}.")
+            await ctx.send(embed=embed)
+        except:
+            await ctx.send("You have skipped all input fields. Try again!")
         
         
     @announce.error
