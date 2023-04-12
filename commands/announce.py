@@ -52,7 +52,7 @@ class announce(commands.Cog):
             await ctx.send("What would you like the description of the embed to be? Type 'skip' to skip this step.")
             # Wait for the user's response
             try:
-                msg = await self.client.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel, timeout=120.0)
+                msg = await self.client.wait_for("message", check=lambda m: m.author == ctx.author and m.channel == ctx.channel, timeout=240.0)
             except asyncio.TimeoutError:
                 await ctx.send("Sorry, you took too long to respond. Please try again.")
                 return
