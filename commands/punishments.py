@@ -31,7 +31,7 @@ class punishments(commands.Cog):
             )
         embed.timestamp = datetime.datetime.now()
         embed.set_thumbnail(url = "{}".format(member.avatar.url))
-        embed.set_footer(text="©️ Moonies QTees", icon_url = ctx.guild.icon.url)
+        embed.set_footer(text=f"©️ {member.guild.name}", icon_url = ctx.guild.icon.url)
         embed.set_image(url="https://imgur.com/7l8D0pZ.png")
         
         #embed to be displayed in the pushments priv channel
@@ -88,7 +88,7 @@ class punishments(commands.Cog):
             )
         embed.timestamp = datetime.datetime.now()
         embed.set_thumbnail(url = "{}".format(member.avatar.url))
-        embed.set_footer(text="©️ Moonies QTees", icon_url = ctx.guild.icon.url)
+        embed.set_footer(text=f"©️ {member.guild.name}", icon_url = ctx.guild.icon.url)
         embed.set_image(url="https://imgur.com/7l8D0pZ.png")
         
         #embed to be displayed in the pushments priv channel
