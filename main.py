@@ -1,12 +1,14 @@
 """
-    Project name: Streamer Discord Bot
+    Project name: Hycord Discord Bot
     Author: Kevin Huy Trinh
     Date created: Dec, 2022
     Python Version: 3.11.1
-    Description: Discord bot made towards streamer to aid them in 
-        managing a discord community. This bot was made with the 
-        intentions of only having 1 bot with all the functionalities. 
-        
+    Description: Hycord is an all-in-one Discord Python program for Hypixel players, 
+        providing easy access to comprehensive data and statistics. With an extensive library
+        of commands, Hycord allows users to link and validate accounts, moderate community 
+        servers, and retrieve accurate player data, making it a powerful tool for streamlining 
+        server functionality. Become part of the Hycord community today and enjoy top-notch 
+        performance and accuracy with just one bot.
 """
 
 from dotenv import load_dotenv
