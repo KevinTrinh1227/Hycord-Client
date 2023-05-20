@@ -15,6 +15,7 @@ with open('config.json') as json_file:
 
 #json data to get channel IDs
 welcome_channel_id = int(data["text_channel_ids"]["welcome"])
+leave_channel_id = int(data["text_channel_ids"]["leave_messages"])
 member_role_id = int(data["role_ids"]["unverified_member"])
 member_count_chanel_id = int(data["voice_channel_ids"]["member_count"])
 members_online_channel_id = int(data["voice_channel_ids"]["members_online"])
@@ -107,6 +108,22 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
         await channel.send(f"||{member.mention}||")
         await channel.purge(limit = 1)
         await channel.send(embed=embed)
+        
+        
+    # on member leave event
+    @client.event
+    async def on_member_remove(member):
+        
+        channel = client.get_channel(leave_channel_id)
+        embed = discord.Embed(
+            title=(f"{member.display_name}#{member.discriminator} has left the server."),
+            description=f"{member.mention} has left {member.guild.name}.",
+            colour= embed_color
+            )
+        embed.timestamp = datetime.datetime.now()
+        embed.set_footer(text=f"©️ {member.guild.name}", icon_url = member.guild.icon.url)
+        await channel.send(embed=embed)
+        
         
         
     async def load_cogs():
