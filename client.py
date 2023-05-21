@@ -16,6 +16,7 @@ with open('config.json') as json_file:
 #json data to get channel IDs
 welcome_channel_id = int(data["text_channel_ids"]["welcome"])
 leave_channel_id = int(data["text_channel_ids"]["leave_messages"])
+command_prefix = data["general"]["bot_prefix"]
 member_role_id = int(data["role_ids"]["unverified_member"])
 member_count_chanel_id = int(data["voice_channel_ids"]["member_count"])
 members_online_channel_id = int(data["voice_channel_ids"]["members_online"])
@@ -98,7 +99,7 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
         channel = client.get_channel(welcome_channel_id)
         embed = discord.Embed(
             title=(f"Welcome to {member.guild.name} (#{member_count})"),
-            description = f"Welcome to the guild_membery Sanctum's Community! Link/verify your account using `!link [your IGN]`.\n\nMember: {member.mention} \n\n**Verify Account ➜** <#1057045238729953412> \n**Information ➜** <#934776549717184552> \n**Select Roles ➜** <#934418278888144906> \n",
+            description = f"Welcome to the {member.guild.name}! Link/verify your account using `{command_prefix}link [your IGN]`.\n\nMember: {member.mention} \n\n**Verify Account ➜** <#1057045238729953412> \n**Information ➜** <#934776549717184552> \n**Select Roles ➜** <#934418278888144906> \n",
             colour= embed_color
             )
         embed.timestamp = datetime.datetime.now()
