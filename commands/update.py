@@ -14,10 +14,8 @@ with open('config.json') as json_file:
     
 
 embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
-unverified_role_id = int(data["role_ids"]["unverified_member"])
-verified_role_id = int(data["role_ids"]["verified_member"])
     
-    
+
 class update_account(commands.Cog):
     def __init__(self, client):
         self.client = client
