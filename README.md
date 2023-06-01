@@ -15,6 +15,7 @@
 | Bot Feature | Command Usage | Aliasses    | Description                  |
 | :----------: | :---------:| :---------:| :--------------------------:|
 | Link Account  | `!verify [Hypixel username]` | `link` `sync`  | Validates and syncs your Discord account to your Hypixel account  |
+| Update Account  | `!update` | `N/A`  | Update your account info in the server. (Useful if your level went up or you changed your IGN)  |
 | Auto Gexp Announcement    | `N/A` | `N/A`   | Sends an embed message of all guild points earned by every member in a specified channel     |
 | Ticket System  | `!tickets` | `t`  | Sends a ticket menu message with buttons that allows users to create their own support tickets  |
 | Display Guild Points    | `!guildpoints` | `dp` `dgp`   | Display current daily guild points from each guild member    |
