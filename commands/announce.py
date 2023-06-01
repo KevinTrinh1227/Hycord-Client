@@ -89,33 +89,5 @@ class announce(commands.Cog):
             await ctx.send("You have skipped all input fields. Try again!")
         
         
-    @announce.error
-    async def announcement_error(self, ctx, error):
-        #if user does not have the permission node
-        if isinstance(error, commands.MissingPermissions):
-            embed = discord.Embed(
-                title="🔴 | No Permission",
-                description="You are lacking permissions to perform this action. If you believe this to be a mistake, please contact a staff member.",
-                color = embed_color
-            )
-            embed.timestamp = datetime.datetime.now()
-            embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
-            await ctx.send(embed=embed)
-        #if the command was missing arguments
-        elif isinstance(error, commands.MissingRequiredArgument):
-            embed = discord.Embed(
-                title="🔴 | Missing Arguments",
-                description=f"The command you just ran is missing some arguments. Please use `{command_prefix}help` to double check the right command syntax.",
-                color = embed_color
-            )
-            embed.timestamp = datetime.datetime.now()
-            embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
-            await ctx.send(embed=embed)
-        #other error
-        else:
-            print(error) # for other errors so they dont get suppressed
-            await ctx.send(error, "Please contact staff.")
-        
-        
 async def setup(client):
     await client.add_cog(announce(client))

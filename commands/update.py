@@ -5,6 +5,7 @@ import discord.ui
 import datetime
 import json
 import os
+from discord.ext.commands import cooldown, BucketType
 from dotenv import load_dotenv
 
 
@@ -23,6 +24,7 @@ class update_account(commands.Cog):
             
     #bedwars stats command
     @commands.command(aliases=["relink", "resync"], brief="Updates your discord information",description="update your account profile on discord")
+    @commands.cooldown(1, 600, commands.BucketType.user) # 1 use for every 10 minutes cooldown.
     async def update(self, ctx):
         
         member = ctx.message.author
