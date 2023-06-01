@@ -31,7 +31,7 @@ class BadWordCheck(commands.Cog):
             if bad_word:
                 guild = message.guild #getting guild
 
-                spoilered_message = f"||{message.content.replace(bad_word, f'__**{bad_word}**__')}||"
+                spoilered_message = f"||{message.content.replace(bad_word, f'__{bad_word}__')}||"
 
                 rule_channel_obj = message.guild.get_channel(rules_channel)
 
@@ -40,11 +40,11 @@ class BadWordCheck(commands.Cog):
                     description=f"""
                     Your message was deleted because it contained prohibited words. You can ignore this message if it was a mistake.
                     
-                    **User: **{message.author.mention}
+                    **User:** {message.author.mention}
                     
-                    **Filtered Message: **{bad_word}
+                    **Filtered Message:** {bad_word}
                     
-                    **Original Message: **{spoilered_message}
+                    **Original Message:** {spoilered_message}
                     
                     Please refrain from using any harmful content to avoid being punished. Please refer to our {rule_channel_obj} for more information. 
                     """,
