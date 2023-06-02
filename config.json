@@ -2,8 +2,11 @@
   "general": {
     "bot_prefix": "!",
     "embed_color": "#ff0000",
-    "discord_server_guild_id": "1079599357550145647",
-    "filtered_chat": "True"
+    "discord_server_guild_id": "1079599357550145647"
+  },
+  "features": {
+    "filtered_chat": "True",
+    "auto_gexp": "False"
   },
   "category_ids": {
     "tickets_category": "1079602377692295259"
