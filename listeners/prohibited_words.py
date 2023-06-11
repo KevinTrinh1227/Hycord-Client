@@ -23,7 +23,7 @@ class BadWordCheck(commands.Cog):
         # Reopen the JSON file to read it again
         with open('config.json') as json_file:
             cdata = json.load(json_file)
-        if cdata["features"]["filtered_chat"] == "True":
+        if bool(cdata["features"]["filtered_chat"]):
 
             content = message.content.lower()
             bad_word = self.check_profanity(content)

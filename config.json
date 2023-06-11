@@ -5,8 +5,10 @@
     "discord_server_guild_id": "1079599357550145647"
   },
   "features": {
-    "filtered_chat": "True",
-    "auto_gexp": "False"
+    "filtered_chat": 0,
+    "auto_gexp": 0,
+    "inactivity_cmd": 1,
+    "punishments_cmd": 1
   },
   "category_ids": {
     "tickets_category": "1079602377692295259"
