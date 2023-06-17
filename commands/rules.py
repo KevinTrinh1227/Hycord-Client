@@ -21,11 +21,28 @@ class rules(commands.Cog):
     async def rules(self, ctx, member: discord.Member=None):
         embed = discord.Embed(
             title = "**DISCORD SERVER RULES**",
-            description = "Pitch Black is dedicated to making the server an enjoyable/safe experience for everyone, regardless of gender, sexuality, race, etc. All broken rules will be met with a punishment based on severity of the situation.\n\n**Follow these 5 rules, and your chillin.**\n \n**Rule #1** ➜ Do not Catfish. \n \n**Rule #2** ➜ Do not be an asshole.\n \n**Rule #3** ➜ Do not do immature things. \n \n**Rule #4** ➜ Do not abuse anything.\n \n**Rule #5** ➜ And all of the above. \n \nReport all rule breakers to a <@&1054983260473671742>. And be sure to disable direct messages with shared server members.\n",
+            description = """
+
+            *THIS IS A PLACE HOLDER RULES COMMAND*
+            *TO MAKE ANY EDITS GO TO "~/Hycord-Bot/commands/rules.py"*
+
+            (+) Be respectful and kind to all members.
+            (+) No spamming or excessive advertising.
+            (+) Use appropriate and safe-for-work content.
+            (+) No discrimination or offensive language.
+            (+) Respect privacy and don't share personal information without consent.
+            (+) Stay on-topic and avoid derailing discussions.
+            (+) Follow Discord's terms of service and guidelines.
+            (+) No trolling, baiting, or disruptive behavior.
+            (+) Respect server staff and their instructions.
+            (+) Report issues to server staff.
+            (+) No excessive self-promotion or spamming personal links.
+            (+) Keep discussions civil and avoid arguments.
+            """,
             color = embed_color
         )
         embed.timestamp = datetime.datetime.now()
-        embed.set_image(url="https://i.gyazo.com/a7413858cfdbf1d44906326f512a19e2.gif")
+        #embed.set_image(url="https://i.gyazo.com/a7413858cfdbf1d44906326f512a19e2.gif")
         embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url=ctx.guild.icon.url)
         await ctx.channel.purge(limit = 1)
         await ctx.send(embed=embed)

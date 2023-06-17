@@ -20,63 +20,61 @@ class punishments(commands.Cog):
         self.client = client
         
     @commands.has_permissions(kick_members=True)
-    @commands.command(aliases = ["k"], brief="kick [@member name]",description="Kick a member from the server")
-    async def kick(self, ctx, member:discord.Member, *, reason=None):
+    @commands.command(aliases=["k"], brief="kick [member]", description="Kick a member from the server")
+    async def kick(self, ctx, member: commands.MemberConverter, *, reason=None):
         if reason == None:
             reason = "No reason was provided."
+        
         #public embed message for original ctx channel
         embed = discord.Embed(
             title=f"{member.display_name} has been kicked", 
-            description = f"**User Tag:** {member.mention}\n\n**Reason:** {reason}",
-            colour = embed_color
-            )
+            description=f"**User Tag:** {member.mention}\n\n**Reason:** {reason}",
+            colour=embed_color
+        )
         embed.timestamp = datetime.datetime.now()
-        embed.set_thumbnail(url = "{}".format(member.avatar.url))
-        embed.set_footer(text=f"©️ {member.guild.name}", icon_url = ctx.guild.icon.url)
-        embed.set_image(url="https://imgur.com/7l8D0pZ.png")
+        embed.set_thumbnail(url=f"{member.avatar.url}")
+        embed.set_footer(text=f"©️ {member.guild.name}", icon_url=ctx.guild.icon.url)
         
-        #embed to be displayed in the pushments priv channel
+        #embed to be displayed in the punishments priv channel
         priv_embed = discord.Embed( 
             title=f"{member.display_name} has been kicked", 
-            description = f"**User Tag:** {member.mention}\n\n**Kicked By:** {ctx.author.mention}\n\n**Reason:** {reason}",
-            colour = embed_color
-            )
+            description=f"**User Tag:** {member.mention}\n\n**Kicked By:** {ctx.author.mention}\n\n**Reason:** {reason}",
+            colour=embed_color
+        )
         priv_embed.timestamp = datetime.datetime.now()
-        priv_embed.set_thumbnail(url = "{}".format(member.avatar.url))
-        priv_embed.set_footer(text = f"Kicked by {ctx.author}", icon_url=ctx.author.avatar.url)
+        priv_embed.set_thumbnail(url=f"{member.avatar.url}")
+        priv_embed.set_footer(text=f"Kicked by {ctx.author}", icon_url=ctx.author.avatar.url)
         
         await ctx.guild.kick(member)
         await self.client.get_channel(priv_staff_channel).send(embed=priv_embed)
         await ctx.send(embed=embed)
 
-
         
     @commands.has_permissions(ban_members=True)
-    @commands.command(aliases = ["b"], brief="ban [@member name]",description="Perm ban a server member")
-    async def ban(self, ctx, member:discord.Member, *, reason=None):
+    @commands.command(aliases=["b"], brief="ban [member]", description="Perm ban a server member")
+    async def ban(self, ctx, member: commands.MemberConverter, *, reason=None):
         if reason == None:
             reason = "No reason was provided."
     
         #embed to be displayed in the original context channel
         embed = discord.Embed(     
             title=f"{member.display_name} has been banned", 
-            description = f"**User Tag:** {member.mention}\n\n**Banned By:** {ctx.author.mention}\n\n**Reason:** {reason}",
-            colour = embed_color
-            )
+            description=f"**User Tag:** {member.mention}\n\n**Banned By:** {ctx.author.mention}\n\n**Reason:** {reason}",
+            colour=embed_color
+        )
         embed.timestamp = datetime.datetime.now()
-        embed.set_thumbnail(url = "{}".format(member.avatar.url))
-        embed.set_footer(text=f"©️ {member.guild.name}", icon_url = ctx.guild.icon.url)
-        embed.set_image(url="https://imgur.com/7l8D0pZ.png")
+        embed.set_thumbnail(url=f"{member.avatar.url}")
+        embed.set_footer(text=f"©️ {member.guild.name}", icon_url=ctx.guild.icon.url)
         
-        #embed to be displayed in the pushments priv channel
+        #embed to be displayed in the punishments priv channel
         priv_embed = discord.Embed( 
             title=f"{member.display_name} has been banned", 
-            description = f"**User Tag:** {member.mention}\n\n**Reason:** {reason}",
-            colour = embed_color
-            )
+            description=f"**User Tag:** {member.mention}\n\n**Reason:** {reason}",
+            colour=embed_color
+        )
         priv_embed.timestamp = datetime.datetime.now()
-        priv_embed.set_thumbnail(url = "{}".format(member.avatar.url))
-        priv_embed.set_footer(text = f"Banned by {ctx.author}", icon_url=ctx.author.avatar.url)
+        priv_embed.set_thumbnail(url=f"{member.avatar.url}")
+        priv_embed.set_footer(text=f"Banned by {ctx.author}", icon_url=ctx.author.avatar.url)
         
         await ctx.guild.ban(member)
         await self.client.get_channel(priv_staff_channel).send(embed=priv_embed)
@@ -85,5 +83,3 @@ class punishments(commands.Cog):
         
 async def setup(client):
     await client.add_cog(punishments(client))
-    
-

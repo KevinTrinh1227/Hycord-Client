@@ -126,7 +126,26 @@ class selfroles(commands.Cog):
         serverIconLink = ctx.guild.icon.url
         embed = discord.Embed(
             title = "**PUBLIC SELF SELECTION ROLES**",
-            description = "Use the following menu below to chose your own personal roles. \n\n<@&934424403150766150>  ➜ Classify as a Bedwars player\n<@&1054991878841446450> ➜ classify as a Skywars player \n<@&1054991871493033994> ➜ Classify as a Duels Practice player \n<@&1054991881420931122> ➜ Classify as a Arcade Games player\n\n<@&934424365020360714> ➜ Get pinged for Bedwars parties\n<@&1054991883937521734> ➜ Get pinged for general squads\n<@&1054991875330801744> ➜ Get pinged for community game nights\n\n<@&934424330765471764> ➜ Classify as age 20+\n<@&934424304379125850> ➜ Classify within age group 17 - 19\n<@&934424272758247436> ➜ Classify within the age group 13 - 16 \n\nClick on the corresponding buttons to claim or unclaim a role. Note that roles can always be claimed/unclaimed.\n",
+            description = """
+            THIS IS A PLACEHOLDER OUTPUT
+            TO EDIT THE SELF ROLES GO TO "~/Hycord-Bot/commands/selfroles.py"
+            AND EDIT THE ROLE ID'S 
+
+            Use the following menu below to chose your own personal roles. 
+            
+            <@&934424403150766150>  ➜ Classify as a Bedwars player
+            <@&1054991878841446450> ➜ classify as a Skywars player 
+            <@&1054991871493033994> ➜ Classify as a Duels Practice player 
+            <@&1054991881420931122> ➜ Classify as a Arcade Games player
+            
+            <@&934424365020360714> ➜ Get pinged for Bedwars parties
+            <@&1054991883937521734> ➜ Get pinged for general squads
+            <@&1054991875330801744> ➜ Get pinged for community game nights
+            <@&934424330765471764> ➜ Classify as age 20+
+            <@&934424304379125850> ➜ Classify within age group 17 - 19
+            <@&934424272758247436> ➜ Classify within the age group 13 - 16
+            
+            Click on the corresponding buttons to claim or unclaim a role. Note that roles can always be claimed/unclaimed.""",
             color = embed_color
         )
         embed.timestamp = datetime.datetime.now()

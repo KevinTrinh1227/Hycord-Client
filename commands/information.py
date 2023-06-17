@@ -22,14 +22,21 @@ class information(commands.Cog):
         embed1 = discord.Embed(
             color = embed_color
             )
-        embed1.set_image(url = "https://imgur.com/iW22uIC.png")
+        #embed1.set_image(url = "https://imgur.com/iW22uIC.png")
         embed2 = discord.Embed(
-            description = "Welcome to QTmoon'y Community discord server. Be sure to view all of our rules and select our self-roles. Please do not abuse any server bots and members. In order to use our bot please use **!help** to view the bot's commands menu.\n\n**🦾 | Bingus Bot**\nHelp Command ➜ `!help`\n\n**📌 | Usefull Channels**\nView new members ➜ <#1052126801150873654>\nAnnouncements ➜ <#1052134391758979082>\nServer Rules ➜ <#1052126800991494187>\nSelf Role Selection ➜ <#1052131759107625030>\n\n**📱 | QTmoony's Socials**\nTwitch Link ➜ https://twitch.tv/QTmoony \nTwitter ➜ https://twitter.com/QTmoony1 \nInstagram ➜ https://tinyurl.com/4nr76hxv \n\nfor any additional help or information please contact a <@&1052947612615049248>. Enjoy your stay!",
+            description = """
+            *THIS OUTPUT IS PLACEHOLDER
+            TO CHANGE PLEASE GO TO "~/Hycord-Bot/commands/information.py"
+            AND EDIT THE FILE*
+            
+            Welcome to the discord server discord server. Be sure to view all of our rules and select our self-roles. Please do not abuse any server bots and members. In order to use our bot please use **!help** to view the bot's commands menu.
+            
+            For any additional help or information please contact a staff member. Enjoy your stay!""",
             color = embed_color
             )
         embed2.timestamp = datetime.datetime.now()
-        embed2.set_footer(text="©️ Moonies QTees", icon_url=ctx.guild.icon.url)
-        await ctx.send(embed=embed1)
+        embed2.set_footer(text=f"©️ {ctx.guild.name}", icon_url=ctx.guild.icon.url)
+        #await ctx.send(embed=embed1)
         await ctx.send(embed=embed2)
         
         

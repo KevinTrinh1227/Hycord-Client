@@ -99,12 +99,23 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
         channel = client.get_channel(welcome_channel_id)
         embed = discord.Embed(
             title=(f"Welcome to {member.guild.name} (#{member_count})"),
-            description = f"Welcome to the {member.guild.name}! Link/verify your account using `{command_prefix}link [your IGN]`.\n\nMember: {member.mention} \n\n**Verify Account ➜** <#1057045238729953412> \n**Information ➜** <#934776549717184552> \n**Select Roles ➜** <#934418278888144906> \n",
+            description = f"""
+            Welcome to the {member.guild.name}! Link/verify your account using `{command_prefix}link [your IGN]`.
+
+            *THIS IS A PLACEHOLDER WELCOME MESSAGE
+            YOU CAN EDIT THIS IN "~/Hycord-Bot/client.py"*
+
+            Member: {member.mention} 
+            
+            **Verify Account ➜** <#1057045238729953412> 
+            **Information ➜** <#934776549717184552> 
+            **Select Roles ➜** <#934418278888144906>
+            """,
             colour= embed_color
             )
         embed.timestamp = datetime.datetime.now()
         embed.set_thumbnail(url = "{}".format(member.avatar.url))
-        embed.set_image(url="https://imgur.com/btR7AnN.png")
+        #embed.set_image(url="https://imgur.com/btR7AnN.png")
         embed.set_footer(text=f"©️ {member.guild.name}", icon_url = member.guild.icon.url)
         await channel.send(f"||{member.mention}||")
         await channel.purge(limit = 1)
