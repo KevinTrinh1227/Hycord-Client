@@ -106,20 +106,9 @@
 3. Install dependencies
 
    ```sh
-   pip install discord.py
+   pip install -r requirements.txt
    ```
-   ```sh
-   pip install python-dotenv
-   ```
-   ```sh
-   pip install requests
-   ```
-   ```sh
-   pip install pytz
-   ```
-   ```sh
-   pip chat-exporter
-   ```
+
 ### 🚀 activate bot in terminal
 
 1. build and run Discord bot
