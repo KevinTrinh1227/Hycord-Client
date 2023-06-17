@@ -103,7 +103,7 @@
     }
    ```
 
-3. Install dependencies
+3. Install all dependencies
 
    ```sh
    pip install -r requirements.txt
