@@ -61,26 +61,46 @@
 2. Configure the config.json file appropriately
 
    ```sh
-    {
+{
+  "general": {
     "bot_prefix": "!",
-    "embed_color": "#A1B2C3",
-    "member_count_chanel_id": "1234567890",
-    "members_online_channel_id": "1234567890",
-    "guild_member_online_channel_id": "1234567890",
-    "guild_member_role_id": "1234567890",
-    "inactivity_channel_id": "1234567890",
-    "private_staff_channel_id": "1234567890",
-    "welcome_channel_id": "1234567890",
-    "verified_role_id": "1234567890",
-    "basic_member_role_id": "1234567890",
-    "tickets_category_id": "1234567890",
-    "tickets_trascripts_channel_id": "1234567890",
-    "staff_member_role_id": "1234567890",
-    "bots_role_id": "1234567890",
-    "hypixel_guild_id": "1234567890",
-    "daily_points_updates": "1234567890",
-    "discord_server_guild_id": "1234567890"
-    }
+    "embed_color": "#ff0000",
+    "discord_server_guild_id": "YOUR_GUILD_ID"
+  },
+  "features": {
+    "filtered_chat": 0,
+    "auto_gexp": 0,
+    "inactivity_cmd": 1,
+    "punishments_cmd": 1
+  },
+  "category_ids": {
+    "tickets_category": "YOUR_TICKETS_CATEGORY_ID"
+  },
+  "voice_channel_ids": {
+    "member_count": "YOUR_MEMBER_COUNT_CHANNEL_ID",
+    "members_online": "YOUR_MEMBERS_ONLINE_CHANNEL_ID",
+    "guild_member_online": "YOUR_GUILD_MEMBER_ONLINE_CHANNEL_ID"
+  },
+  "text_channel_ids": {
+    "welcome": "YOUR_WELCOME_CHANNEL_ID",
+    "rules": "YOUR_RULES_CHANNEL_ID",
+    "inactivity_notice": "YOUR_INACTIVITY_NOTICE_CHANNEL_ID",
+    "staff_chat": "YOUR_STAFF_CHAT_CHANNEL_ID",
+    "tickets_transcripts": "YOUR_TICKETS_TRANSCRIPTS_CHANNEL_ID",
+    "leave_messages": "YOUR_LEAVE_MESSAGES_CHANNEL_ID",
+    "daily_guild_points": "YOUR_DAILY_GUILD_POINTS_CHANNEL_ID"
+  },
+  "role_ids": {
+    "guild_member": "YOUR_GUILD_MEMBER_ROLE_ID",
+    "verified_member": "YOUR_VERIFIED_MEMBER_ROLE_ID",
+    "unverified_member": "YOUR_UNVERIFIED_MEMBER_ROLE_ID",
+    "staff_member": "YOUR_STAFF_MEMBER_ROLE_ID",
+    "bots": "YOUR_BOTS_ROLE_ID"
+  },
+  "hypixel_ids": {
+    "guild_id": "YOUR_HYPIXEL_GUILD_ID"
+  }
+}
    ```
 
 3. Install dependencies
