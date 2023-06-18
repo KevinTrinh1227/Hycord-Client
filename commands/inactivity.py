@@ -16,7 +16,7 @@ class inactive(commands.Cog):
         self.client = client
     
     
-    @commands.command(aliases = ["inactivity", "mia"], pass_context=True, brief="inactive",description="Let others know that you will be inactive")
+    @commands.command(aliases = ["inactivity", "mia"], pass_context=True, brief="inactive", description="Let others know that you will be inactive")
     async def inactive(self, ctx):
         
         try:
