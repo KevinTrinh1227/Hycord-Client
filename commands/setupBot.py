@@ -29,6 +29,29 @@ class SetupCog(commands.Cog):
             guild_id = ctx.guild.id
             config["general"]["discord_server_guild_id"] = str(guild_id)
 
+
+    
+            # Filtered chat
+            await ctx.send("Enable filtered chat? (0 for No, 1 for Yes):")
+            filtered_chat = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+            config['features']['filtered_chat'] = int(filtered_chat.content)
+
+            # Auto GEXP
+            await ctx.send("Enable automatic GEXP daily messages? (0 for No, 1 for Yes):")
+            auto_gexp = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+            config['features']['auto_gexp'] = int(auto_gexp.content)
+
+            # Inactivity command
+            await ctx.send("Enable inactivity command? (0 for No, 1 for Yes):")
+            inactivity_cmd = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+            config['features']['inactivity_cmd'] = int(inactivity_cmd.content)
+
+            # Punishments command
+            await ctx.send("Enable punishments command? (0 for No, 1 for Yes):")
+            punishments_cmd = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+            config['features']['punishments_cmd'] = int(punishments_cmd.content)
+
+
             # Save the updated config to config.json
             with open('config.json', 'w') as config_file:
                 json.dump(config, config_file, indent=2)
