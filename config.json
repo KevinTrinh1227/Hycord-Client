@@ -1,4 +1,7 @@
 {
+  "config": {
+    "bool": 1
+  },
   "general": {
     "bot_prefix": "!",
     "embed_color": "#FF0000",
@@ -7,16 +10,16 @@
   "features": {
     "filtered_chat": 0,
     "auto_gexp": 0,
-    "inactivity_cmd": 1,
-    "punishments_cmd": 1
+    "inactivity_cmd": 0,
+    "punishments_cmd": 0
   },
   "category_ids": {
     "tickets_category": "1079602377692295259"
   },
   "voice_channel_ids": {
-    "member_count": "1079600959455498310",
-    "members_online": "1079601015743066204",
-    "guild_member_online": "1079601034969751602"
+    "member_count": "1120641152064966666",
+    "members_online": "1120641153222578246",
+    "guild_member_online": "1120641154233405510"
   },
   "text_channel_ids": {
     "welcome": "1079601236011122740",
@@ -36,8 +39,5 @@
   },
   "hypixel_ids": {
     "guild_id": "634277d98ea8c9eeda70df07"
-  },
-  "config": {
-    "bool": 0
   }
 }
