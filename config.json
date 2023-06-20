@@ -36,5 +36,8 @@
   },
   "hypixel_ids": {
     "guild_id": "634277d98ea8c9eeda70df07"
+  },
+  "config": {
+    "bool": 0
   }
 }
