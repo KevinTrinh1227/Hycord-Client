@@ -1,5 +1,7 @@
 import discord
 from discord.ext import commands
+import os
+from dotenv import load_dotenv
 import json
 import requests
 import datetime
@@ -15,6 +17,7 @@ class SetupCog(commands.Cog):
             config = json.load(config_file)
 
         try:
+            
             # General bot prefix
             await ctx.send("Enter a bot command prefix (e.g., `!` or `.`):")
             chosen_command_prefix = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
@@ -131,12 +134,55 @@ class SetupCog(commands.Cog):
             bots_role_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
             bots_role_id = bots_role_mention.role_mentions[0].id
             config['role_ids']['bots'] = str(bots_role_id)
+            
+
+
+            # Getting the Hypixel Guild ID
+            await ctx.send("Enter an IGN of a member that is inside your guild so the bot can retrieve your guild ID:")
+            guild_member = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+
+            #load in .env variables
+            load_dotenv() 
+
+            #get hypixel api key
+            hypixel_api_key = os.getenv("HYPIXEL_API_KEY")
+            
+
+            url = f"https://api.mojang.com/users/profiles/minecraft/{guild_member.content}?"
+            response = requests.get(url)
+            uuid = response.json()['id']
+
+
+            #user guild information
+            guild_url = f"https://api.hypixel.net/guild?player={uuid}&key={hypixel_api_key}"
+            guild_response = requests.get(guild_url)
+            guild_data = guild_response.json()
+
+
+            #checks if user is in a guild
+            try:
+                if "name" in guild_data["guild"]:
+                    guild_name = guild_data["guild"]["name"]
+                    guild_id = guild_data["guild"]["_id"]
+                    #print(f"Guild name: {guild_name}, with guild ID: {guild_id}")
+                    await ctx.send(f"Discord server is now linked to Guild: `{guild_name}` with ID: `{guild_id}`.")
+                else:
+                    guild_name = "Not in Guild"
+            except: #runs if player is not in a guild
+                guild_name = "No Guild"
+                guild_id = "IGN_WAS_NOT_IN_GUILD"
+                print(f"Guild name: {guild_name}, with guild ID: {guild_id}")
+
+            config['hypixel_ids']['guild_id'] = str(guild_id)
+
 
             # Save the updated config to config.json
             with open('config.json', 'w') as config_file:
                 json.dump(config, config_file, indent=2)
 
-            await ctx.send("Configuration updated successfully. For the updates to take affect, please restart your bot.")
+            await ctx.send("✅  Configuration settings have updated successfully. For the updates to take affect, you must **RESTART** your bot.")
+
+
         except:
             await ctx.send("No response received. Please try again.")
 
