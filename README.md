@@ -2,13 +2,13 @@
   <a href="https://www.hycord.netlify.app" target="_blank"><img src="https://user-images.githubusercontent.com/48145892/218457340-39c08f69-e027-4529-b907-b2414435af77.png">
 </h1>
 <p align="center">
-  An all-in-one Minecraft Hypixel Discord bot.
+  An all-in-one Minecraft Hypixel stats and moderation bot.
 </p>
 <p align="center">
   Visit the <a href="https://hycord.netlify.app" target="_blank"><strong>Hycord Project Page</strong></a> for more information.
 </p>
 
-[![808afada7b715665ba13571e12d93d12](https://user-images.githubusercontent.com/48145892/221743994-65274a3b-601b-4193-9b41-4e0851ca8578.gif)](https://kevintrinh.dev)
+[![808afada7b715665ba13571e12d93d12](https://user-images.githubusercontent.com/48145892/221743994-65274a3b-601b-4193-9b41-4e0851ca8578.gif)](https://hycord.netlify.app)
 
 ## Bot Features
 
