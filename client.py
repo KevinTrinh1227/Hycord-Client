@@ -21,7 +21,7 @@ if not os.path.exists('config.json'):
         },
         "general": {
             "bot_prefix": "!",
-            "embed_color": "#ffffff",
+            "embed_color": "#FF0000",
             "discord_server_guild_id": ""
         },
         "features": {
@@ -162,7 +162,7 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
 
                 #update the voice channel data
                 config['voice_channel_ids'].update(voice_channel_ids)
-                
+
                 
                 # General bot prefix
                 await ctx.send("Enter a bot command prefix (e.g., `.`):")
