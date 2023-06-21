@@ -152,8 +152,17 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
                             voice_channel_ids[key] = str(channel.id)
                             break
 
+                
+                
+                # Tickets category
+                guild = ctx.guild
+                category = await guild.create_category("TICKETS")
+                print(f"Category ID: {category.id}")
+                config['category_ids']['tickets_category'] = category.id
+
                 #update the voice channel data
                 config['voice_channel_ids'].update(voice_channel_ids)
+                
                 
                 # General bot prefix
                 await ctx.send("Enter a bot command prefix (e.g., `.`):")
@@ -191,12 +200,6 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
                 await ctx.send("Enable punishments command? (0 for No, 1 for Yes):")
                 punishments_cmd = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
                 config['features']['punishments_cmd'] = int(punishments_cmd.content)
-
-                # Tickets category
-                await ctx.send("Enter the ID of the category where your ticket system will operate (make sure developer mode is on and right click on category then click on copy ID):")
-                tickets_category_id = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
-                config['category_ids']['tickets_category'] = tickets_category_id.content
-
 
 
                 # Welcome channel

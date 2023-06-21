@@ -1,11 +1,11 @@
 {
   "config": {
-    "bool": 1
+    "bool": 0
   },
   "general": {
     "bot_prefix": "!",
-    "embed_color": "#FF0000",
-    "discord_server_guild_id": "1079599357550145647"
+    "embed_color": "#ffffff",
+    "discord_server_guild_id": ""
   },
   "features": {
     "filtered_chat": 0,
@@ -14,30 +14,30 @@
     "punishments_cmd": 0
   },
   "category_ids": {
-    "tickets_category": "1079602377692295259"
+    "tickets_category": ""
   },
   "voice_channel_ids": {
-    "member_count": "1120641152064966666",
-    "members_online": "1120641153222578246",
-    "guild_member_online": "1120641154233405510"
+    "member_count": "",
+    "members_online": "",
+    "guild_member_online": ""
   },
   "text_channel_ids": {
-    "welcome": "1079601236011122740",
-    "rules": "1079601313060503662",
-    "inactivity_notice": "1079601906961354785",
-    "staff_chat": "1079602191154806866",
-    "tickets_transcripts": "1079894928529825812",
-    "leave_messages": "1079602170749526056",
-    "daily_guild_points": "1079603050236354602"
+    "welcome": "",
+    "rules": "",
+    "inactivity_notice": "",
+    "staff_chat": "",
+    "tickets_transcripts": "",
+    "leave_messages": "",
+    "daily_guild_points": ""
   },
   "role_ids": {
-    "guild_member": "1079603637875118160",
-    "verified_member": "1079603959972503684",
-    "unverified_member": "1079603852841594880",
-    "staff_member": "1079604173353517138",
-    "bots": "1079907528097402950"
+    "guild_member": "",
+    "verified_member": "",
+    "unverified_member": "",
+    "staff_member": "",
+    "bots": ""
   },
   "hypixel_ids": {
-    "guild_id": "634277d98ea8c9eeda70df07"
+    "guild_id": ""
   }
 }
