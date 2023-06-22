@@ -9,7 +9,6 @@ import datetime
 import os
 from dotenv import load_dotenv
 import json
-import requests
 
 
 # Check if the config.json file exists
@@ -80,11 +79,6 @@ if data["config"]["bool"] != 0:
     guild_member_role_id = int(data["role_ids"]["guild_member"])
 else:
     pass
-
-#global variables for channel name usage
-global_member_count = 0
-global_online_members = 0
-global_online_and_guild_membery = 0
 
 
 # Function to create locked voice channels and a category
@@ -158,20 +152,22 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
                 guild = ctx.guild
                 category = await guild.create_category("TICKETS")
                 print(f"Category ID: {category.id}")
-                config['category_ids']['tickets_category'] = category.id
+                config['category_ids']['tickets_category'] = "category.id"
 
                 #update the voice channel data
                 config['voice_channel_ids'].update(voice_channel_ids)
 
-                
+                # timeout timer for when it stops
+                timeout_time_in_seconds = 60
+
                 # General bot prefix
                 await ctx.send("Enter a bot command prefix (e.g., `.`):")
-                chosen_command_prefix = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                chosen_command_prefix = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 config['general']['bot_prefix'] = chosen_command_prefix.content
 
                 # General embed color
                 await ctx.send("Enter the embed color (in hex format, e.g., #ff0000 for red):")
-                chosen_hex_color = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                chosen_hex_color = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 config['general']['embed_color'] = chosen_hex_color.content
 
                 
@@ -183,64 +179,64 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
 
                 # Filtered chat
                 await ctx.send("Enable filtered chat? (0 for No, 1 for Yes):")
-                filtered_chat = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                filtered_chat = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 config['features']['filtered_chat'] = int(filtered_chat.content)
 
                 # Auto GEXP
                 await ctx.send("Enable automatic GEXP daily messages? (0 for No, 1 for Yes):")
-                auto_gexp = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                auto_gexp = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 config['features']['auto_gexp'] = int(auto_gexp.content)
 
                 # Inactivity command
                 await ctx.send("Enable inactivity command? (0 for No, 1 for Yes):")
-                inactivity_cmd = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                inactivity_cmd = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 config['features']['inactivity_cmd'] = int(inactivity_cmd.content)
 
                 # Punishments command
                 await ctx.send("Enable punishments command? (0 for No, 1 for Yes):")
-                punishments_cmd = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                punishments_cmd = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 config['features']['punishments_cmd'] = int(punishments_cmd.content)
 
 
                 # Welcome channel
                 await ctx.send("Reference your welcome channel (Mention the channel by using #<channel name>):")
-                welcome_channel_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                welcome_channel_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 welcome_channel_id = welcome_channel_mention.channel_mentions[0].id
                 config['text_channel_ids']['welcome'] = str(welcome_channel_id)
 
                 # Rules channel
                 await ctx.send("Reference your rules channel (Mention the channel by using #<channel name>):")
-                rules_channel_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                rules_channel_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 rules_channel_id = rules_channel_mention.channel_mentions[0].id
                 config['text_channel_ids']['rules'] = str(rules_channel_id)
 
                 # Inactivity notice channel
                 await ctx.send("Reference your inactivity notice channel (Mention the channel by using #<channel name>):")
-                inactivity_notice_channel_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                inactivity_notice_channel_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 inactivity_notice_channel_id = inactivity_notice_channel_mention.channel_mentions[0].id
                 config['text_channel_ids']['inactivity_notice'] = str(inactivity_notice_channel_id)
 
                 # Staff chat channel
                 await ctx.send("Reference your staff chat channel (Mention the channel by using #<channel name>):")
-                staff_chat_channel_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                staff_chat_channel_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 staff_chat_channel_id = staff_chat_channel_mention.channel_mentions[0].id
                 config['text_channel_ids']['staff_chat'] = str(staff_chat_channel_id)
 
                 # Tickets transcripts channel
                 await ctx.send("Reference your tickets transcripts channel (Mention the channel by using #<channel name>):")
-                tickets_transcripts_channel_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                tickets_transcripts_channel_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 tickets_transcripts_channel_id = tickets_transcripts_channel_mention.channel_mentions[0].id
                 config['text_channel_ids']['tickets_transcripts'] = str(tickets_transcripts_channel_id)
 
                 # Leave messages channel
                 await ctx.send("Reference your leave messages channel (Mention the channel by using #<channel name>):")
-                leave_messages_channel_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                leave_messages_channel_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 leave_messages_channel_id = leave_messages_channel_mention.channel_mentions[0].id
                 config['text_channel_ids']['leave_messages'] = str(leave_messages_channel_id)
 
                 # Daily guild points channel
                 await ctx.send("Reference your daily guild points channel (Mention the channel by using #<channel name>):")
-                daily_guild_points_channel_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                daily_guild_points_channel_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 daily_guild_points_channel_id = daily_guild_points_channel_mention.channel_mentions[0].id
                 config['text_channel_ids']['daily_guild_points'] = str(daily_guild_points_channel_id)
 
@@ -248,31 +244,31 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
 
                 # Guild member role
                 await ctx.send("Reference the guild member role (Mention the role by using @<role name>):")
-                guild_member_role_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                guild_member_role_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 guild_member_role_id = guild_member_role_mention.role_mentions[0].id
                 config['role_ids']['guild_member'] = str(guild_member_role_id)
 
                 # Verified member role
                 await ctx.send("Reference the verified member role (Mention the role by using @<role name>):")
-                verified_member_role_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                verified_member_role_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 verified_member_role_id = verified_member_role_mention.role_mentions[0].id
                 config['role_ids']['verified_member'] = str(verified_member_role_id)
 
                 # Unverified member role
                 await ctx.send("Reference the unverified member role (Mention the role by using @<role name>):")
-                unverified_member_role_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                unverified_member_role_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 unverified_member_role_id = unverified_member_role_mention.role_mentions[0].id
                 config['role_ids']['unverified_member'] = str(unverified_member_role_id)
 
                 # Staff member role
                 await ctx.send("Reference the staff member role (Mention the role by using @<role name>):")
-                staff_member_role_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                staff_member_role_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 staff_member_role_id = staff_member_role_mention.role_mentions[0].id
                 config['role_ids']['staff_member'] = str(staff_member_role_id)
 
                 # Bots role
                 await ctx.send("Reference the bots role (Mention the role by using @<role name>):")
-                bots_role_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                bots_role_mention = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 bots_role_id = bots_role_mention.role_mentions[0].id
                 config['role_ids']['bots'] = str(bots_role_id)
                 
@@ -281,7 +277,7 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
 
                 # Getting the Hypixel Guild ID
                 await ctx.send("Enter an IGN of a member that is inside your guild so the bot can retrieve your guild ID:")
-                guild_member = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=30)
+                guild_member = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
 
                 #load in .env variables
                 load_dotenv() 
@@ -342,6 +338,7 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
         # If the bot is already configured meaning that inside the config.json
         # ["config"]["bool"] == 1, then we run as normal.
 
+
         #startup event on_ready
         @client.event
         async def on_ready():
@@ -352,45 +349,7 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
             await load_cogs()
             print (f"{os.path.basename(__file__):<20}{'Successfully loaded ✅':<30}")
             print("===========================================\n")
-            change_stats_channels.start()
-            
-            
-        #2 channel names changes per 10 minutes (1 every 5 mins)
-        @tasks.loop(seconds=301.0) #refreshes every x seconds + 1 second to avoid warning
-        async def change_stats_channels():
-            
-            member_count_channel = client.get_channel(member_count_chanel_id) #ID of voice channel that changes
-            members_online_channel = client.get_channel(members_online_channel_id) #ID of voice channel online members
-            guild_member_online_channel = client.get_channel(guild_member_online_channel_id) #guild_member online voice channel
-            guild_membery_role = discord.utils.get(client.guilds[0].roles, id=guild_member_role_id)
-        
-        
-            #if a change has been detected.
-            #this helps with being rate limited by discord
-            
-            member_count = len(client.guilds[0].members)
-            global global_member_count
-            if (global_member_count != member_count):
-                global_member_count = member_count
-                await member_count_channel.edit(name=f"Member Count: {member_count}")
-            else:
-                pass
-            
-            online_members = [member for member in client.guilds[0].members if member.status != discord.Status.offline]
-            global global_online_members
-            if (global_online_members != online_members):
-                global_online_members = online_members
-                await members_online_channel.edit(name=f"Online Members: {len(online_members)}")
-            else:
-                pass
-            
-            online_and_guild_membery_members = [member for member in client.guilds[0].members if guild_membery_role in member.roles and member.status != discord.Status.offline]
-            global global_online_and_guild_membery
-            if (global_online_and_guild_membery != online_and_guild_membery_members):
-                global_online_and_guild_membery = online_and_guild_membery_members
-                await guild_member_online_channel.edit(name=f"Guild Online: {len(online_and_guild_membery_members)}/125")
-            else:
-                pass
+            #change_stats_channels.start()
             
                 
                 

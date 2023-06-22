@@ -59,17 +59,17 @@
    DISCORD_BOT_TOKEN=<YOUR_DISCORD_BOT_TOKEN>
    HYPIXEL_API_KEY=<YOUR_HYPIXEL_API_KEY>
    ```
-
-3. Setup the bot using the default command
-
-   ```sh
-   !setup
-   ```
-
-4. Install all dependencies
+   
+3. Install all dependencies
 
    ```sh
    pip install -r requirements.txt
+   ```
+
+4. Setup the bot using the default command
+
+   ```sh
+   !setup
    ```
 
 ### 🚀 Activate the bot in terminal

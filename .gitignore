@@ -5,10 +5,13 @@ __pycache__/
 # Environment Variables
 .env
 
+# Config Json File
+config.json
+
 #Ignore .zip files
 .zip
 
 #Ignore JSON file filled with all server member's data
 verified_accounts.json
 
-commands/__pycache__
+__pycache__/
