@@ -1,7 +1,5 @@
 import discord
 from discord.ext import commands
-from discord.ext.commands import MissingPermissions
-from discord.ext import tasks
 import requests
 import discord.ui
 import asyncio
@@ -124,38 +122,12 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
             try:
 
                 guild = ctx.guild
-
-                # Create the category
-                category = await guild.create_category('SERVER INFO')
-
-                # Create the locked channels under the category
-                channel_names = ['Member Count: ###', 'Online Members: ###', 'Guild Online: ##/###']
-                voice_channel_ids = {
-                    'member_count': '',
-                    'members_online': '',
-                    'guild_member_online': ''
-                }
-                for channel_name in channel_names:
-                    overwrites = {
-                        guild.default_role: discord.PermissionOverwrite(connect=False)
-                    }
-                    channel = await guild.create_voice_channel(channel_name, overwrites=overwrites, category=category)
-                    print(f'Created channel: {channel.name} ({channel.id})')
-                    for key in voice_channel_ids:
-                        if voice_channel_ids[key] == '':
-                            voice_channel_ids[key] = str(channel.id)
-                            break
-
-                
                 
                 # Tickets category
                 guild = ctx.guild
                 category = await guild.create_category("TICKETS")
                 print(f"Category ID: {category.id}")
-                config['category_ids']['tickets_category'] = "category.id"
-
-                #update the voice channel data
-                config['voice_channel_ids'].update(voice_channel_ids)
+                config['category_ids']['tickets_category'] = category.id
 
                 # timeout timer for when it stops
                 timeout_time_in_seconds = 60
@@ -175,6 +147,42 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
                 guild_id = ctx.guild.id
                 config["general"]["discord_server_guild_id"] = str(guild_id)
 
+
+                # Server Stats
+                await ctx.send("Enable server stats? (0 for No, 1 for Yes):")
+                try:
+                    server_stats = await client.wait_for("message", check=lambda message: message.author == ctx.author,
+                                                         timeout=timeout_time_in_seconds)
+                    config['features']['server_stats'] = int(server_stats.content)
+
+                    if config['features']['server_stats'] == 1:
+                        # Create the category
+                        category = await guild.create_category('SERVER INFO')
+
+                        # Create the locked channels under the category
+                        channel_names = ['Member Count: ###', 'Online Members: ###', 'Guild Online: ##/###']
+                        voice_channel_ids = {
+                            'member_count': '',
+                            'members_online': '',
+                            'guild_member_online': ''
+                        }
+                        for channel_name in channel_names:
+                            overwrites = {
+                                guild.default_role: discord.PermissionOverwrite(connect=False)
+                            }
+                            channel = await guild.create_voice_channel(channel_name, overwrites=overwrites,
+                                                                       category=category)
+                            print(f'Created channel: {channel.name} ({channel.id})')
+                            for key in voice_channel_ids:
+                                if voice_channel_ids[key] == '':
+                                    voice_channel_ids[key] = str(channel.id)
+                                    break
+
+                        # update the voice channel data
+                        config['voice_channel_ids'].update(voice_channel_ids)
+
+                except asyncio.TimeoutError:
+                    await ctx.send("Timed out waiting for response.")
 
 
                 # Filtered chat
