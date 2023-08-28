@@ -43,6 +43,10 @@ class LevelingCog(commands.Cog):
             return
         elif message.author.bot:  # Skip processing if the message author is a bot
             return
+        elif message.content.startswith('!'):  # Skip processing if the message starts with a "!"
+            return
+
+        self.load_user_data()  # Reload user data from the file
 
         user_id = str(message.author.id)
         user_data = self.user_data.get(user_id, {"exp": 0, "level": 0, "coins": 0})
@@ -54,7 +58,8 @@ class LevelingCog(commands.Cog):
 
         self.message_cooldown[user_id] = current_timestamp
 
-        user_data["exp"] += 1
+        user_data["exp"] += 2.5
+        print(user_data["exp"])
         user_data["coins"] += random.randint(1, 5)
 
         if user_data["exp"] >= user_data["level"] * 100:
@@ -64,11 +69,14 @@ class LevelingCog(commands.Cog):
         self.user_data[user_id] = user_data  # Update user data
         self.save_user_data()
 
+
     @commands.command()
     async def profile(self, ctx):
         if not self.coin_level_system_enabled:
             await ctx.send("The coin and level system is disabled.")
             return
+
+        self.load_user_data()  # Reload user data from the file
 
         user_id = str(ctx.author.id)
         user_data = self.user_data.get(user_id)
@@ -97,6 +105,8 @@ class LevelingCog(commands.Cog):
             await ctx.send("The coin and level system is disabled.")
             return
 
+        self.load_user_data()  # Reload user data from the file
+
         sorted_data = sorted(self.user_data.items(), key=lambda x: x[1]["exp"], reverse=True)
         leaderboard_text = ""
         for idx, (user_id, data) in enumerate(sorted_data[:10], start=1):
@@ -120,6 +130,8 @@ class LevelingCog(commands.Cog):
         if not self.coin_level_system_enabled:
             await ctx.send("The coin and level system is disabled.")
             return
+
+        self.load_user_data()  # Reload user data from the file
 
         sorted_data = sorted(self.user_data.items(), key=lambda x: x[1]["coins"], reverse=True)
         leaderboard_text = ""
