@@ -5,8 +5,8 @@ import random
 import datetime
 
 currency_name = "coins"
-chance_of_winning = 0.4        # 0.67 means 67% of winning
-cool_down_time = 1              # 5 means 5 seconds of cooldown
+chance_of_winning = 0.45        # 0.67 means 67% of winning
+cool_down_time = 5              # 5 means 5 seconds of cooldown
 
 # Open the JSON file and read in the data
 with open('config.json') as json_file:
