@@ -13,5 +13,6 @@ config.json
 
 #Ignore JSON file filled with all server member's data
 verified_accounts.json
+user_data.json
 
 __pycache__/
