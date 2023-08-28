@@ -58,7 +58,7 @@ class LevelingCog(commands.Cog):
 
         self.message_cooldown[user_id] = current_timestamp
 
-        user_data["exp"] += 2.5
+        user_data["exp"] += random.randint(1, 5) + 0.25
         # print(user_data["exp"])
         user_data["coins"] += random.randint(1, 5)
 
@@ -70,7 +70,7 @@ class LevelingCog(commands.Cog):
         self.save_user_data()
 
 
-    @commands.command(aliases=["p"], brief="profile",description="View your profile stats")
+    @commands.command(aliases=["p", "prof"], brief="profile",description="View your profile stats")
     async def profile(self, ctx):
         if not self.coin_level_system_enabled:
             await ctx.send("The coin and level system is disabled.")
@@ -86,14 +86,14 @@ class LevelingCog(commands.Cog):
         else:
             embed = discord.Embed(
                 title=f"**{ctx.author}'s Profile**",
-                description=f"Now displaying {ctx.author.mention}'s server profile statistics. Use `{command_prefix}expleader` or `{command_prefix}coinleader` to view server leaderboards.",
+                description=f"Now displaying {ctx.author.mention}'s server profile statistics. Use `{command_prefix}expleader` or `{command_prefix}coinleader` to view the server leaderboards.",
                 color=embed_color
             )
             # embed.set_author(name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
             embed.timestamp = datetime.datetime.now()
             embed.add_field(name='Current Level ⭐', value=f"Lvl. {user_data['level']:}", inline=True)
             embed.add_field(name='Experience ✨', value=f"{user_data['exp']:.2f} xp", inline=True)
-            embed.add_field(name='Balance 🪙', value=f"{user_data['coins']:.2f} {currency_name}", inline=True)
+            embed.add_field(name='Balance 🪙', value=f"{user_data['coins']} {currency_name}", inline=True)
             embed.set_thumbnail(url="{}".format(ctx.author.avatar.url))
             embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url=ctx.guild.icon.url)
             await ctx.send(embed=embed)

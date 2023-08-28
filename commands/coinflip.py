@@ -6,6 +6,7 @@ import datetime
 
 currency_name = "coins"
 chance_of_winning = 0.4        # 0.67 means 67% of winning
+cool_down_time = 1              # 5 means 5 seconds of cooldown
 
 # Open the JSON file and read in the data
 with open('config.json') as json_file:
@@ -18,7 +19,7 @@ class CoinflipCog(commands.Cog):
         self.client = client
 
     @commands.command(aliases=["cf"], brief="cf [bet amount] [heads/tails]",description="Gamble using coinflip")
-    @commands.cooldown(1, 5, commands.BucketType.user)  # 5-second cooldown per user
+    @commands.cooldown(1, cool_down_time, commands.BucketType.user)  # 5-second cooldown per user
     async def coinflip(self, ctx, bet: int, choice: str):
         # Load user data from the JSON file
         with open('user_data.json', 'r') as f:
@@ -60,15 +61,19 @@ class CoinflipCog(commands.Cog):
 
         balance_before_bet = user_balance  # Store the user's balance before the bet
 
-        coin_result = random.choice(coin_choices)
+        if choice.lower() == "heads":
+            opposite_choice = "tails"
+        else:
+            opposite_choice = "heads"
+
         random_number = random.random()
 
-        if (choice == "heads" and random_number < 0.3) or (choice == "tails" and random_number < 0.3):
+        if (choice.lower() == "heads" and random_number < 0.3) or (choice.lower() == "tails" and random_number < 0.3):
             user_data[user_id]['coins'] += bet * 2  # Win double the bet amount
             # result_message = f"Congratulations! You won {bet} coins.\nYour balance before the bet: {balance_before_bet} coins\nYour new balance: {user_data[user_id]['coins']} coins."
             embed = discord.Embed(
                 title=f"**🏆 | CONGRATULATIONS YOU WON!**",
-                description=f"{ctx.author.mention} bet `{bet}` {currency_name} and won `{bet * 2}` {currency_name}. Your stats have been updated, wait another 5 seconds before playing again.",
+                description=f"{ctx.author.mention} bet `{bet}` {currency_name} and won `{bet * 2}` {currency_name}. You guessed {choice.lower()} and the coinflip landed on {choice.lower()}! You can try again in {cool_down_time} second(s).",
                 color=embed_color
             )
             # embed.set_author(name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
@@ -84,7 +89,7 @@ class CoinflipCog(commands.Cog):
             # result_message = f"Sorry, you lost {bet} coins.\nYour balance before the bet: {balance_before_bet} coins\nYour new balance: {user_data[user_id]['coins']} coins."
             embed = discord.Embed(
                 title=f"**☹️ | SORRY, YOU LOST!**",
-                description=f"{ctx.author.mention} bet `{bet}` {currency_name} and lost. Your stats have been updated, wait another 5 seconds before playing again.",
+                description=f"{ctx.author.mention} bet `{bet}` {currency_name} and lost. You chose {choice.lower()} and the coinflip landed on {opposite_choice}. You can try again in {cool_down_time} second(s).",
                 color=embed_color
             )
             # embed.set_author(name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
