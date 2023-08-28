@@ -16,7 +16,7 @@ import client
 import json
 import os
 
-#load in .env variables
+# load in .env variables
 
 load_dotenv() 
 
@@ -26,7 +26,7 @@ discord_bot_token = os.getenv("DISCORD_BOT_TOKEN")
 with open('config.json') as json_file:
     data = json.load(json_file)
 
-#json data to run bot
+# json data to run bot
 bot_prefix = data["general"]["bot_prefix"]
 embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
 

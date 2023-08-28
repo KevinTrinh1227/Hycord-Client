@@ -29,7 +29,7 @@ class userinformation(commands.Cog):
         #embed.set_thumbnail(url = user.avatar.url)
         embed.set_thumbnail(url = "{}".format(user.avatar.url))
         embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url) #ctx.guild.icon.url for server icon
-        embed.add_field(name = "ID:", value=user.id, inline= False)
+        embed.add_field(name = "ID:", value=user.id, inline=False)
         embed.add_field(name="Name:", value=user.display_name, inline=False)
         embed.add_field(name="Account Created on:", value=user.created_at, inline=False)
         embed.add_field(name="Joined Server On:", value="user.joined_at", inline=False)
