@@ -2,15 +2,24 @@ import discord
 from discord.ext import commands
 import json
 import random
+import datetime
 
+currency_name = "coins"
+chance_of_winning = 0.4        # 0.67 means 67% of winning
+
+# Open the JSON file and read in the data
+with open('config.json') as json_file:
+    data = json.load(json_file)
+
+embed_color = int(data["general"]["embed_color"].strip("#"), 16)  # convert hex color to hexadecimal format
 
 class CoinflipCog(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command()
+    @commands.command(aliases=["cf"], brief="cf [bet amount] [heads/tails]",description="Gamble using coinflip")
     @commands.cooldown(1, 5, commands.BucketType.user)  # 5-second cooldown per user
-    async def coinflip(self, ctx, choice: str, bet: int):
+    async def coinflip(self, ctx, bet: int, choice: str):
         # Load user data from the JSON file
         with open('user_data.json', 'r') as f:
             user_data = json.load(f)
@@ -52,19 +61,46 @@ class CoinflipCog(commands.Cog):
         balance_before_bet = user_balance  # Store the user's balance before the bet
 
         coin_result = random.choice(coin_choices)
+        random_number = random.random()
 
-        if choice.lower() == coin_result:
+        if (choice == "heads" and random_number < 0.3) or (choice == "tails" and random_number < 0.3):
             user_data[user_id]['coins'] += bet * 2  # Win double the bet amount
-            result_message = f"Congratulations! You won {bet} coins.\nYour balance before the bet: {balance_before_bet} coins\nYour new balance: {user_data[user_id]['coins']} coins."
+            # result_message = f"Congratulations! You won {bet} coins.\nYour balance before the bet: {balance_before_bet} coins\nYour new balance: {user_data[user_id]['coins']} coins."
+            embed = discord.Embed(
+                title=f"**🏆 | CONGRATULATIONS YOU WON!**",
+                description=f"{ctx.author.mention} bet `{bet}` {currency_name} and won `{bet * 2}` {currency_name}. Your stats have been updated, wait another 5 seconds before playing again.",
+                color=embed_color
+            )
+            # embed.set_author(name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+            embed.timestamp = datetime.datetime.now()
+            embed.add_field(name='Before Balance', value=f"{balance_before_bet}", inline=True)
+            embed.add_field(name='Net Profit', value=f"{bet:.2f}", inline=True)
+            embed.add_field(name='Current Balance', value=f"{user_data[user_id]['coins']} {currency_name}", inline=True)
+            embed.set_thumbnail(url="{}".format(ctx.author.avatar.url))
+            embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url=ctx.guild.icon.url)
+            await ctx.send(embed=embed)
         else:
             user_data[user_id]['coins'] -= bet
-            result_message = f"Sorry, you lost {bet} coins.\nYour balance before the bet: {balance_before_bet} coins\nYour new balance: {user_data[user_id]['coins']} coins."
+            # result_message = f"Sorry, you lost {bet} coins.\nYour balance before the bet: {balance_before_bet} coins\nYour new balance: {user_data[user_id]['coins']} coins."
+            embed = discord.Embed(
+                title=f"**☹️ | SORRY, YOU LOST!**",
+                description=f"{ctx.author.mention} bet `{bet}` {currency_name} and lost. Your stats have been updated, wait another 5 seconds before playing again.",
+                color=embed_color
+            )
+            # embed.set_author(name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+            embed.timestamp = datetime.datetime.now()
+            embed.add_field(name='Before Balance', value=f"{balance_before_bet}", inline=True)
+            embed.add_field(name='Loss Amount', value=f"{bet:.2f}", inline=True)
+            embed.add_field(name='Current Balance', value=f"{user_data[user_id]['coins']}", inline=True)
+            embed.set_thumbnail(url="{}".format(ctx.author.avatar.url))
+            embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url=ctx.guild.icon.url)
+            await ctx.send(embed=embed)
 
         # Update user data in the JSON file
         with open('user_data.json', 'w') as f:
             json.dump(user_data, f, indent=2)
 
-        await ctx.send(result_message)
+        # await ctx.send(result_message)
 
 async def setup(client):
     await client.add_cog(CoinflipCog(client))
