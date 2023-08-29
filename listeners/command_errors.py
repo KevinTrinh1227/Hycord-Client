@@ -10,7 +10,6 @@ with open('config.json') as json_file:
     
 #json data to run bot
 bot_prefix = data["general"]["bot_prefix"]
-command_prefix = data["general"]["bot_prefix"]
 embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
 
 
@@ -57,7 +56,7 @@ class commend_error(commands.Cog):
         elif isinstance(error, commands.MissingRequiredArgument):
             embed = discord.Embed(
                 title="**Missing arguments in command.** 🟡",
-                description=f"The command you just ran is missing one or more arguments. Please use `{command_prefix}help` to double check the command syntax, and try again.",
+                description=f"The command you just ran is missing one or more arguments. Please use `{bot_prefix}help` to double check the command syntax, and try again.",
                 color = embed_color
             )
             embed.timestamp = datetime.datetime.now()
