@@ -219,7 +219,7 @@ class Ticket(commands.Cog):
 
         # Create a confirmation message
         embed = discord.Embed(
-            title="Confirmation",
+            title="🎟️ | Confirmation",
             description="Are you sure that you want to close your ticket? If so please click on the reaction below this message. Otherwise please ignore this message.",
             color=embed_color
         )
@@ -230,7 +230,7 @@ class Ticket(commands.Cog):
         # Add a check mark reaction to the message
         await confirm_msg.add_reaction("✅")
 
-        # Wait for the author to react with a checkmark
+        # Wait for the author to react with a check mark
         def check(reaction, user):
             return user == ctx.author and str(reaction.emoji) == "✅" and reaction.message == confirm_msg
 
