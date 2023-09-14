@@ -227,7 +227,7 @@ class Ticket(commands.Cog):
         embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
         confirm_msg = await ctx.send(embed=embed)
 
-        # Add a checkmark reaction to the message
+        # Add a check mark reaction to the message
         await confirm_msg.add_reaction("✅")
 
         # Wait for the author to react with a checkmark
@@ -270,7 +270,7 @@ class Ticket(commands.Cog):
 
         #sends this embed message to a staff only chat as a record
         embed3 = discord.Embed(
-            title="Ticket Closed",
+            title="🎟️ | Ticket Closed",
             url=link,
             description=f"A ticket has been closed, below is a link to the transcript. Ticket issuer ID: {user_id}",
             color=embed_color
@@ -293,7 +293,7 @@ class Ticket(commands.Cog):
         
         #sends this embed message to the ticket channel
         embed2 = discord.Embed(
-            title="Closed | This ticket is now locked",
+            title="🎟️ | Closed | This ticket is now locked",
             url=link,
             description="Your support ticket is now locked. A transcript copy will be sent to you if your DM is set to public. If not, please save the transcript file below.\n\n***This channel will be terminated in 1 minute.\n\n***",
             color=embed_color
@@ -317,7 +317,7 @@ class Ticket(commands.Cog):
 
         #sends this embed to the ticket issuer
         embed4 = discord.Embed(
-            title=f"{username}\'s Ticket Transcript",
+            title=f"🎟️ | {username}\'s Ticket Transcript",
             url=link,
             description=f"A link to your transcript of your ticket has been attached. We encourage that you save the file for future reference. Thank you.",
             color=embed_color
