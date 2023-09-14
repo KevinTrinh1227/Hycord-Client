@@ -23,7 +23,7 @@ class commend_error(commands.Cog):
         # ERROR: if command doesnt exist
         if isinstance(error, commands.CommandNotFound):
             embed = discord.Embed(
-                title=(f"**Command does not exist!** 🔎"),
+                title=(f"**🔎 | Command does not exist!**"),
                 description=f"The command you just issued does not exist. Please use `{bot_prefix}help` to double check the correct syntax. Contact staff if this is a mistake.",
                 colour= embed_color
                 )
@@ -34,7 +34,7 @@ class commend_error(commands.Cog):
         # ERROR: if user has a command cooldown
         elif isinstance(error, commands.CommandOnCooldown):
             embed = discord.Embed(
-                title=(f"⏳ **| This command is on cooldown!**"),
+                title=(f"⏳ ** | This command is on cooldown!**"),
                 description=f"Please wait `{error.retry_after:.2f}` more second(s) before trying to run the command again. If you believe this to be a mistake, please contact a staff member.",
                 colour= embed_color
                 )
@@ -44,7 +44,7 @@ class commend_error(commands.Cog):
         # ERROR: if user does not have the permission node
         elif isinstance(error, commands.MissingPermissions):
             embed = discord.Embed(
-                title="**You are lacking permissions!** 🚫",
+                title="🚫** | You are lacking permissions!**",
                 description="You are lacking permissions to perform this action. If you believe this to be a mistake, please contact a staff member.",
                 color = embed_color
 
@@ -55,7 +55,7 @@ class commend_error(commands.Cog):
         # ERROR: if the command was missing arguments
         elif isinstance(error, commands.MissingRequiredArgument):
             embed = discord.Embed(
-                title="**Missing arguments in command.** 🟡",
+                title="🟡** | Missing arguments in command.**",
                 description=f"The command you just ran is missing one or more arguments. Please use `{bot_prefix}help` to double check the command syntax, and try again.",
                 color = embed_color
             )
