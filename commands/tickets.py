@@ -46,7 +46,7 @@ class Roles(discord.ui.View):
 
         embed = discord.Embed(
             title = f"**{ticket_type} Ticket**",
-            description = f"Please describe your issue clearly and a staff member will assist you shortly. Be sure to provide any attachments if nescessay.\n\nTicket Issuer: {user.mention}\n\nUse the command `{bot_prefix}close` to close this ticket.",
+            description = f"Please describe your issue clearly and a staff member will assist you shortly. Be sure to provide any attachments if necessary.\n\nTicket Issuer: {user.mention}\n\nUse the command `{bot_prefix}close` to close this ticket.",
             color = embed_color
         )
         embed.set_author(name=f"Requested by {user}", icon_url=user.avatar.url),
@@ -80,7 +80,7 @@ class Roles(discord.ui.View):
 
         embed = discord.Embed(
             title=f"**{ticket_type} Ticket**",
-            description=f"Please describe your issue clearly and a staff member will assist you shortly. Be sure to provide any attachments if nescessay.\n\nTicket Issuer: {user.mention}\n\nUse the command `{bot_prefix}close` to close this ticket.",
+            description=f"Please describe your issue clearly and a staff member will assist you shortly. Be sure to provide any attachments if necessary.\n\nTicket Issuer: {user.mention}\n\nUse the command `{bot_prefix}close` to close this ticket.",
             color=embed_color
         )
         embed.set_author(name=f"Requested by {user}", icon_url=user.avatar.url),
@@ -113,7 +113,7 @@ class Roles(discord.ui.View):
 
         embed = discord.Embed(
             title=f"**{ticket_type} Ticket**",
-            description=f"Please describe your issue clearly and a staff member will assist you shortly. Be sure to provide any attachments if nescessay.\n\nTicket Issuer: {user.mention}\n\nUse the command `{bot_prefix}close` to close this ticket.",
+            description=f"Please describe your issue clearly and a staff member will assist you shortly. Be sure to provide any attachments if necessary.\n\nTicket Issuer: {user.mention}\n\nUse the command `{bot_prefix}close` to close this ticket.",
             color=embed_color
         )
         embed.set_author(name=f"Requested by {user}", icon_url=user.avatar.url),
@@ -146,7 +146,7 @@ class Roles(discord.ui.View):
 
         embed = discord.Embed(
             title=f"**{ticket_type} Ticket**",
-            description=f"Please describe your issue clearly and a staff member will assist you shortly. Be sure to provide any attachments if nescessay.\n\nTicket Issuer: {user.mention}\n\nUse the command `{bot_prefix}close` to close this ticket.",
+            description=f"Please describe your issue clearly and a staff member will assist you shortly. Be sure to provide any attachments if necessary.\n\nTicket Issuer: {user.mention}\n\nUse the command `{bot_prefix}close` to close this ticket.",
             color=embed_color
         )
         embed.set_author(name=f"Requested by {user}", icon_url=user.avatar.url),
@@ -179,7 +179,7 @@ class Roles(discord.ui.View):
 
         embed = discord.Embed(
             title=f"**{ticket_type} Ticket**",
-            description=f"Please describe your issue clearly and a staff member will assist you shortly. Be sure to provide any attachments if nescessay.\n\nTicket Issuer: {user.mention}\n\nUse the command `{bot_prefix}close` to close this ticket.",
+            description=f"Please describe your issue clearly and a staff member will assist you shortly. Be sure to provide any attachments if necessary.\n\nTicket Issuer: {user.mention}\n\nUse the command `{bot_prefix}close` to close this ticket.",
             color=embed_color
         )
         embed.set_author(name=f"Requested by {user}", icon_url=user.avatar.url),
@@ -221,7 +221,7 @@ class Ticket(commands.Cog):
         embed = discord.Embed(
             title="Confirmation",
             description="Are you sure that you want to close your ticket? If so please click on the reaction below this message. Otherwise please ignore this message.",
-            colour=embed_color
+            color=embed_color
         )
         embed.timestamp = datetime.datetime.now()
         embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
@@ -255,17 +255,32 @@ class Ticket(commands.Cog):
         message = await transcript_channel.send(file=transcript_file)
         link = await chat_exporter.link(message)
         #await ctx.send("Click this link to view the transcript online: " + link)
-        
-        
+
+
+
+        # Extract the username from the ticket channel name
+        channel_name = ctx.channel.name
+        parts = channel_name.split("-")
+        username = parts[1]
+        # print(f"Channel name: {channel_name}, Username: {username}")
+        # Get the user who opened the ticket
+        user = discord.utils.get(ctx.guild.members, name=username)
+        user_id = user.id if user else None  # Get the user's ID, or None if not found
+
+
         #sends this embed message to a staff only chat as a record
         embed3 = discord.Embed(
             title="Ticket Closed",
             url=link,
-            description="A ticket has been closed, below is a link to the transcript.",
-            colour=embed_color
+            description=f"A ticket has been closed, below is a link to the transcript. Ticket issuer ID: {user_id}",
+            color=embed_color
         )
         embed3.timestamp = datetime.datetime.now()
         embed3.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
+        embed3.add_field(
+            name="Ticket Issuer",
+            value=f"{username}"
+        )
         embed3.add_field(
             name="Closed By",
             value=f"{ctx.author}"
@@ -280,20 +295,48 @@ class Ticket(commands.Cog):
         embed2 = discord.Embed(
             title="Closed | This ticket is now locked",
             url=link,
-            description="Your support ticket is now locked. If you wish to keep a record of this ticket, please use the link provided below to view the transcript online and save it in your files.\n\n***This channel will be terminated in 1 minute.\n\n***",
-            colour=embed_color
+            description="Your support ticket is now locked. A transcript copy will be sent to you if your DM is set to public. If not, please save the transcript file below.\n\n***This channel will be terminated in 1 minute.\n\n***",
+            color=embed_color
         )
         #embed2.set_author(name = f"Closed by {ctx.author}", icon_url=ctx.author.avatar.url)
         embed2.timestamp = datetime.datetime.now()
         embed2.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
         embed2.add_field(
-            name="Closed By",
-            value=f"{ctx.author}"
+            name="Ticket Issuer",
+            value=f"{username}"
+        )
+        embed2.add_field(
+            name="Issuer ID",
+            value=f"{user_id}"
         )
         embed2.add_field(
             name="View transcript",
             value=f"[Click here to view the transcript]({link})"
         )
+
+
+        #sends this embed to the ticket issuer
+        embed4 = discord.Embed(
+            title=f"{username}\'s Ticket Transcript",
+            url=link,
+            description=f"A link to your transcript of your ticket has been attached. We encourage that you save the file for future reference. Thank you.",
+            color=embed_color
+        )
+        embed4.timestamp = datetime.datetime.now()
+        embed4.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
+        embed4.add_field(
+            name="Ticket Issuer",
+            value=f"{username}"
+        )
+        embed4.add_field(
+            name="Closed By",
+            value=f"{ctx.author}"
+        )
+        embed4.add_field(
+            name="View transcript",
+            value=f"[Click here to view the transcript]({link})"
+        )
+        
         
         # to avoid being rate limited, it only affects users without the following roles...
         role_ids = [bots_role_id, staff_role_id] #bot role, staff member role
@@ -302,8 +345,18 @@ class Ticket(commands.Cog):
         await ctx.channel.purge(limit=1)
         
         #sending both embed messages to the channels...
-        await ctx.send(embed=embed2)
-        await transcript_channel.send(embed=embed3)
+        await ctx.send(embed=embed2)                    # sends the embed to ticket channel
+        await transcript_channel.send(embed=embed3)     # sends the embed message to transcripts channel
+        if user: 
+            # Send the transcript link as a direct message to the user
+            try:
+                await user.send(embed=embed4)  
+                await transcript_channel.send(f"{username} has received a transcript in their DMs. 🟢\nTheir Discord profile ID: `{user_id}`\nTheir Mention: <@{user_id}>")
+            except discord.errors.Forbidden:
+                # await ctx.send("Unable to send a direct message to the user with the transcript link.")
+                await transcript_channel.send(f"{username}'s DMs are private. No transcript sent. 🟡\nTheir Discord profile ID: `{user_id}`\nTheir Mention: <@{user_id}>")
+
+
 
         # Revoke the send messages permission for every user in the channel who doesn't have the specified roles
         for member in ctx.channel.members:
@@ -312,7 +365,7 @@ class Ticket(commands.Cog):
 
         
         #wait a minute before deleting channel
-        await asyncio.sleep(60)  # Wait for 20 seconds before deleting the channel
+        await asyncio.sleep(60)  # Wait for 60 seconds before deleting the channel
         await ctx.channel.delete()
 
 async def setup(client):
