@@ -111,7 +111,9 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
     # not been configured yet properly or at all. 
     if data["config"]["bool"] == 0:
 
-        print("BOT IS ONLINE AND AWAITING TO BE CONFIGURED. PLEASE USE \"!setup\" to start.")
+        # runs this message to setup multiple times
+        for x in range(0, 4):
+            print("BOT IS ONLINE AND AWAITING TO BE CONFIGURED. PLEASE USE \"!setup\" to start. ✅")
         
         @client.command(aliases=["botsetup"], pass_context=True, brief="setup", description="Setup the bot configurations")
         async def setup(ctx):
@@ -126,7 +128,7 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
                 # Tickets category
                 guild = ctx.guild
                 category = await guild.create_category("TICKETS")
-                print(f"Category ID: {category.id}")
+                # print(f"Category ID: {category.id}")
                 config['category_ids']['tickets_category'] = category.id
 
                 # timeout timer for when it stops
@@ -151,8 +153,7 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
                 # Server Stats
                 await ctx.send("Enable server stats? (0 for No, 1 for Yes):")
                 try:
-                    server_stats = await client.wait_for("message", check=lambda message: message.author == ctx.author,
-                                                         timeout=timeout_time_in_seconds)
+                    server_stats = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=timeout_time_in_seconds)
                     config['features']['server_stats'] = int(server_stats.content)
 
                     if config['features']['server_stats'] == 1:
@@ -170,19 +171,24 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
                             overwrites = {
                                 guild.default_role: discord.PermissionOverwrite(connect=False)
                             }
-                            channel = await guild.create_voice_channel(channel_name, overwrites=overwrites,
-                                                                       category=category)
+                            channel = await guild.create_voice_channel(channel_name, overwrites=overwrites, category=category)
                             print(f'Created channel: {channel.name} ({channel.id})')
                             for key in voice_channel_ids:
                                 if voice_channel_ids[key] == '':
                                     voice_channel_ids[key] = str(channel.id)
-                                    break
 
-                        # update the voice channel data
-                        config['voice_channel_ids'].update(voice_channel_ids)
+                    else:
+                        # User chose not to enable server stats, set default IDs to 0
+                        voice_channel_ids = {
+                            'member_count': '0',
+                            'members_online': '0',
+                            'guild_member_online': '0'
+                        }
 
+                    # update the voice channel data
+                    config['voice_channel_ids'].update(voice_channel_ids)
                 except asyncio.TimeoutError:
-                    await ctx.send("Timed out waiting for response.")
+                    await ctx.send("Timed out. Please try again later.")
                     
                     
                 # Coins & level system question
