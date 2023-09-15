@@ -55,10 +55,13 @@
     ```
 
 ### 🛠 set-up
-1. Obtain a <a href="https://youtu.be/7zdHrmRtGDs" target="_blank">Discord bot token</a> and <a href="https://developer.hypixel.net/" target="_blank">Hypixel API key</a>
+1. Obtain a <a href="https://www.writebots.com/discord-bot-token/" target="_blank">Discord bot token</a> and <a href="https://developer.hypixel.net/" target="_blank">Hypixel API key</a>
    ```sh
-   Enable the "Public Bot" module and all Gateway Intents Modules (3 total)
-   Applications > [Your App] >  Bot > "Privileged Gateway Intents"
+   Administrator bot permissions is recommended to avoid any issues. 
+   ```
+   ```sh
+   Enable the "Public Bot" module AND all Privileged Gateway Intents (3 total)
+   Discord Dev > Applications > [Your App] >  Bot > "Privileged Gateway Intents"
    ```
 2. Create a "`.env`" file with your tokens and API keys
 

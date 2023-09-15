@@ -112,8 +112,9 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
     if data["config"]["bool"] == 0:
 
         # runs this message to setup multiple times
-        for x in range(0, 4):
-            print("BOT IS ONLINE AND AWAITING TO BE CONFIGURED. PLEASE USE \"!setup\" to start. ✅")
+        print(f"✅ | CONECTED TO TOKEN: {discord_bot_token}")
+        for x in range(0, 10):
+            print("⚠️  | YOUR BOT REQUIRES THE FIRST TIME SETUP. USE: \"!setup\" IN YOUR SERVER TO BEGIN.")
         
         @client.command(aliases=["botsetup"], pass_context=True, brief="setup", description="Setup the bot configurations")
         async def setup(ctx):
@@ -124,12 +125,6 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
             try:
 
                 guild = ctx.guild
-                
-                # Tickets category
-                guild = ctx.guild
-                category = await guild.create_category("TICKETS")
-                # print(f"Category ID: {category.id}")
-                config['category_ids']['tickets_category'] = category.id
 
                 # timeout timer for when it stops
                 timeout_time_in_seconds = 60
@@ -332,6 +327,15 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
 
                 # set the string of hypixel guild ID
                 config['hypixel_ids']['guild_id'] = str(guild_id)
+                
+                
+                
+                # Tickets category created last when intial config is done
+                guild = ctx.guild
+                category = await guild.create_category("TICKETS")
+                # print(f"Category ID: {category.id}")
+                config['category_ids']['tickets_category'] = category.id
+                
 
 
                 # sets the config bool to 1 aka True so that means that
@@ -346,8 +350,13 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
 
 
                 # saves all the data we just got to the config.json
-                await ctx.send("✅  Configuration settings have updated successfully. For the updates to take affect, you must **RESTART** your bot.")
-
+                await ctx.send("✅ | Configuration settings have updated successfully.")
+                await ctx.send("⚠️ | You must **RESTART** your bot again for it to work!")
+                # prints to console as well
+                for i in range(0, 10):
+                    print("⚠️  | IMPORTANT YOU MUST **RESTART** YOUR BOT FOR IT TO WORK!")
+                
+                
             # means that the use did not give us data in time
             except:
                 await ctx.send("No response received. Please try again.")
