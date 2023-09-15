@@ -76,16 +76,16 @@
    pip install -r requirements.txt
    ```
 
-4. Setup the bot using the default command
-
-   ```sh
-   !setup
-   ```
-
 ### 🚀 Activate the bot in terminal
 
 1. Build and run the Discord bot
 
    ```sh
    python main.py
+   ```
+
+2. Setup the initial bot setup and enjoy
+
+   ```sh
+   !setup
    ```
