@@ -183,7 +183,12 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
 
                 except asyncio.TimeoutError:
                     await ctx.send("Timed out waiting for response.")
-
+                    
+                    
+                # Coins & level system question
+                await ctx.send("Enable chat coin and level system? (0 for No, 1 for Yes):")
+                filtered_chat = await client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
+                config['features']['coin_level_system'] = int(filtered_chat.content)
 
                 # Filtered chat
                 await ctx.send("Enable filtered chat? (0 for No, 1 for Yes):")
