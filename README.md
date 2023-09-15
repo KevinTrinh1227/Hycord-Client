@@ -84,7 +84,7 @@
    python main.py
    ```
 
-2. Setup the initial bot setup and enjoy
+2. Setup the bot using the cmd in your server
 
    ```sh
    !setup
