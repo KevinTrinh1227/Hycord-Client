@@ -14,22 +14,26 @@ class Meme(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(name='meme')
+    @commands.command(aliases=["memes", "dm", "dank"], brief="meme",description="Displays a random meme")
     async def meme(self, ctx):
-        async with aiohttp.ClientSession() as session:
-            async with session.get('https://meme-api.com/gimme') as response:
-                meme = await response.json()
+        try: 
+            async with aiohttp.ClientSession() as session:
+                async with session.get('https://meme-api.com/gimme') as response:
+                    meme = await response.json()
 
-        embed = discord.Embed(
-            title=meme['title'],
-            url=meme['postLink'],
-            color=embed_color 
-            )
-        embed.set_image(url=meme['url'])
-        embed.timestamp = datetime.datetime.now()
-        embed.set_footer(text=f"{ctx.guild.name}", icon_url = ctx.guild.icon.url)
+            embed = discord.Embed(
+                title=meme['title'],
+                url=meme['postLink'],
+                color=embed_color 
+                )
+            embed.set_image(url=meme['url'])
+            embed.timestamp = datetime.datetime.now()
+            embed.set_footer(text=f"{ctx.guild.name}", icon_url = ctx.guild.icon.url)
 
-        await ctx.send(embed=embed)
+            await ctx.send(embed=embed)
+            
+        except:
+            await ctx.send("Error generating meme.")
 
 async def setup(client):
     await client.add_cog(Meme(client))
