@@ -196,7 +196,7 @@ class Ticket(commands.Cog):
         self.staff_role_id = staff_role_id  # Replace with your staff role ID
 
     @commands.has_permissions(administrator=True)
-    @commands.command(aliases=["tickets", "t"], brief="ticket", description="Activates ticket system.")
+    @commands.hybrid_command(aliases=["tickets", "t"], brief="ticket", description="Activates ticket system.", with_app_command=True)
     async def ticket(self, ctx):
         await ctx.channel.purge(limit=1)
         serverIconLink = ctx.guild.icon.url
@@ -210,8 +210,8 @@ class Ticket(commands.Cog):
         embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = serverIconLink)
         await ctx.send(embed = embed, view = Roles())
 
-    @commands.command(aliases=["close"], brief="close", description="Closes the current ticket")
-    async def close_ticket(self, ctx):
+    @commands.hybrid_command(aliases=["close"], brief="closeticket", description="Closes the current ticket", with_app_command=True)
+    async def closeticket(self, ctx):
         if not ctx.channel.name.startswith("ticket-"):
             #await ctx.send("This command can only be used in a ticket channel.")
             pass

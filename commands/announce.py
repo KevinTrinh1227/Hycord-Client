@@ -19,7 +19,7 @@ class announce(commands.Cog):
     
     #accouncement/say command
     @commands.has_permissions(administrator = True)
-    @commands.command(aliases=["announcement", "an"], brief="announce", description="Create a fully customizable embed message to send in a specific channel")
+    @commands.hybrid_command(aliases=["announcement", "an"], brief="announce", description="Create a fully customizable embed message to send in a specific channel", with_app_command=True)
     async def announce(self, ctx):
 
         try:

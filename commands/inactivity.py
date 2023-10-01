@@ -16,7 +16,7 @@ class inactive(commands.Cog):
         self.client = client
     
     
-    @commands.command(aliases = ["inactivity", "mia"], pass_context=True, brief="inactive", description="Let others know that you will be inactive")
+    @commands.hybrid_command(aliases = ["inactivity", "mia"], pass_context=True, brief="inactive", description="Let others know that you will be inactive", with_app_command=True)
     async def inactive(self, ctx):
         
         try:
@@ -70,5 +70,3 @@ class inactive(commands.Cog):
         
 async def setup(client):
     await client.add_cog(inactive(client))
-    
-

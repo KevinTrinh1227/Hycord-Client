@@ -17,10 +17,14 @@ class purge(commands.Cog):
     def __init__(self, client):
         self.client = client
     
-    #chat purge command (and command removal)   
+    #chat purge command (and command removal)  
     @commands.has_permissions(manage_messages = True)
-    @commands.command(aliases = ["del", "delete", "clear"], brief="purge [integer value]",description="Clear a specified amount of chat messages")
+    @commands.hybrid_command(aliases = ["del", "delete", "clear"], brief="purge [integer value]",description="Clear a specified amount of chat messages", with_app_command=True)
     async def purge(self, ctx, amount : int):
+        try: 
+            await ctx.interaction.response.defer()
+        except:
+            pass
         await ctx.channel.purge(limit = amount + 1)
 
 

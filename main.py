@@ -20,6 +20,7 @@ import os
 
 load_dotenv() 
 
+discord_bot_application_id = os.getenv("DISCORD_APPLICATION_ID")
 discord_bot_token = os.getenv("DISCORD_BOT_TOKEN")
 
 # Open the JSON file and read in the data
@@ -32,4 +33,4 @@ embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex co
 
 
 if __name__ == "__main__":
-   client.activateBot(discord_bot_token, bot_prefix, embed_color)
+   client.activateBot(discord_bot_token, bot_prefix, embed_color, discord_bot_application_id)

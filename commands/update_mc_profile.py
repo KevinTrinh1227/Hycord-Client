@@ -23,7 +23,7 @@ class update_account(commands.Cog):
         self.data = {}
             
     #bedwars stats command
-    @commands.command(aliases=["relink", "resync"], brief="Updates your discord information",description="update your account profile on discord")
+    @commands.hybrid_command(aliases=["relink", "resync"], brief="Updates your discord information", description="update your account profile on discord", with_app_command=True)
     @commands.cooldown(1, 600, commands.BucketType.user) # 1 use for every 10 minutes cooldown.
     async def update(self, ctx):
         
@@ -61,7 +61,7 @@ class update_account(commands.Cog):
             new_nickname = f"[{bedwars_level}✫] {username}"
 
             embed = discord.Embed(
-                title = f"**Successfully Updated Account** ✅",
+                title = f"**✅ | Successfully Updated Account**",
                 url = f"https://plancke.io/hypixel/player/stats/{username}",
                 description = f"You have **successfully** updated your profile.",
                 color = embed_color               
@@ -80,7 +80,7 @@ class update_account(commands.Cog):
             
         else:
             embed = discord.Embed(
-                title = f"**You cant update your account!** ❌",
+                title = f"**❌ | You cant update your account!**",
                 description = f"{ctx.author} was not found in the verified accounts list. Please link your account first before trying this command.",
                 color = embed_color
             )
@@ -90,4 +90,4 @@ class update_account(commands.Cog):
             await ctx.send(embed=embed)
         
 async def setup(client):
-    await client.add_cog(update_account(client))        
+    await client.add_cog(update_account(client))     

@@ -17,7 +17,7 @@ class verifiedstats(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(aliases=["vs", "vstats"], brief="verifiedstats",description="Shows stats of verified accounts")
+    @commands.hybrid_command(aliases=["vs", "vstats"], brief="verifiedstats", description="Shows stats of verified accounts", with_app_command=True)
     async def verifiedstats(self, ctx):
         with open('verified_accounts.json', 'r') as f:
             data = json.load(f)

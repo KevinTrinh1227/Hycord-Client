@@ -121,7 +121,7 @@ class selfroles(commands.Cog):
         self.client = client
         
     @commands.has_permissions(administrator = True)
-    @commands.command(aliases = ["sr", "serverroles"], brief="roles", description="Print menu for self selecting roles.")
+    @commands.hybrid_command(aliases = ["sr", "serverroles"], brief="roles", description="Print menu for self selecting roles.", with_app_command=True)
     async def roles(self, ctx):
         serverIconLink = ctx.guild.icon.url
         embed = discord.Embed(

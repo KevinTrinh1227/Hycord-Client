@@ -27,8 +27,8 @@ class forceVerify(commands.Cog):
     
     
     @commands.has_permissions(administrator = True)
-    @commands.command(aliases=["flink", "fsync", "fverify"], brief="fsync [@member name] [Minecraft Username]",description="Force sync a user to a minecraft account")
-    async def forceVerify(self, ctx, user: discord.Member, username: str):
+    @commands.hybrid_command(aliases=["flink", "fsync", "fverify"], brief="fsync [@member name] [Minecraft Username]", description="Force sync a user to a minecraft account", with_app_command=True)
+    async def forceverify(self, ctx, user: discord.Member, username: str):
         
         #deletes the admin's command before executing
         await ctx.channel.purge(limit = 1)
@@ -48,7 +48,7 @@ class forceVerify(commands.Cog):
             existing_uuid = self.data[user_id]["uuid"]
             
             embed = discord.Embed(
-                title = f"**Your account is already linked**  ❌",
+                title = f"**❌ | Your account is already linked**",
                 url = f"https://plancke.io/hypixel/player/stats/{existing_uuid}",
                 description = f"**UUID:** `{existing_uuid}`\n\nYou already have an account linked to this discord. Please use `!unverify` to unlink your account then try again.",
                 color = embed_color
@@ -87,6 +87,7 @@ class forceVerify(commands.Cog):
                 guild_url = f"https://api.hypixel.net/guild?player={uuid}&key={hypixel_api_key}"
                 guild_response = requests.get(guild_url)
                 guild_data = guild_response.json()
+                    
                 
                 #checks if user is in a guild
                 try:
@@ -103,9 +104,9 @@ class forceVerify(commands.Cog):
                 
                 #embed message and linking step below
                 embed = discord.Embed(
-                    title = f"**Successfully Verified Account** ✅",
+                    title = f"**✅ | Successfully Verified Account**",
                     url = f"https://plancke.io/hypixel/player/stats/{username}",
-                    description = f"You have **seccessfully** linked your accounts.",
+                    description = f"You have **successfully** linked your accounts.",
                     color = embed_color               
                 )
                 embed.timestamp = datetime.datetime.now()
@@ -134,13 +135,12 @@ class forceVerify(commands.Cog):
             #runs if user does not exist
             except:
                 embed = discord.Embed(
-                    title = f"User Does Not Exist",
-                    url = f"https://mcchecker.net/",
-                    description = f"Username: `{username}`\n\nThe username you have entered does not exist. Please check your spelling and try again. (You can use https://mcchecker.net/ to validate the username)",
+                    title = f"An Error Occured",
+                    description = f"An error occured during the linking process. Either the user: `{username}` does not exist, OR your Hypixel API key is invalid. Please double check",
                     color = embed_color
                 )
                 embed.timestamp = datetime.datetime.now()
-                embed.set_footer(text = f"Account of {user.author}", icon_url=user.avatar.url)
+                embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
                 
                 await ctx.send(embed=embed)
                 

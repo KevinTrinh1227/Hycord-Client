@@ -17,7 +17,7 @@ class say(commands.Cog):
 
     # say command
     @commands.has_permissions(administrator=True)
-    @commands.command(aliases=["s", "yell"], brief="say [Your Message]", description="Say message as an embed")
+    @commands.hybrid_command(aliases=["s", "yell"], brief="say [Your Message]", description="Say message as an embed", with_app_command=True)
     async def say(self, ctx, *, message):
         embed = discord.Embed(
             title=f"**{ctx.guild.name} | Announcement**",

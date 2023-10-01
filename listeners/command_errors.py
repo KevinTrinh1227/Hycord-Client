@@ -64,7 +64,7 @@ class commend_error(commands.Cog):
             await ctx.send(embed=embed)
         else:
             print(error) # for other errors so they dont get suppressed
-            await ctx.send(error, "Please contact staff.")
+            await ctx.send("An error has occured, please contact the bot dev.")
 
 
     

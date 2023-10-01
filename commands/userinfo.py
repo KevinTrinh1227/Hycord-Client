@@ -17,7 +17,7 @@ class userinformation(commands.Cog):
     
     #whois command
     @commands.has_permissions(administrator = True)
-    @commands.command(aliases=["who", "ui", "userinfo"], brief="who [@member name]",description="View a members information")
+    @commands.hybrid_command(aliases=["who", "ui", "userinfo"], brief="who [@member name]",description="View a members information", with_app_command=True)
     async def whois(self, ctx, user:discord.Member=None):
         if user is None:
             user = ctx.author
@@ -32,7 +32,7 @@ class userinformation(commands.Cog):
         embed.add_field(name = "ID:", value=user.id, inline=False)
         embed.add_field(name="Name:", value=user.display_name, inline=False)
         embed.add_field(name="Account Created on:", value=user.created_at, inline=False)
-        embed.add_field(name="Joined Server On:", value="user.joined_at", inline=False)
+        embed.add_field(name="Joined Server On:", value=user.joined_at, inline=False)
         embed.add_field(name="Classifies as a bot:", value=user.bot, inline=False)
         await ctx.send(embed=embed)
         

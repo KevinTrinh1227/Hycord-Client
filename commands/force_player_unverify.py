@@ -14,16 +14,17 @@ verified_role_id = int(data["role_ids"]["verified_member"])
 unverified_role_id = int(data["role_ids"]["unverified_member"])
 
 
-class unverify(commands.Cog):
+class forceunverify(commands.Cog):
     def __init__(self, client):
         self.client = client
-    
-    @commands.hybrid_command(aliases=["unlink", "unconnect"], brief="unverify", description="unsync your minecraft account", with_app_command=True)
-    async def unverify(self, ctx):
-        member = ctx.message.author
+        
+    @commands.has_permissions(administrator = True)
+    @commands.hybrid_command(aliases=["funverify", "disconnect", "funlink", "delink"], brief="delink @[Mention Member]", description="unsync a user's account", with_app_command=True)
+    async def forceunverify(self, ctx, user: discord.Member):
+        member = user
         with open('verified_accounts.json', 'r') as f:
             verified_accounts = json.load(f)
-
+            
         try:
             if str(member.id) in verified_accounts:
                 
@@ -51,15 +52,14 @@ class unverify(commands.Cog):
                     
                 embed = discord.Embed(
                     title = f"**Successfully unlinked account!** ✅",
-                    description = f"Your Discord account `{ctx.author}` is now unlinked. Relink your account to claim your roles again!",
+                    description = f"The Discord account `{user}` is now unlinked. Relink your account to claim your roles again!",
                     color = embed_color
                 )
-                embed.set_author(name = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
                 embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/128/{uuid}")
                 embed.timestamp = datetime.datetime.now()
                 embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
                 
-                await ctx.author.add_roles(unverified_role) #give the unverified role
+                await user.add_roles(unverified_role) #give the unverified role
                 await member.edit(nick=None) # This line will reset the user's nickname
                 await ctx.send(embed=embed)
                 
@@ -67,18 +67,17 @@ class unverify(commands.Cog):
             else:
                 embed = discord.Embed(
                     title = f"**Failed to unlink account!** ❌",
-                    description = f"{ctx.author} was not found in the verified accounts list. Please link your account first before trying this command.",
+                    description = f"{user} was not found in the verified accounts list. Please link your account first before trying this command.",
                     color = embed_color
                 )
-                embed.set_author(name = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
                 embed.timestamp = datetime.datetime.now()
                 embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
                 await ctx.send(embed=embed)
-        
+
         except:
             embed = discord.Embed(
                 title = f"**⚠️ | Error occured**",
-                description = f"An error occured during the prcoess. Please make sure the bot has a higher role priority for this command to work on you. Note that the bot won't be able to perform this command on server server owner's, and users with roles that are of higher priority.",
+                description = f"An error occured during the prcoess. Please make sure the bot has a higher role priority for this command to work. Note that the bot won't be able to perform this command on server server owner's, and users with roles that are of higher priority.",
                 color = embed_color
             )
             embed.set_author(name = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
@@ -87,4 +86,4 @@ class unverify(commands.Cog):
             await ctx.send(embed=embed)
         
 async def setup(client):
-    await client.add_cog(unverify(client))
+    await client.add_cog(forceunverify(client))

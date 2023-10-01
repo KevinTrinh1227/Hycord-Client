@@ -17,8 +17,8 @@ class rules(commands.Cog):
     
     #server rules cmd
     @commands.has_permissions(administrator = True)
-    @commands.command(aliases=["rule", "regulations", "r"], brief="rules",description="View server rules")
-    async def rules(self, ctx, member: discord.Member=None):
+    @commands.hybrid_command(aliases=["rule", "regulations", "r"], brief="rules",description="View server rules", with_app_command=True)
+    async def rules(self, ctx):
         embed = discord.Embed(
             title = "**DISCORD SERVER RULES**",
             description = """
@@ -42,7 +42,6 @@ class rules(commands.Cog):
             color = embed_color
         )
         embed.timestamp = datetime.datetime.now()
-        #embed.set_image(url="https://i.gyazo.com/a7413858cfdbf1d44906326f512a19e2.gif")
         embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url=ctx.guild.icon.url)
         await ctx.channel.purge(limit = 1)
         await ctx.send(embed=embed)

@@ -29,8 +29,8 @@ class verify_mcaccount(commands.Cog):
             
             
     #bedwars stats command
-    @commands.command(aliases=["verify", "connect"], brief="link [Minecraft User Name]",description="link/verify your minecraft account")
-    async def link(self, ctx, *, username):
+    @commands.hybrid_command(aliases=["sync", "connect", "link"], brief="verify [Minecraft User Name]",description="sync/verify your minecraft account", with_app_command=True)
+    async def verify(self, ctx, *, username):
         
         try:
             with open("verified_accounts.json", "r") as f:

@@ -7,6 +7,7 @@ import datetime
 import os
 from dotenv import load_dotenv
 import json
+from discord import app_commands
 
 
 # Check if the config.json file exists
@@ -95,9 +96,9 @@ async def create_locked_voice_channels(guild):
     return category, voice_channels
 
 
-def activateBot (discord_bot_token, bot_prefix, embed_color):
+def activateBot (discord_bot_token, bot_prefix, embed_color, discord_application_id):
     intents = discord.Intents.all()
-    client = commands.Bot(command_prefix = bot_prefix, case_insensitive=True, intents=intents)
+    client = commands.Bot(command_prefix = bot_prefix, case_insensitive=True, intents=intents, application_id = discord_application_id)
     client.remove_command("help") #removes the default help command
 
 
@@ -373,11 +374,30 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
             name = client.user.name.upper()
             discriminator = client.user.discriminator.upper()
             print(f"\nNOW ACTIVATING: {name}#{discriminator}")
-            print("===========================================")    
+            print("===========================================")
             await load_cogs()
             print (f"{os.path.basename(__file__):<20}{'Successfully loaded ✅':<30}")
+
+            # Sync the commands to Discord.
+            await client.tree.sync()
+
             print("===========================================\n")
             #change_stats_channels.start()
+
+        async def load_cogs():
+            #load in all listeners
+            print(f"{'LISTENER FILES':<20}{'LOAD STATUS':<30}")
+            for filename in os.listdir("./listeners"):
+                if filename.endswith(".py"):
+                    await client.load_extension(f"listeners.{filename[:-3]}")
+                    print (f"{filename:<20}{'Successfully loaded ✅':<30}")
+            print(f"\n{'COMMAND FILES':<20}{'LOAD STATUS':<30}")
+            #load in all commands
+            for filename in os.listdir("./commands"):
+                if filename.endswith(".py"):
+                    await client.load_extension(f"commands.{filename[:-3]}")
+                    print (f"{filename:<20}{'Successfully loaded ✅':<30}")
+            print(f"\n{'OTHER FILES':<20}{'LOAD STATUS':<30}")
             
                 
                 
@@ -430,23 +450,8 @@ def activateBot (discord_bot_token, bot_prefix, embed_color):
             embed.timestamp = datetime.datetime.now()
             embed.set_footer(text=f"©️ {member.guild.name}", icon_url = member.guild.icon.url)
             await channel.send(embed=embed)
+
             
-            
-            
-        async def load_cogs():
-            #load in all listeners
-            print(f"{'LISTENER FILES':<20}{'LOAD STATUS':<30}")
-            for filename in os.listdir("./listeners"):
-                if filename.endswith(".py"):
-                    await client.load_extension(f"listeners.{filename[:-3]}")
-                    print (f"{filename:<20}{'Successfully loaded ✅':<30}")
-            print(f"\n{'COMMAND FILES':<20}{'LOAD STATUS':<30}")
-            #load in all commands
-            for filename in os.listdir("./commands"):
-                if filename.endswith(".py"):
-                    await client.load_extension(f"commands.{filename[:-3]}")
-                    print (f"{filename:<20}{'Successfully loaded ✅':<30}")
-            print(f"\n{'OTHER FILES':<20}{'LOAD STATUS':<30}")
     
     client.run(discord_bot_token)
         

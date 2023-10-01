@@ -15,13 +15,13 @@ with open('config.json') as json_file:
 embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
 
     
-class bwstats(commands.Cog):
+class bedwarsstats(commands.Cog):
     def __init__(self, client):
         self.client = client
-    
+   
     #bedwars stats command
-    @commands.command(aliases=["bedwarsstats", "bwstat", "bws"], brief="bws [Minecraft User Name]",description="View a players Bedwars Stats")
-    async def bwstats(self, ctx, *, username):
+    @commands.hybrid_command(aliases=["bedwarstats", "bwstat", "bws"], brief="bws [Minecraft User Name]", description="View a players Bedwars Stats", with_app_command=True)
+    async def bedwars(self, ctx, *, username):
         
         try:#if player exist it will work
             
@@ -99,4 +99,4 @@ class bwstats(commands.Cog):
             await ctx.send(embed=embed)
         
 async def setup(client):
-    await client.add_cog(bwstats(client))
+    await client.add_cog(bedwarsstats(client))

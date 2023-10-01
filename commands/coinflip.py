@@ -18,9 +18,9 @@ class CoinflipCog(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(aliases=["cf"], brief="cf [bet amount] [heads/tails]",description="Gamble using coinflip")
+    @commands.hybrid_command(aliases=["cf"], brief="cf [bet amount] [heads/tails]",description="Gamble using coinflip", with_app_command=True)
     @commands.cooldown(1, cool_down_time, commands.BucketType.user)  # 5-second cooldown per user
-    async def coinflip(self, ctx, bet: int, choice: str):
+    async def coinflip(self, ctx: commands.Context, bet: int, choice: str):
         # Load user data from the JSON file
         with open('user_data.json', 'r') as f:
             user_data = json.load(f)

@@ -16,13 +16,15 @@ class information(commands.Cog):
     
     #information command
     @commands.has_permissions(administrator = True)
-    @commands.command(aliases=["i", "inform", "information"], brief="information",description="View server information")
-    async def info(self, ctx, member: discord.Member=None):
+    @commands.hybrid_command(aliases=["i", "inform", "info"], brief="information",description="View server information", with_app_command=True)
+    async def information(self, ctx):
         await ctx.channel.purge(limit = 1)
+        """
         embed1 = discord.Embed(
             color = embed_color
             )
-        #embed1.set_image(url = "https://imgur.com/iW22uIC.png")
+        embed1.set_image(url = "https://imgur.com/iW22uIC.png")
+        """
         embed2 = discord.Embed(
             description = """
             *THIS OUTPUT IS PLACEHOLDER

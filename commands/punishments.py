@@ -20,7 +20,7 @@ class punishments(commands.Cog):
         self.client = client
         
     @commands.has_permissions(kick_members=True)
-    @commands.command(aliases=["k"], brief="kick [member]", description="Kick a member from the server")
+    @commands.hybrid_command(aliases=["k"], brief="kick [member]", description="Kick a member from the server", with_app_command=True)
     async def kick(self, ctx, member: commands.MemberConverter, *, reason=None):
         if reason == None:
             reason = "No reason was provided."
@@ -51,7 +51,7 @@ class punishments(commands.Cog):
 
         
     @commands.has_permissions(ban_members=True)
-    @commands.command(aliases=["b"], brief="ban [member]", description="Perm ban a server member")
+    @commands.hybrid_command(aliases=["b"], brief="ban [member]", description="Perm ban a server member", with_app_command=True)
     async def ban(self, ctx, member: commands.MemberConverter, *, reason=None):
         if reason == None:
             reason = "No reason was provided."
