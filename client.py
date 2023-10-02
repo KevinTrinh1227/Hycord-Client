@@ -373,31 +373,31 @@ def activateBot (discord_bot_token, bot_prefix, embed_color, discord_application
         async def on_ready():
             name = client.user.name.upper()
             discriminator = client.user.discriminator.upper()
-            print(f"\nNOW ACTIVATING: {name}#{discriminator}")
-            print("===========================================")
+            print(f"\nLOGGED IN AS: {name}#{discriminator}")
+            print("----------------------------------------------------------")
             await load_cogs()
-            print (f"{os.path.basename(__file__):<20}{'Successfully loaded ✅':<30}")
+            print (f"* {os.path.basename(__file__):<30}{'Successfully loaded ✅':<30}")
 
             # Sync the commands to Discord.
             await client.tree.sync()
 
-            print("===========================================\n")
+            print("----------------------------------------------------------")
             #change_stats_channels.start()
 
         async def load_cogs():
             #load in all listeners
-            print(f"{'LISTENER FILES':<20}{'LOAD STATUS':<30}")
+            print(f"{'LISTENER FILES':<30}  {'LOAD STATUS':<30}")
             for filename in os.listdir("./listeners"):
                 if filename.endswith(".py"):
                     await client.load_extension(f"listeners.{filename[:-3]}")
-                    print (f"{filename:<20}{'Successfully loaded ✅':<30}")
-            print(f"\n{'COMMAND FILES':<20}{'LOAD STATUS':<30}")
+                    print (f"* {filename:<30}{'Successfully loaded ✅':<30}")
+            print(f"\n{'COMMAND FILES':<30}  {'LOAD STATUS':<30}")
             #load in all commands
             for filename in os.listdir("./commands"):
                 if filename.endswith(".py"):
                     await client.load_extension(f"commands.{filename[:-3]}")
-                    print (f"{filename:<20}{'Successfully loaded ✅':<30}")
-            print(f"\n{'OTHER FILES':<20}{'LOAD STATUS':<30}")
+                    print (f"* {filename:<30}{'Successfully loaded ✅':<30}")
+            print(f"\n{'OTHER FILES':<30}  {'LOAD STATUS':<30}")
             
                 
                 
@@ -415,16 +415,12 @@ def activateBot (discord_bot_token, bot_prefix, embed_color, discord_application
             embed = discord.Embed(
                 title=(f"Welcome to {member.guild.name} (#{member_count})"),
                 description = f"""
-                Welcome to the {member.guild.name}! Link/verify your account using `{command_prefix}link [your IGN]`.
+                Welcome to the {member.guild.name}! Verify your account using `{command_prefix}link [your IGN]`.
 
                 *THIS IS A PLACEHOLDER WELCOME MESSAGE
                 YOU CAN EDIT THIS IN "~/Hycord-Bot/client.py"*
 
                 Member: {member.mention} 
-                
-                **Verify Account ➜** <#1057045238729953412> 
-                **Information ➜** <#934776549717184552> 
-                **Select Roles ➜** <#934418278888144906>
                 """,
                 colour= embed_color
                 )
