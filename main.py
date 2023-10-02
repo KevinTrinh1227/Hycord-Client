@@ -29,8 +29,6 @@ with open('config.json') as json_file:
 
 # json data to run bot
 bot_prefix = data["general"]["bot_prefix"]
-embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
-
 
 if __name__ == "__main__":
-   client.activateBot(discord_bot_token, bot_prefix, embed_color, discord_bot_application_id)
+   client.activateBot(discord_bot_token, bot_prefix, discord_bot_application_id)
