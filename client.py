@@ -67,7 +67,7 @@ if not os.path.exists('config.json'):
         json.dump(default_config, config_file, indent=2)
         
         
-        
+errors = []
 
 
 def activateBot (discord_bot_token, bot_prefix, discord_application_id):
@@ -92,33 +92,42 @@ def activateBot (discord_bot_token, bot_prefix, discord_application_id):
     @client.event
     async def on_ready():
         
+        print("""
+   __ __                     __           __ 
+  / // /_ _________  _______/ / ___  ___ / /_
+ / _  / // / __/ _ \/ __/ _  / / _ \/ -_) __/
+/_//_/\_, /\__/\___/_/  \_,_(_)_//_/\__/\__/ 
+    /___/                                   """)
+        
         # Open the JSON file and read in the data
         with open('config.json') as json_file:
             data = json.load(json_file)
         
         name = client.user.name.upper()
         discriminator = client.user.discriminator.upper()
-        print(f"\nLOGGED IN AS: {name}#{discriminator}")
+        print("-----------------------------------------------------")
+        print(f"* LOGGED IN AS: {name}#{discriminator}")
         
         if data["config"]["bool"] == 0:
             await client.load_extension("listeners.command_errors")
             await client.load_extension('commands.initial_setup')
             await client.tree.sync()
             print("YOUR BOT REQUIRES AN INITIAL SETUP. 🟡")
-            print("----------------------------------------------------------")
+            print("-----------------------------------------------------")
             for x in range(0, 10):
                 print("* USE: \"/setup\" or \"!setup\" IN YOUR SERVER TO BEGIN.")
-            print("----------------------------------------------------------")
+            print("-----------------------------------------------------")
                 
         else:
-            print("----------------------------------------------------------")
+            print("-----------------------------------------------------")
             await load_cogs()
-            print (f"* {os.path.basename(__file__):<30}{'Successful 🟢':<30}")
+            print (f"* {os.path.basename(__file__):<30}{'Successful':<12}🟢")
 
             # Sync the commands to Discord.
             await client.tree.sync()
 
-            print("----------------------------------------------------------")
+            print("-----------------------------------------------------")
+            await print_errors()
             #change_stats_channels.start()
             
 
@@ -127,15 +136,32 @@ def activateBot (discord_bot_token, bot_prefix, discord_application_id):
         print(f"{'LISTENER FILES':<30}  {'LOAD STATUS':<30}")
         for filename in os.listdir("./listeners"):
             if filename.endswith(".py"):
-                await client.load_extension(f"listeners.{filename[:-3]}")
-                print (f"* {filename:<30}{'Successful 🟢':<30}")
+                try:
+                    await client.load_extension(f"listeners.{filename[:-3]}")
+                    print (f"* {filename:<30}{'Successful':<12}🟢")
+                except Exception as e:
+                    errors.append(e)
+                    print (f"* {filename:<30}{'Failed':<12}🔴")
         print(f"\n{'COMMAND FILES':<30}  {'LOAD STATUS':<30}")
         #load in all commands
         for filename in os.listdir("./commands"):
             if filename.endswith(".py"):
-                await client.load_extension(f"commands.{filename[:-3]}")
-                print (f"* {filename:<30}{'Successful 🟢':<30}")
+                try:
+                    await client.load_extension(f"commands.{filename[:-3]}")
+                    print (f"* {filename:<30}{'Successful':<12}🟢")
+                except Exception as e:
+                    errors.append(e)
+                    print (f"* {filename:<30}{'Failed':<12}🔴")
         print(f"\n{'OTHER FILES':<30}  {'LOAD STATUS':<30}")
+        
+
+    async def print_errors():
+        if len(errors) != 0:
+            print("ERRORS occured during startup:")
+            for error in errors:
+                print(error)
+        else:
+            pass
             
  
     

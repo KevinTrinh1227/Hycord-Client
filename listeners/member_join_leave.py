@@ -37,7 +37,7 @@ class joinleave(commands.Cog):
             Welcome to the {member.guild.name}! Verify your account using `{bot_prefix}link [your IGN]`.
 
             *THIS IS A PLACEHOLDER WELCOME MESSAGE
-            YOU CAN EDIT THIS IN "~/Hycord-Bot/client.py"*
+            YOU CAN EDIT THIS IN "~/Hycord-Bot/listeners/member_join_leave.py"*
 
             Member: {member.mention} 
             """,
@@ -47,6 +47,23 @@ class joinleave(commands.Cog):
         embed.set_thumbnail(url = "{}".format(member.avatar.url))
         #embed.set_image(url="https://imgur.com/btR7AnN.png")
         embed.set_footer(text=f"©️ {member.guild.name}", icon_url = member.guild.icon.url)
+        
+        embed2 = discord.Embed(
+            title=(f"Welcome to {member.guild.name} (#{member_count})"),
+            description = f"""
+            Welcome to the {member.guild.name}! Verify your account using `{bot_prefix}link [your IGN]`.
+
+            *THIS IS A PLACEHOLDER CUSTOM DM JOIN MESSAGE
+            YOU CAN EDIT THIS IN "~/Hycord-Bot/listeners/member_join_leave.py"*
+
+            Member: {member.mention} 
+            """,
+            colour= embed_color
+            )
+        embed2.timestamp = datetime.datetime.now()
+        embed2.set_footer(text=f"©️ {member.guild.name}", icon_url = member.guild.icon.url)
+        
+        await member.send(embed=embed2)     # sends the custom dm embed to user
         await channel.send(f"||{member.mention}||")
         await channel.purge(limit = 1)
         await channel.send(embed=embed)
@@ -67,8 +84,6 @@ class joinleave(commands.Cog):
         embed.set_footer(text=f"©️ {member.guild.name}", icon_url = member.guild.icon.url)
         await channel.send(embed=embed)
 
-
-    
         
 async def setup(client):
     await client.add_cog(joinleave(client))
