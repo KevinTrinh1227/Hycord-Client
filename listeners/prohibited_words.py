@@ -4,12 +4,20 @@ from discord.ext import commands
 import json
 import datetime
 
+""" ==========================================
+* CHAT FILTER FEATURE
+*
+* Note that this feature uses a super strict
+* profanity checker system through API.
+* I recommend only using this feature if you
+* have a PG discord server community.
+========================================== """
+
 # Open the JSON file and read in the data
 with open('config.json') as json_file:
     data = json.load(json_file)
 
 embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
-rules_channel = int(data["text_channel_ids"]["rules"])
 
 class BadWordCheck(commands.Cog):
     def __init__(self, client):
@@ -33,24 +41,23 @@ class BadWordCheck(commands.Cog):
 
                 spoilered_message = f"||{message.content.replace(bad_word, f'__{bad_word}__')}||"
 
-                rule_channel_obj = message.guild.get_channel(rules_channel)
-
                 embed = discord.Embed(
                     title=f"**Prohibited Word Warning | {message.author}**",
                     description=f"""
                     Your message was deleted because it contained prohibited words. You can ignore this message if it was a mistake.
                     
-                    **User:** {message.author.mention}
-                    
-                    **Filtered Message:** {bad_word}
+                    **Filtered Message:** `{bad_word}`
                     
                     **Original Message:** {spoilered_message}
                     
-                    Please refrain from using any harmful content to avoid being punished. Please refer to our {rule_channel_obj} for more information. 
+                    Please refrain from using any harmful content to avoid being punished. User: {message.author.mention}
                     """,
                     color=embed_color
                 )
-                embed.set_thumbnail(url=message.author.avatar.url),
+                if message.author.avatar:
+                    embed.set_thumbnail(url=message.author.avatar.url)
+                else:
+                    embed.set_thumbnail(url=message.author.guild.icon.url)
                 embed.timestamp = datetime.datetime.now()
                 embed.set_footer(text=f"© {guild.name}", icon_url=guild.icon.url)
 

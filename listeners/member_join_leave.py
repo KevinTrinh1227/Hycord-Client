@@ -11,7 +11,7 @@ with open('config.json') as json_file:
 #json data to run bot
 bot_prefix = data["general"]["bot_prefix"]
 embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
-leave_channel_id = int(data["text_channel_ids"]["leave_messages"])
+leave_channel_id = int(data["text_channel_ids"]["bot_logs"])    # logs the bot logs in this channel
 member_role_id = int(data["role_ids"]["unverified_member"])
 welcome_channel_id = int(data["text_channel_ids"]["welcome"])
 
@@ -32,7 +32,7 @@ class joinleave(commands.Cog):
         member_count = len(member.guild.members)
         channel = self.client.get_channel(welcome_channel_id)
         embed = discord.Embed(
-            title=(f"Welcome to {member.guild.name} (#{member_count})"),
+            title=(f"Welcome to {member.guild.name}, {member} (#{member_count})"),
             description = f"""
             Welcome to the {member.guild.name}! Verify your account using `{bot_prefix}link [your IGN]`.
 
@@ -44,12 +44,15 @@ class joinleave(commands.Cog):
             colour= embed_color
             )
         embed.timestamp = datetime.datetime.now()
-        embed.set_thumbnail(url = "{}".format(member.avatar.url))
+        if member.avatar:
+            embed.set_thumbnail(url=member.avatar.url)
+        else:
+            embed.set_thumbnail(url=member.guild.icon.url)
         #embed.set_image(url="https://imgur.com/btR7AnN.png")
         embed.set_footer(text=f"©️ {member.guild.name}", icon_url = member.guild.icon.url)
         
         embed2 = discord.Embed(
-            title=(f"Welcome to {member.guild.name} (#{member_count})"),
+            title=(f"Welcome to {member.guild.name}, {member} (#{member_count})"),
             description = f"""
             Welcome to the {member.guild.name}! Verify your account using `{bot_prefix}link [your IGN]`.
 
@@ -63,7 +66,12 @@ class joinleave(commands.Cog):
         embed2.timestamp = datetime.datetime.now()
         embed2.set_footer(text=f"©️ {member.guild.name}", icon_url = member.guild.icon.url)
         
-        await member.send(embed=embed2)     # sends the custom dm embed to user
+        try:
+            await member.send(embed=embed2)     # sends the custom dm embed to user
+        except:
+            pass                                # means user has DMS off
+        
+        
         await channel.send(f"||{member.mention}||")
         await channel.purge(limit = 1)
         await channel.send(embed=embed)

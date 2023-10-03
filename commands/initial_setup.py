@@ -106,13 +106,9 @@ class initialsetup(commands.Cog):
                 filtered_chat = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 config['features']['filtered_chat'] = int(filtered_chat.content)
 
-                # Auto GEXP
-                await ctx.send("Enable automatic GEXP daily messages? (0 for No, 1 for Yes):")
-                auto_gexp = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
-                config['features']['auto_gexp'] = int(auto_gexp.content)
 
                 # Inactivity command
-                await ctx.send("Enable inactivity command? (0 for No, 1 for Yes):")
+                await ctx.send("Enable inactivity command? This command will allow guild members only to share a time frame where they will be inactive for in a specific channel. (0 for No, 1 for Yes):")
                 inactivity_cmd = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 config['features']['inactivity_cmd'] = int(inactivity_cmd.content)
 
@@ -128,12 +124,6 @@ class initialsetup(commands.Cog):
                 welcome_channel_id = welcome_channel_mention.channel_mentions[0].id
                 config['text_channel_ids']['welcome'] = str(welcome_channel_id)
 
-                # Rules channel
-                await ctx.send("Reference your rules channel (Mention the channel by using #<channel name>):")
-                rules_channel_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
-                rules_channel_id = rules_channel_mention.channel_mentions[0].id
-                config['text_channel_ids']['rules'] = str(rules_channel_id)
-
                 # If the user said 0 or no for the inactivity command, set the inactivity channel to "0" and don't ask to reference the inactivity command
                 if inactivity_cmd.content == "0":
                     config['text_channel_ids']['inactivity_notice'] = "0"
@@ -145,7 +135,7 @@ class initialsetup(commands.Cog):
                     config['text_channel_ids']['inactivity_notice'] = str(inactivity_notice_channel_id)
 
                 # Staff chat channel
-                await ctx.send("Reference your staff chat channel (Mention the channel by using #<channel name>):")
+                await ctx.send("Reference your bot logs channel. (Mention the channel by using #<channel name>):")
                 staff_chat_channel_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 staff_chat_channel_id = staff_chat_channel_mention.channel_mentions[0].id
                 config['text_channel_ids']['staff_chat'] = str(staff_chat_channel_id)

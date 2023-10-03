@@ -43,7 +43,7 @@ class LevelingCog(commands.Cog):
             return
         elif message.author.bot:  # Skip processing if the message author is a bot
             return
-        elif message.content.startswith('!'):  # Skip processing if the message starts with a "!"
+        elif message.content.startswith(command_prefix):  # Skip processing if the message starts with a "!"
             return
 
         self.load_user_data()  # Reload user data from the file

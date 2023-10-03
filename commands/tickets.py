@@ -17,7 +17,6 @@ bot_prefix = data["general"]["bot_prefix"]
 category_id = int(data["category_ids"]["tickets_category"])
 staff_role_id = int(data["role_ids"]["staff_member"])
 transcript_channel_id = int(data["text_channel_ids"]["tickets_transcripts"])
-bots_role_id = int(data["role_ids"]["bots"])
 
 class Roles(discord.ui.View):
     def __init__(self):
@@ -339,7 +338,7 @@ class Ticket(commands.Cog):
         
         
         # to avoid being rate limited, it only affects users without the following roles...
-        role_ids = [bots_role_id, staff_role_id] #bot role, staff member role
+        role_ids = [staff_role_id] #bot role, staff member role
         
         #deleting message above
         await ctx.channel.purge(limit=1)
