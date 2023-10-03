@@ -70,7 +70,7 @@ class LevelingCog(commands.Cog):
         self.save_user_data()
 
 
-    @commands.command(aliases=["p", "prof"], brief="profile",description="View your profile stats")
+    @commands.hybrid_command(aliases=["prof"], brief="profile",description="View your profile stats", with_app_command=True)
     async def profile(self, ctx):
         if not self.coin_level_system_enabled:
             await ctx.send("The coin and level system is disabled.")
@@ -99,7 +99,7 @@ class LevelingCog(commands.Cog):
             await ctx.send(embed=embed)
             # await ctx.send(f"Level: {user_data['level']}, Exp: {user_data['exp']}, Coins: {user_data['coins']}")
 
-    @commands.command(aliases=["el", "expleaderboard"], brief="expleaderboard",description="Show the top 10 EXP members")
+    @commands.hybrid_command(aliases=["el", "expleaderboard"], brief="expleaderboard",description="Show the top 10 EXP members", with_app_command=True)
     async def expleader(self, ctx):
         if not self.coin_level_system_enabled:
             await ctx.send("The coin and level system is disabled.")
@@ -125,7 +125,7 @@ class LevelingCog(commands.Cog):
         await ctx.send(embed=embed)
         # await ctx.send(leaderboard_text)
 
-    @commands.command(aliases=["cl", "coinleaderboard"], brief="coinleader",description="Show the top 10 currency members")
+    @commands.hybrid_command(aliases=["cl", "coinleaderboard"], brief="coinleader",description="Show the top 10 currency members", with_app_command=True)
     async def coinleader(self, ctx):
         if not self.coin_level_system_enabled:
             await ctx.send("The coin and level system is disabled.")

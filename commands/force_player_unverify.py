@@ -19,7 +19,7 @@ class forceunverify(commands.Cog):
         self.client = client
         
     @commands.has_permissions(administrator = True)
-    @commands.hybrid_command(aliases=["funverify", "disconnect", "funlink", "delink"], brief="delink @[Mention Member]", description="unsync a user's account", with_app_command=True)
+    @commands.hybrid_command(aliases=["funverify", "funlink", "delink"], brief="delink @[Mention Member]", description="unsync a user's account", with_app_command=True)
     async def forceunverify(self, ctx, user: discord.Member):
         member = user
         with open('verified_accounts.json', 'r') as f:
