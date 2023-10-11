@@ -11,12 +11,12 @@
 </div>
 
 <h4 align="center">
-  <a href="https://www.hycord.net" target="_blank"><img src="https://github.com/KevinTrinh1227/Hycord-Bot/assets/screenshot_1.png" alt="Screen Shot"></a>
+  <a href="https://www.hycord.net" target="_blank"><img src="https://github.com/KevinTrinh1227/Hycord-Bot/blob/master/assets/screenshot_1.png" alt="Screen Shot"></a>
 </h4>
 <details>
   <summary align="center">VIEW MORE PHOTOS HERE</summary>
     <a href="https://www.hycord.net" target="_blank">
-      <img alt="Screen Shot" src="https://github.com/KevinTrinh1227/Hycord-Bot/assets/screenshot_2.png">
+      <img alt="Screen Shot" src="https://github.com/KevinTrinh1227/Hycord-Bot/blob/master/assets/screenshot_2.png">
     </a>
 </details>
 
