@@ -70,6 +70,12 @@
    /setup
    ```
 
+3. After initial setup, restart your bot/client!
+   
+   ```sh
+   /help
+   ```
+
 ## Client Features
 
 ### 🔓 General Commands
