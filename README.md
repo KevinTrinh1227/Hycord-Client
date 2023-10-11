@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a href="https://www.hycord.net" target="_blank"><img src="https://github.com/KevinTrinh1227/Hycord-Bot/assets/48145892/69bb5241-481e-4e90-bcf0-beed3c968871" width="950px"></a>
+  <a href="https://www.hycord.net" target="_blank"><img src="https://github.com/KevinTrinh1227/Hycord-Bot/assets/48145892/69bb5241-481e-4e90-bcf0-beed3c968871" width="750px"></a>
 </h1>
 <p align="center">
   A versatile Hypixel-integrated Discord.py client.
