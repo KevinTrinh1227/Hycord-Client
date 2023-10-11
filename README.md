@@ -20,9 +20,12 @@
     </a>
 </details>
 
-## Getting Started
+## 📌 Information
+**What is Hycord?** Hycord is a versatile Discord client I've developed, leveraging key features from various public Hypixel and general-purpose bots. From seamless Hypixel integration to robust moderation tools and everything in between, Hycord eliminates the need to clutter your server with numerous bots, ensuring a clean, professional, and fully customizable experience. While originally designed for Hypixel guild communities, Hycord's optional Hypixel integration module allows it to excel as a versatile all-purpose bot, as demonstrated in the accompanying images. This bot streamlines your server setup and enhances the gaming experience.
 
-### 📋 Clone or download the client
+Should you run into any issues or bugs, please create an [issue ticket](https://github.com/KevinTrinh1227/Hycord-Bot/issues), or if interested, create a [pull request](https://github.com/KevinTrinh1227/Hycord-Bot/pulls). The native development version uses Python 3.10+ and has been tested on Linux and Windows 10+ OS. 
+
+## 🛠 Installation & setup
 
 1. Clone the repository OR download the [latest release](https://github.com/KevinTrinh1227/Hycord-Bot/releases)
 
@@ -34,15 +37,13 @@
    cd Hycord-Bot
    ```
 
-### 🛠 Set-up
-
-1. Obtain a <a href="https://www.writebots.com/discord-bot-token/" target="_blank">Discord bot token</a> and <a href="https://developer.hypixel.net/" target="_blank">Hypixel API key</a>
+2. Obtain a <a href="https://www.writebots.com/discord-bot-token/" target="_blank">Discord bot token</a> and <a href="https://developer.hypixel.net/" target="_blank">Hypixel API key</a>
 
 - Administrator bot permissions are recommended to avoid any issues.
 - Enable all privileged gateway intents (3 total)
 - [Applications](https://discord.com/developers/applications) > [Your App] > Bot > "Privileged Gateway Intents"
 
-2. Create a "`.env`" file with your tokens and API keys
+3. Create a "`.env`" file with your tokens and API keys
 
    ```sh
    DISCORD_BOT_TOKEN=<YOUR_DISCORD_BOT_TOKEN>
@@ -50,13 +51,13 @@
    HYPIXEL_API_KEY=<YOUR_HYPIXEL_API_KEY>
    ```
 
-3. Install all dependencies
+4. Install all dependencies
 
    ```sh
    pip install -r requirements.txt
    ```
 
-### 🚀 Activate the bot in terminal
+## 🚀 Activate the bot in terminal
 
 1. Build and run the Discord bot
 
@@ -70,7 +71,7 @@
    /setup
    ```
 
-3. After initial setup, restart your bot!
+3. Restart your bot after initial setup. Now you're ready to go 
    
    ```sh
    /help
@@ -101,7 +102,7 @@ Public commands, no perms required. Note that aliases will not work on slash com
 
 ### 🔐 Mod Commands (Requires Permissions)
 
-These commands require certain permission nodes to execute. See the corresponding command file for permission node info.
+Mod commands require certain permission nodes to execute. View corresponding command files for more info.
 | Bot Feature | Command Usage | Aliases | Description |
 | :--------------------: | :---------------------------: | :----------------: | :---------------------------------------------------------------------------------------------------------: |
 | Ban Player | `!ban [@mention member]` | `b` | Ban a player from your server. This punishment will also be logged in a specified channel |
