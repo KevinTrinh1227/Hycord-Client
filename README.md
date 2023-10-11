@@ -70,7 +70,7 @@
    /setup
    ```
 
-3. After initial setup, restart your bot/client!
+3. After initial setup, restart your bot!
    
    ```sh
    /help
