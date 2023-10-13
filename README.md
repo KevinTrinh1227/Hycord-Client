@@ -40,8 +40,8 @@ Should you run into any issues or bugs, please create an [issue ticket](https://
 2. Obtain a <a href="https://www.writebots.com/discord-bot-token/" target="_blank">Discord bot token</a> and <a href="https://developer.hypixel.net/" target="_blank">Hypixel API key</a>
 
 - Administrator bot permissions are recommended to avoid any issues.
-- Enable all privileged gateway intents (3 total)
 - [Applications](https://discord.com/developers/applications) > [Your App] > Bot > "Privileged Gateway Intents"
+- Enable all privileged gateway intents (3 total)
 
 3. Create a "`.env`" file with your tokens and API keys
 
