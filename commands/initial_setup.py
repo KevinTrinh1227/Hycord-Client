@@ -57,43 +57,9 @@ class initialsetup(commands.Cog):
 
                 # Server Stats
                 await ctx.send("Enable server stats? (0 for No, 1 for Yes):")
-                try:
-                    server_stats = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=timeout_time_in_seconds)
-                    config['features']['server_stats'] = int(server_stats.content)
-
-                    if config['features']['server_stats'] == 1:
-                        # Create the category
-                        category = await guild.create_category('SERVER INFO')
-
-                        # Create the locked channels under the category
-                        channel_names = ['Member Count: ###', 'Online Members: ###', 'Guild Online: ##/###']
-                        voice_channel_ids = {
-                            'member_count': '',
-                            'members_online': '',
-                            'guild_member_online': ''
-                        }
-                        for channel_name in channel_names:
-                            overwrites = {
-                                guild.default_role: discord.PermissionOverwrite(connect=False)
-                            }
-                            channel = await guild.create_voice_channel(channel_name, overwrites=overwrites, category=category)
-                            print(f'Created channel: {channel.name} ({channel.id})')
-                            for key in voice_channel_ids:
-                                if voice_channel_ids[key] == '':
-                                    voice_channel_ids[key] = str(channel.id)
-
-                    else:
-                        # User chose not to enable server stats, set default IDs to 0
-                        voice_channel_ids = {
-                            'member_count': '0',
-                            'members_online': '0',
-                            'guild_member_online': '0'
-                        }
-
-                    # update the voice channel data
-                    config['voice_channel_ids'].update(voice_channel_ids)
-                except asyncio.TimeoutError:
-                    await ctx.send("Timed out. Please try again later.")
+                server_stats = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=timeout_time_in_seconds)
+                config['features']['server_stats'] = int(server_stats.content)
+                # the server stats category and channels will be generated at the end of the setup process
                     
                     
                 # Coins & level system question
@@ -136,21 +102,15 @@ class initialsetup(commands.Cog):
 
                 # Staff chat channel
                 await ctx.send("Reference your bot logs channel. (Mention the channel by using #<channel name>):")
-                staff_chat_channel_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
-                staff_chat_channel_id = staff_chat_channel_mention.channel_mentions[0].id
-                config['text_channel_ids']['staff_chat'] = str(staff_chat_channel_id)
+                bot_logs_channel_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
+                bot_logs_channel_id = bot_logs_channel_mention.channel_mentions[0].id
+                config['text_channel_ids']['bot_logs'] = str(bot_logs_channel_id)
 
                 # Tickets transcripts channel
                 await ctx.send("Reference your tickets transcripts channel (Mention the channel by using #<channel name>):")
                 tickets_transcripts_channel_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 tickets_transcripts_channel_id = tickets_transcripts_channel_mention.channel_mentions[0].id
                 config['text_channel_ids']['tickets_transcripts'] = str(tickets_transcripts_channel_id)
-
-                # Leave messages channel
-                await ctx.send("Reference your leave messages channel (Mention the channel by using #<channel name>):")
-                leave_messages_channel_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
-                leave_messages_channel_id = leave_messages_channel_mention.channel_mentions[0].id
-                config['text_channel_ids']['leave_messages'] = str(leave_messages_channel_id)
 
                 # Daily guild points channel
                 await ctx.send("Reference your daily guild points channel (Mention the channel by using #<channel name>):")
@@ -183,15 +143,6 @@ class initialsetup(commands.Cog):
                 staff_member_role_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 staff_member_role_id = staff_member_role_mention.role_mentions[0].id
                 config['role_ids']['staff_member'] = str(staff_member_role_id)
-
-                # Bots role
-                await ctx.send("Reference the bots role (Mention the role by using @<role name>):")
-                bots_role_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
-                bots_role_id = bots_role_mention.role_mentions[0].id
-                config['role_ids']['bots'] = str(bots_role_id)
-                
-                
-
 
                 # Getting the Hypixel Guild ID
                 await ctx.send("Enter an IGN of a member that is inside your guild so the bot can retrieve your guild ID:")
@@ -239,7 +190,70 @@ class initialsetup(commands.Cog):
                 category = await guild.create_category("TICKETS")
                 # print(f"Category ID: {category.id}")
                 config['category_ids']['tickets_category'] = category.id
-                
+
+
+                # creates the server stats channels
+                try:
+                    if server_stats.content == "1":
+                        # Create the category
+                        category = await guild.create_category('SERVER INFO')
+
+                        # Get the total member count
+                        total_member_count = len(guild.members)
+
+                        # Get the number of online members
+                        online_member_count = len(
+                            [member for member in guild.members if member.status != discord.Status.offline])
+
+                        # Get the guild_member_role_id from data["role_ids"]["guild_member"]
+                        guild_member_role_id_str = data["role_ids"]["guild_member"]
+
+                        if guild_member_role_id_str:
+                            guild_member_role_id = int(guild_member_role_id_str)
+                        else:
+                            # Handle the case when the string is empty (e.g., set a default value)
+                            guild_member_role_id = 0  # You can change the default value as needed
+
+                        # Get the number of guild members with the specified role
+                        guild_member_count = len([member for member in guild.members if
+                                                  guild_member_role_id in [role.id for role in member.roles]])
+
+                        # Create voice channels with dynamic names
+                        channel_names = [
+                            f'Member Count: {total_member_count}',
+                            f'Online Users: {online_member_count}',
+                            f'Guild Members: {guild_member_count}/125'
+                        ]
+
+                        voice_channel_ids = {
+                            'member_count': '',
+                            'members_online': '',
+                            'guild_member_online': ''
+                        }
+
+                        for channel_name in channel_names:
+                            overwrites = {
+                                guild.default_role: discord.PermissionOverwrite(connect=False)
+                            }
+                            channel = await guild.create_voice_channel(channel_name, overwrites=overwrites,
+                                                                       category=category)
+                            # print(f'Created channel: {channel.name} ({channel.id}')
+                            for key in voice_channel_ids:
+                                if voice_channel_ids[key] == '':
+                                    voice_channel_ids[key] = str(channel.id)
+                    else:
+                        # User chose not to enable server stats, set default IDs to 0
+                        voice_channel_ids = {
+                            'member_count': '0',
+                            'members_online': '0',
+                            'guild_member_online': '0'
+                        }
+                except Exception as e:
+                    print(f"ERROR: {e}")
+
+                # Update the voice channel data
+                config['voice_channel_ids'].update(voice_channel_ids)
+
 
 
                 # sets the config bool to 1 aka True so that means that

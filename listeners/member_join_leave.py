@@ -34,7 +34,7 @@ class joinleave(commands.Cog):
         embed = discord.Embed(
             title=(f"Welcome to {member.guild.name}, {member} (#{member_count})"),
             description = f"""
-            Welcome to the {member.guild.name}! Verify your account using `{bot_prefix}link [your IGN]`.
+            Welcome to the {member.guild.name}! Verify your account using `/verify [your IGN]`.
 
             *THIS IS A PLACEHOLDER WELCOME MESSAGE
             YOU CAN EDIT THIS IN "~/Hycord-Bot/listeners/member_join_leave.py"*
