@@ -237,10 +237,15 @@ class initialsetup(commands.Cog):
                             }
                             channel = await guild.create_voice_channel(channel_name, overwrites=overwrites,
                                                                        category=category)
-                            # print(f'Created channel: {channel.name} ({channel.id}')
-                            for key in voice_channel_ids:
-                                if voice_channel_ids[key] == '':
-                                    voice_channel_ids[key] = str(channel.id)
+                            print(f'Channels Created: {channel.name} - {channel.id}')
+
+                            # Update the voice_channel_ids dictionary with the correct channel ID
+                            if 'Member Count' in channel_name:
+                                voice_channel_ids['member_count'] = str(channel.id)
+                            elif 'Online Users' in channel_name:
+                                voice_channel_ids['members_online'] = str(channel.id)
+                            elif 'Guild Members' in channel_name:
+                                voice_channel_ids['guild_member_online'] = str(channel.id)
                     else:
                         # User chose not to enable server stats, set default IDs to 0
                         voice_channel_ids = {

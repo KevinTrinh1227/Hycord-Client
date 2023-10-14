@@ -64,10 +64,7 @@ class serverstats(commands.Cog):
             global global_member_count
             if (global_member_count != member_count):
                 global_member_count = member_count
-                try:
-                    await member_count_channel.edit(name=f"Member Count: {member_count}")
-                except:
-                    pass
+                await member_count_channel.edit(name=f"Member Count: {member_count}")
             else:
                 pass
 
@@ -75,21 +72,16 @@ class serverstats(commands.Cog):
             global global_online_members
             if (global_online_members != online_members):
                 global_online_members = online_members
-                try:
-                    await members_online_channel.edit(name=f"Online Members: {len(online_members)}")
-                except:
-                    pass
+                await members_online_channel.edit(name=f"Online Users: {len(online_members)}")
             else:
                 pass
 
-            online_and_guild_member_members = [member for member in self.client.guilds[0].members if guild_member_role in member.roles and member.status != discord.Status.offline]
+            guild_member_members = [member for member in self.client.guilds[0].members if guild_member_role in member.roles]
             global global_online_and_guild_member
-            if (global_online_and_guild_member != online_and_guild_member_members):
-                global_online_and_guild_member = online_and_guild_member_members
-                try:
-                    await guild_member_online_channel.edit(name=f"Guild Online: {len(online_and_guild_member_members)}/125")
-                except:
-                    pass
+            if (global_online_and_guild_member != guild_member_members):
+                global_online_and_guild_member = guild_member_members
+                await guild_member_online_channel.edit(
+                    name=f"Guild Online: {len(guild_member_members)}/125")
             else:
                 pass
 
