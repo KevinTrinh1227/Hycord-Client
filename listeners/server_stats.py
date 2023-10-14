@@ -32,7 +32,7 @@ class serverstats(commands.Cog):
         self.serverstats.start()
 
 
-    @tasks.loop(seconds=301.0)
+    @tasks.loop(seconds=305.0)  # runs every 5 min and 5 seconds to avoid being rate limited
     async def serverstats(self):
 
         # Open the JSON file and read in the data
@@ -64,7 +64,10 @@ class serverstats(commands.Cog):
             global global_member_count
             if (global_member_count != member_count):
                 global_member_count = member_count
-                await member_count_channel.edit(name=f"Member Count: {member_count}")
+                try:
+                    await member_count_channel.edit(name=f"Member Count: {member_count}")
+                except:
+                    pass # means we got rated limited so try again in 5 min
             else:
                 pass
 
@@ -72,7 +75,10 @@ class serverstats(commands.Cog):
             global global_online_members
             if (global_online_members != online_members):
                 global_online_members = online_members
-                await members_online_channel.edit(name=f"Online Users: {len(online_members)}")
+                try:
+                    await members_online_channel.edit(name=f"Online Users: {len(online_members)}")
+                except:
+                    pass # means we got rated limited so try again in 5 min
             else:
                 pass
 
@@ -80,8 +86,10 @@ class serverstats(commands.Cog):
             global global_online_and_guild_member
             if (global_online_and_guild_member != guild_member_members):
                 global_online_and_guild_member = guild_member_members
-                await guild_member_online_channel.edit(
-                    name=f"Guild Online: {len(guild_member_members)}/125")
+                try:
+                    await guild_member_online_channel.edit(name=f"Guild Online: {len(guild_member_members)}/125")
+                except:
+                    pass # means we got rated limited so try again in 5 min
             else:
                 pass
 
