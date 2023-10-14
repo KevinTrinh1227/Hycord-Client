@@ -44,9 +44,7 @@ if not os.path.exists('config.json'):
         },
         "text_channel_ids": {
             "welcome": "",
-            "rules": "",
             "inactivity_notice": "",
-            "staff_chat": "",
             "tickets_transcripts": "",
             "leave_messages": "",
             "daily_guild_points": ""
@@ -56,7 +54,6 @@ if not os.path.exists('config.json'):
             "verified_member": "",
             "unverified_member": "",
             "staff_member": "",
-            "bots": ""
         },
         "hypixel_ids": {
             "guild_id": ""
