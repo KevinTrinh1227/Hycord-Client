@@ -102,7 +102,7 @@ def activateBot (discord_bot_token, bot_prefix, discord_application_id):
         
         name = client.user.name.upper()
         discriminator = client.user.discriminator.upper()
-        print("-----------------------------------------------------")
+        print("--------------------------------------------------")
         print(f"* LOGGED IN AS: {name}#{discriminator}")
         
         if data["config"]["bool"] == 0:
@@ -110,45 +110,45 @@ def activateBot (discord_bot_token, bot_prefix, discord_application_id):
             await client.load_extension('commands.initial_setup')
             await client.tree.sync()
             print("YOUR BOT REQUIRES AN INITIAL SETUP. 🟡")
-            print("-----------------------------------------------------")
+            print("--------------------------------------------------")
             for x in range(0, 10):
                 print("* USE: \"/setup\" or \"!setup\" IN YOUR SERVER TO BEGIN.")
-            print("-----------------------------------------------------")
+            print("--------------------------------------------------")
                 
         else:
-            print("-----------------------------------------------------")
+            print("--------------------------------------------------")
             await load_cogs()
-            print (f"* {os.path.basename(__file__):<30}{'Successful':<12}🟢")
+            print(f"* {os.path.splitext(os.path.basename(__file__))[0]:<30}{'Successful':<12}🟢")
 
             # Sync the commands to Discord.
             await client.tree.sync()
 
-            print("-----------------------------------------------------")
+            print("--------------------------------------------------")
             await print_errors()
             #change_stats_channels.start()
             
 
     async def load_cogs():
-        #load in all listeners
+        # Load in all listeners
         print(f"{'LISTENER FILES':<30}  {'LOAD STATUS':<30}")
         for filename in os.listdir("./listeners"):
             if filename.endswith(".py"):
                 try:
                     await client.load_extension(f"listeners.{filename[:-3]}")
-                    print (f"* {filename:<30}{'Successful':<12}🟢")
+                    print(f"* {os.path.splitext(filename)[0]:<30}{'Successful':<12}🟢")
                 except Exception as e:
                     errors.append(e)
-                    print (f"* {filename:<30}{'Failed':<12}🔴")
+                    print(f"* {os.path.splitext(filename)[0]:<30}{'Failed':<12}🔴")
         print(f"\n{'COMMAND FILES':<30}  {'LOAD STATUS':<30}")
-        #load in all commands
+        # Load in all commands
         for filename in os.listdir("./commands"):
             if filename.endswith(".py"):
                 try:
                     await client.load_extension(f"commands.{filename[:-3]}")
-                    print (f"* {filename:<30}{'Successful':<12}🟢")
+                    print(f"* {os.path.splitext(filename)[0]:<30}{'Successful':<12}🟢")
                 except Exception as e:
                     errors.append(e)
-                    print (f"* {filename:<30}{'Failed':<12}🔴")
+                    print(f"* {os.path.splitext(filename)[0]:<30}{'Failed':<12}🔴")
         print(f"\n{'OTHER FILES':<30}  {'LOAD STATUS':<30}")
         
 

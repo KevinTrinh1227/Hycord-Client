@@ -21,9 +21,10 @@
 </details>
 
 ## 📌 Information
+
 **What is Hycord?** Hycord is a versatile Discord client I've developed, leveraging key features from various public Hypixel and general-purpose bots. From seamless Hypixel integration to robust moderation tools and everything in between, Hycord eliminates the need to clutter your server with numerous bots, ensuring a clean, professional, and fully customizable experience. While originally designed for Hypixel guild communities, Hycord's optional Hypixel integration module allows it to excel as a versatile all-purpose bot, as demonstrated in the accompanying images. This bot streamlines your server setup and enhances the gaming experience.
 
-Should you run into any issues or bugs, please create an [issue ticket](https://github.com/KevinTrinh1227/Hycord-Bot/issues), or if interested, create a [pull request](https://github.com/KevinTrinh1227/Hycord-Bot/pulls). The native development version uses Python 3.10+ and has been tested on Linux and Windows 10+ OS. 
+Should you run into any issues or bugs, please create an [issue ticket](https://github.com/KevinTrinh1227/Hycord-Bot/issues), or if interested, create a [pull request](https://github.com/KevinTrinh1227/Hycord-Bot/pulls). The native development version uses Python 3.10+ and has been tested on Linux and Windows 10+ OS.
 
 ## 🛠 Installation & setup
 
@@ -71,8 +72,8 @@ Should you run into any issues or bugs, please create an [issue ticket](https://
    /setup
    ```
 
-3. Restart your bot after initial setup. Now you're ready to go 
-   
+3. Restart your bot after initial setup. Now you're ready to go
+
    ```sh
    /help
    ```
