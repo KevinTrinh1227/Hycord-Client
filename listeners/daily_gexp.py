@@ -32,7 +32,7 @@ class dailygpoints(commands.Cog):
         self.dailygpoints.start()
         self.total_points = 0  # Initialize the total points variable
 
-    @tasks.loop(seconds=20)  # Run every 20 seconds
+    @tasks.loop(seconds=30)  # Run every 20 seconds
     async def dailygpoints(self):
         global already_sent
         if enable_feature:
