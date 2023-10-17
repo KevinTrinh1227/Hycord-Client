@@ -1,9 +1,6 @@
 import discord
 from discord.ext import commands
-import requests
 import discord.ui
-import asyncio
-import datetime
 import os
 from dotenv import load_dotenv
 import json
@@ -27,36 +24,6 @@ if not os.path.exists('config.json'):
             "bot_prefix": "!",
             "embed_color": "#FF0000",
             "discord_server_guild_id": ""
-        },
-        "features": {
-            "filtered_chat": 0,
-            "auto_gexp": 0,
-            "inactivity_cmd": 0,
-            "punishments_cmd": 0
-        },
-        "category_ids": {
-            "tickets_category": ""
-        },
-        "voice_channel_ids": {
-            "member_count": "",
-            "members_online": "",
-            "guild_member_online": ""
-        },
-        "text_channel_ids": {
-            "welcome": "",
-            "inactivity_notice": "",
-            "tickets_transcripts": "",
-            "leave_messages": "",
-            "daily_guild_points": ""
-        },
-        "role_ids": {
-            "guild_member": "",
-            "verified_member": "",
-            "unverified_member": "",
-            "staff_member": "",
-        },
-        "hypixel_ids": {
-            "guild_id": ""
         }
     }
 
