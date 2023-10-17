@@ -84,7 +84,7 @@ class joinleave(commands.Cog):
         
         channel = self.client.get_channel(leave_channel_id)
         embed = discord.Embed(
-            title=(f"{member.display_name}#{member.discriminator} has left the server."),
+            title=(f"{member.display_name} has left the server."),
             description=f"{member.mention} has left {member.guild.name}.",
             colour= embed_color
             )
