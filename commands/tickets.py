@@ -17,6 +17,7 @@ bot_prefix = data["general"]["bot_prefix"]
 category_id = int(data["category_ids"]["tickets_category"])
 staff_role_id = int(data["role_ids"]["staff_member"])
 transcript_channel_id = int(data["text_channel_ids"]["tickets_transcripts"])
+bot_logs = int(data["text_channel_ids"]["bot_logs"])
 
 class Roles(discord.ui.View):
     def __init__(self):
@@ -29,6 +30,56 @@ class Roles(discord.ui.View):
         staff_role = guild.get_role(staff_role_id)
         user = interaction.user
 
+        # Checks if user already has a ticket open
+        for channel in category.channels:
+            # print(channel.name)
+            channel_name_cleaned = channel.name[7:-2]
+            if channel_name_cleaned == user.name:
+                # User already has an open ticket
+                # print(f"{user.name} already has a ticket open. {channel.id}")
+                try:
+                    # Attempt to send a private message to the user
+                    embed = discord.Embed(
+                        title=f"**🎟️ | You already have an open ticket**",
+                        description=f"""
+                        Note that you can only have 1 ticket open at a time. To access your current ticket, click the channel reference below.
+                        
+                        **Your ticket ➜** <#{channel.id}>
+                        
+                        Remember that any abuse of our ticket system could result in a punishment. Please be patient with our staff team.
+                        """,
+                        color=embed_color
+                    )
+                    embed.timestamp = datetime.datetime.now()
+                    #embed.set_thumbnail(url="{}".format(guild.icon.url)),
+                    embed.set_footer(text=f"©️ {guild.name}", icon_url=guild.icon.url)
+                    
+                    log_embed = discord.Embed(
+                        title=(f"🎟️ | {user.name} tried opening another ticket"),
+                        description=f"{user.mention} tried to open another ticket but they already have one opened. A warning message has been sent to them.",
+                        colour= embed_color
+                        )
+                    log_embed.timestamp = datetime.datetime.now()
+                    log_embed.set_footer(text=f"©️ {guild.name}", icon_url=guild.icon.url)
+                    
+                    await guild.get_channel(bot_logs).send(embed=log_embed)
+                    await user.send(embed=embed)
+                    
+                except:
+                    # If user DMs are off
+                    log_embed = discord.Embed(
+                        title=(f"🎟️ | {user.name} tried opening another ticket"),
+                        description=f"{user.mention} tried to open another ticket but they already have one opened. A warning message could not be sent because they have DMs set to private.",
+                        colour= embed_color
+                        )
+                    log_embed.timestamp = datetime.datetime.now()
+                    log_embed.set_footer(text=f"©️ {guild.name}", icon_url=guild.icon.url)
+                    
+                    await guild.get_channel(bot_logs).send(embed=log_embed)
+                    await interaction.response.defer()
+                    
+                return
+
         overwrites = {
             guild.default_role: discord.PermissionOverwrite(read_messages=False),
             staff_role: discord.PermissionOverwrite(read_messages=True, send_messages=True),
@@ -36,7 +87,7 @@ class Roles(discord.ui.View):
         }
         channel = await category.create_text_channel(f'ticket-{user.name}-🔨', overwrites=overwrites)
 
-        ticket_type = "🔨 Reporting A Cheater"
+        ticket_type = "🔨 | Reporting A Cheater"
 
         role_id = staff_role_id #staff member role ID
         staff_role = guild.get_role(role_id)
@@ -55,6 +106,8 @@ class Roles(discord.ui.View):
         await channel.send(embed = embed)
         await interaction.response.defer()
 
+
+
     # button 2
     @discord.ui.button(label="🫂", custom_id="ticket 2", style=discord.ButtonStyle.secondary)
     async def create_ticket2(self, interaction, button):
@@ -63,6 +116,56 @@ class Roles(discord.ui.View):
         staff_role = guild.get_role(staff_role_id)
         user = interaction.user
 
+        # Checks if user already has a ticket open
+        for channel in category.channels:
+            # print(channel.name)
+            channel_name_cleaned = channel.name[7:-2]
+            if channel_name_cleaned == user.name:
+                # User already has an open ticket
+                # print(f"{user.name} already has a ticket open. {channel.id}")
+                try:
+                    # Attempt to send a private message to the user
+                    embed = discord.Embed(
+                        title=f"**🎟️ | You already have an open ticket**",
+                        description=f"""
+                        Note that you can only have 1 ticket open at a time. To access your current ticket, click the channel reference below.
+                        
+                        **Your ticket ➜** <#{channel.id}>
+                        
+                        Remember that any abuse of our ticket system could result in a punishment. Please be patient with our staff team.
+                        """,
+                        color=embed_color
+                    )
+                    embed.timestamp = datetime.datetime.now()
+                    #embed.set_thumbnail(url="{}".format(guild.icon.url)),
+                    embed.set_footer(text=f"©️ {guild.name}", icon_url=guild.icon.url)
+                    
+                    log_embed = discord.Embed(
+                        title=(f"🎟️ | {user.name} tried opening another ticket"),
+                        description=f"{user.mention} tried to open another ticket but they already have one opened. A warning message has been sent to them.",
+                        colour= embed_color
+                        )
+                    log_embed.timestamp = datetime.datetime.now()
+                    log_embed.set_footer(text=f"©️ {guild.name}", icon_url=guild.icon.url)
+                    
+                    await guild.get_channel(bot_logs).send(embed=log_embed)
+                    await user.send(embed=embed)
+                    
+                except:
+                    # If user DMs are off
+                    log_embed = discord.Embed(
+                        title=(f"🎟️ | {user.name} tried opening another ticket"),
+                        description=f"{user.mention} tried to open another ticket but they already have one opened. A warning message could not be sent because they have DMs set to private.",
+                        colour= embed_color
+                        )
+                    log_embed.timestamp = datetime.datetime.now()
+                    log_embed.set_footer(text=f"©️ {guild.name}", icon_url=guild.icon.url)
+                    
+                    await guild.get_channel(bot_logs).send(embed=log_embed)
+                    await interaction.response.defer()
+                    
+                return
+
         overwrites = {
             guild.default_role: discord.PermissionOverwrite(read_messages=False),
             staff_role: discord.PermissionOverwrite(read_messages=True, send_messages=True),
@@ -70,7 +173,7 @@ class Roles(discord.ui.View):
         }
         channel = await category.create_text_channel(f'ticket-{user.name}-🫂', overwrites=overwrites)
 
-        ticket_type = "🫂 Applying for staff"
+        ticket_type = "🫂 | Applying for staff"
 
         role_id = staff_role_id  # staff member role ID
         staff_role = guild.get_role(role_id)
@@ -96,6 +199,56 @@ class Roles(discord.ui.View):
         staff_role = guild.get_role(staff_role_id)
         user = interaction.user
 
+        # Checks if user already has a ticket open
+        for channel in category.channels:
+            # print(channel.name)
+            channel_name_cleaned = channel.name[7:-2]
+            if channel_name_cleaned == user.name:
+                # User already has an open ticket
+                # print(f"{user.name} already has a ticket open. {channel.id}")
+                try:
+                    # Attempt to send a private message to the user
+                    embed = discord.Embed(
+                        title=f"**🎟️ | You already have an open ticket**",
+                        description=f"""
+                        Note that you can only have 1 ticket open at a time. To access your current ticket, click the channel reference below.
+                        
+                        **Your ticket ➜** <#{channel.id}>
+                        
+                        Remember that any abuse of our ticket system could result in a punishment. Please be patient with our staff team.
+                        """,
+                        color=embed_color
+                    )
+                    embed.timestamp = datetime.datetime.now()
+                    #embed.set_thumbnail(url="{}".format(guild.icon.url)),
+                    embed.set_footer(text=f"©️ {guild.name}", icon_url=guild.icon.url)
+                    
+                    log_embed = discord.Embed(
+                        title=(f"🎟️ | {user.name} tried opening another ticket"),
+                        description=f"{user.mention} tried to open another ticket but they already have one opened. A warning message has been sent to them.",
+                        colour= embed_color
+                        )
+                    log_embed.timestamp = datetime.datetime.now()
+                    log_embed.set_footer(text=f"©️ {guild.name}", icon_url=guild.icon.url)
+                    
+                    await guild.get_channel(bot_logs).send(embed=log_embed)
+                    await user.send(embed=embed)
+                    
+                except:
+                    # If user DMs are off
+                    log_embed = discord.Embed(
+                        title=(f"🎟️ | {user.name} tried opening another ticket"),
+                        description=f"{user.mention} tried to open another ticket but they already have one opened. A warning message could not be sent because they have DMs set to private.",
+                        colour= embed_color
+                        )
+                    log_embed.timestamp = datetime.datetime.now()
+                    log_embed.set_footer(text=f"©️ {guild.name}", icon_url=guild.icon.url)
+                    
+                    await guild.get_channel(bot_logs).send(embed=log_embed)
+                    await interaction.response.defer()
+                    
+                return
+
         overwrites = {
             guild.default_role: discord.PermissionOverwrite(read_messages=False),
             staff_role: discord.PermissionOverwrite(read_messages=True, send_messages=True),
@@ -103,7 +256,7 @@ class Roles(discord.ui.View):
         }
         channel = await category.create_text_channel(f'ticket-{user.name}-📮', overwrites=overwrites)
 
-        ticket_type = "📮 Requesting Role(s)"
+        ticket_type = "📮 | Requesting Role(s)"
 
         role_id = staff_role_id  # staff member role ID
         staff_role = guild.get_role(role_id)
@@ -129,6 +282,56 @@ class Roles(discord.ui.View):
         staff_role = guild.get_role(staff_role_id)
         user = interaction.user
 
+        # Checks if user already has a ticket open
+        for channel in category.channels:
+            # print(channel.name)
+            channel_name_cleaned = channel.name[7:-2]
+            if channel_name_cleaned == user.name:
+                # User already has an open ticket
+                # print(f"{user.name} already has a ticket open. {channel.id}")
+                try:
+                    # Attempt to send a private message to the user
+                    embed = discord.Embed(
+                        title=f"**🎟️ | You already have an open ticket**",
+                        description=f"""
+                        Note that you can only have 1 ticket open at a time. To access your current ticket, click the channel reference below.
+                        
+                        **Your ticket ➜** <#{channel.id}>
+                        
+                        Remember that any abuse of our ticket system could result in a punishment. Please be patient with our staff team.
+                        """,
+                        color=embed_color
+                    )
+                    embed.timestamp = datetime.datetime.now()
+                    #embed.set_thumbnail(url="{}".format(guild.icon.url)),
+                    embed.set_footer(text=f"©️ {guild.name}", icon_url=guild.icon.url)
+                    
+                    log_embed = discord.Embed(
+                        title=(f"🎟️ | {user.name} tried opening another ticket"),
+                        description=f"{user.mention} tried to open another ticket but they already have one opened. A warning message has been sent to them.",
+                        colour= embed_color
+                        )
+                    log_embed.timestamp = datetime.datetime.now()
+                    log_embed.set_footer(text=f"©️ {guild.name}", icon_url=guild.icon.url)
+                    
+                    await guild.get_channel(bot_logs).send(embed=log_embed)
+                    await user.send(embed=embed)
+                    
+                except:
+                    # If user DMs are off
+                    log_embed = discord.Embed(
+                        title=(f"🎟️ | {user.name} tried opening another ticket"),
+                        description=f"{user.mention} tried to open another ticket but they already have one opened. A warning message could not be sent because they have DMs set to private.",
+                        colour= embed_color
+                        )
+                    log_embed.timestamp = datetime.datetime.now()
+                    log_embed.set_footer(text=f"©️ {guild.name}", icon_url=guild.icon.url)
+                    
+                    await guild.get_channel(bot_logs).send(embed=log_embed)
+                    await interaction.response.defer()
+                    
+                return
+
         overwrites = {
             guild.default_role: discord.PermissionOverwrite(read_messages=False),
             staff_role: discord.PermissionOverwrite(read_messages=True, send_messages=True),
@@ -136,7 +339,7 @@ class Roles(discord.ui.View):
         }
         channel = await category.create_text_channel(f'ticket-{user.name}-🔥', overwrites=overwrites)
 
-        ticket_type = "🔥 Applying for guild"
+        ticket_type = "🔥 | Applying for guild"
 
         role_id = staff_role_id # staff member role ID
         staff_role = guild.get_role(role_id)
@@ -162,6 +365,56 @@ class Roles(discord.ui.View):
         staff_role = guild.get_role(staff_role_id)
         user = interaction.user
 
+        # Checks if user already has a ticket open
+        for channel in category.channels:
+            # print(channel.name)
+            channel_name_cleaned = channel.name[7:-2]
+            if channel_name_cleaned == user.name:
+                # User already has an open ticket
+                # print(f"{user.name} already has a ticket open. {channel.id}")
+                try:
+                    # Attempt to send a private message to the user
+                    embed = discord.Embed(
+                        title=f"**🎟️ | You already have an open ticket**",
+                        description=f"""
+                        Note that you can only have 1 ticket open at a time. To access your current ticket, click the channel reference below.
+                        
+                        **Your ticket ➜** <#{channel.id}>
+                        
+                        Remember that any abuse of our ticket system could result in a punishment. Please be patient with our staff team.
+                        """,
+                        color=embed_color
+                    )
+                    embed.timestamp = datetime.datetime.now()
+                    #embed.set_thumbnail(url="{}".format(guild.icon.url)),
+                    embed.set_footer(text=f"©️ {guild.name}", icon_url=guild.icon.url)
+                    
+                    log_embed = discord.Embed(
+                        title=(f"🎟️ | {user.name} tried opening another ticket"),
+                        description=f"{user.mention} tried to open another ticket but they already have one opened. A warning message has been sent to them.",
+                        colour= embed_color
+                        )
+                    log_embed.timestamp = datetime.datetime.now()
+                    log_embed.set_footer(text=f"©️ {guild.name}", icon_url=guild.icon.url)
+                    
+                    await guild.get_channel(bot_logs).send(embed=log_embed)
+                    await user.send(embed=embed)
+                    
+                except:
+                    # If user DMs are off
+                    log_embed = discord.Embed(
+                        title=(f"🎟️ | {user.name} tried opening another ticket"),
+                        description=f"{user.mention} tried to open another ticket but they already have one opened. A warning message could not be sent because they have DMs set to private.",
+                        colour= embed_color
+                        )
+                    log_embed.timestamp = datetime.datetime.now()
+                    log_embed.set_footer(text=f"©️ {guild.name}", icon_url=guild.icon.url)
+                    
+                    await guild.get_channel(bot_logs).send(embed=log_embed)
+                    await interaction.response.defer()
+                    
+                return
+
         overwrites = {
             guild.default_role: discord.PermissionOverwrite(read_messages=False),
             staff_role: discord.PermissionOverwrite(read_messages=True, send_messages=True),
@@ -169,7 +422,7 @@ class Roles(discord.ui.View):
         }
         channel = await category.create_text_channel(f'ticket-{user.name}-🔍', overwrites=overwrites)
 
-        ticket_type = "🔍 Other (Not Listed Category)"
+        ticket_type = "🔍 | Other (Not Listed Category)"
 
         role_id = staff_role_id  # staff member role ID
         staff_role = guild.get_role(role_id)
@@ -201,7 +454,17 @@ class Ticket(commands.Cog):
         serverIconLink = ctx.guild.icon.url
         embed = discord.Embed(
             title = f"**{ctx.guild.name} Support**",
-            description = "Require Support? Click a button below with the corresponding category's emoji and a private channel will be created where our staff team will be ready to assist you!\n\n **Categories**\n🔨 Report a cheater\n🫂 Apply for staff\n📮 Request a role(s)\n🔥 Apply for guild\n🔍 Other \n\nPlease be patient with our staff team, and remember that any abuse of our ticket system will result in a punishment.",
+            description = """
+            Require Support? Click a button below with the corresponding category's emoji and a private channel will be created where our staff team will be ready to assist you!
+            
+            **Categories**
+            🔨 Report a cheater
+            🫂 Apply for staff
+            📮 Request a role(s)
+            🔥 Apply for guild\n🔍 Other 
+            
+            Please be patient with our team & any ticket abuse will result in a punishment. Note: only 1 ticket can be opened at a time. 
+            """,
             color = embed_color
         )
         embed.timestamp = datetime.datetime.now()
