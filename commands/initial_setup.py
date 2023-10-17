@@ -61,16 +61,16 @@ class initialsetup(commands.Cog):
                 config['features']['server_stats'] = int(server_stats.content)
                 # the server stats category and channels will be generated at the end of the setup process
                     
-                
-                # Daily GEXP annoucements
-                await ctx.send("Enable daily guild gexp announcements? This will send the top GEXP players in your guild in a specified channel. (0 for No, 1 for Yes):")
-                auto_gexp = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=timeout_time_in_seconds)
-                config['features']['auto_daily_gexp'] = int(auto_gexp.content)
                     
                 # Coins & level system question
                 await ctx.send("Enable chat coin and level system? (0 for No, 1 for Yes):")
                 filtered_chat = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 config['features']['coin_level_system'] = int(filtered_chat.content)
+                
+                # Auto GEXp feature
+                await ctx.send("Enable auto GEXP feature? (0 for No, 1 for Yes):")
+                auto_gexp_feature = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
+                config['features']['auto_daily_gexp'] = int(auto_gexp_feature.content)
 
                 # Filtered chat
                 await ctx.send("Enable filtered chat? (0 for No, 1 for Yes):")
@@ -94,38 +94,38 @@ class initialsetup(commands.Cog):
                 welcome_channel_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 welcome_channel_id = welcome_channel_mention.channel_mentions[0].id
                 config['text_channel_ids']['welcome'] = str(welcome_channel_id)
-                
-                # If auto gexp is on
-                if auto_gexp.content == "0":
-                    config['text_channel_ids']['daily_guild_points'] = 0
-                else:
-                    # Daily guild points channel
-                    await ctx.send("Reference your daily guild points channel where the daily top GEXP message will be sent to. (Reference the channel by using #<channel name>):")
-                    daily_guild_points_channel_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
-                    daily_guild_points_channel_id = daily_guild_points_channel_mention.channel_mentions[0].id
-                    config['text_channel_ids']['daily_guild_points'] = str(daily_guild_points_channel_id)
 
                 # If the user said 0 or no for the inactivity command, set the inactivity channel to "0" and don't ask to reference the inactivity command
                 if inactivity_cmd.content == "0":
-                    config['text_channel_ids']['inactivity_notice'] = 0
+                    config['text_channel_ids']['inactivity_notice'] = "0"
                 else:
                     # Inactivity notice channel
-                    await ctx.send("Reference your inactivity notice channel (Reference the channel by using #<channel name>):")
+                    await ctx.send("Reference your inactivity notice channel (Mention the channel by using #<channel name>):")
                     inactivity_notice_channel_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=timeout_time_in_seconds)
                     inactivity_notice_channel_id = inactivity_notice_channel_mention.channel_mentions[0].id
                     config['text_channel_ids']['inactivity_notice'] = str(inactivity_notice_channel_id)
 
                 # Staff chat channel
-                await ctx.send("Reference your bot logs channel. (Reference the channel by using #<channel name>):")
+                await ctx.send("Reference your bot logs channel. (Mention the channel by using #<channel name>):")
                 bot_logs_channel_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 bot_logs_channel_id = bot_logs_channel_mention.channel_mentions[0].id
                 config['text_channel_ids']['bot_logs'] = str(bot_logs_channel_id)
 
                 # Tickets transcripts channel
-                await ctx.send("Reference your tickets transcripts channel (Reference the channel by using #<channel name>):")
+                await ctx.send("Reference your tickets transcripts channel (Mention the channel by using #<channel name>):")
                 tickets_transcripts_channel_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 tickets_transcripts_channel_id = tickets_transcripts_channel_mention.channel_mentions[0].id
                 config['text_channel_ids']['tickets_transcripts'] = str(tickets_transcripts_channel_id)
+
+
+                # Daily GEXP message channel
+                if auto_gexp_feature.content == "0":
+                    config['text_channel_ids']['daily_guild_points'] = "0"
+                else:
+                    await ctx.send("Reference your daily guild points channel (Mention the channel by using #<channel name>):")
+                    daily_guild_points_channel_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
+                    daily_guild_points_channel_id = daily_guild_points_channel_mention.channel_mentions[0].id
+                    config['text_channel_ids']['daily_guild_points'] = str(daily_guild_points_channel_id)
 
 
                 # Guild member role
