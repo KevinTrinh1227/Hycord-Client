@@ -33,11 +33,24 @@ class guildList(commands.Cog):
             response = requests.get(api_link)
             data = response.json()
             
+            
             guild_data = data['guild']
             guild_name = guild_data['name']
             created_timestamp = guild_data['created']
             total_guild_exp = guild_data['exp']
             guild_description = guild_data['description']
+            
+            try:
+                guild_master_uuid = guild_data["members"][0]["uuid"]
+                g_master_url = f"https://api.mojang.com/user/profile/{guild_master_uuid}"
+                g_response = requests.get(g_master_url)
+
+                g_data = g_response.json()
+                g_name = g_data["name"]
+                guild_stats_link = f"https://plancke.io/hypixel/guild/player/{g_name}"
+            except:
+                g_name = "Not Available"
+                guild_stats_link = f"https://plancke.io/hypixel/guild/"
             
             # for guilds who dont have tags yet
             try:
@@ -61,12 +74,14 @@ class guildList(commands.Cog):
                 description=f"""
                 Now displaying general guild stats for {guild_name}.
                 
+                - **Guild Master:** [{g_name}](https://plancke.io/hypixel/player/stats/{guild_master_uuid})
                 - **Guild Tag:** [{guild_tag}]
                 - **Guild ID:** `{guild_id}`
                 - **Total Members:** `{total_members}`/`125`
                 - **Total Guild EXP:** {total_guild_exp} experience
                 - **Guild Age:** {guild_age:.2f} month(s) old
                 - **Description:** {guild_description}
+                - **Stats Link:** [{guild_name} Plancke.io Link]({guild_stats_link})
                 """,
                 colour = embed_color
             )
