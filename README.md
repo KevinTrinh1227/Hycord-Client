@@ -6,7 +6,7 @@
   Visit <a href="https://hycord.net" target="_blank"><strong>hycord.net</strong></a> for more information.
 </p>
 <div align="center">
-  <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" alt="Maintained status" />
+  <img src="https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg" alt="Maintained status" />
   <img src="https://img.shields.io/github/v/release/KevinTrinh1227/Hycord-Bot.svg" alt="Release badge" />
 </div>
 
