@@ -125,7 +125,7 @@ class guildPointsCMD(commands.Cog):
                     )
                 #embed.set_thumbnail(url = "{}".format(ctx.guild.icon.url)),
                 embed.timestamp = datetime.now()
-                embed.set_footer(text=f"©️ {ctx.guild.name} | {elapsed_time:.4f}s", icon_url = ctx.guild.icon.url)
+                embed.set_footer(text=f"©️ {ctx.guild.name} | {elapsed_time:.0f}s", icon_url = ctx.guild.icon.url)
                 await ctx.send(embed=embed)
             
         except Exception as e:

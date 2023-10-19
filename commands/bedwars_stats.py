@@ -63,12 +63,12 @@ class bedwarsstats(commands.Cog):
             
             #player embed
             embed = discord.Embed(
-                title = f"**General Bedwars Stats**",
-                url = f"https://plancke.io/hypixel/player/stats/{username}",
-                description = f"**Level: **✫{bedwars_level}\n**UUID:** `{uuid}`",
+                title = f"**[{bedwars_level}✫] {username}'s Bedwars Stats**",
+                # url = f"https://plancke.io/hypixel/player/stats/{username}",
+                description = f"`{uuid}`",
                 color = embed_color
             )
-            embed.set_author(name = f"{username}'s Profile", icon_url = f"https://crafatar.com/avatars/{uuid}")
+            # embed.set_author(name = f"{username}'s Profile", icon_url = f"https://crafatar.com/avatars/{uuid}")
             embed.timestamp = datetime.datetime.now()
             embed.add_field(name='Final Kills', value=bedwars_final_kills, inline=True)
             embed.add_field(name='Final Deaths', value=bedwars_final_deaths, inline=True)
@@ -82,7 +82,7 @@ class bedwarsstats(commands.Cog):
             embed.add_field(name='Kills', value=bedwars_kills, inline=True)
             embed.add_field(name='Deaths', value=bedwars_deaths, inline=True)
             embed.add_field(name='KDR', value=bedwars_kdr, inline=True)
-            embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/128/{uuid}")
+            embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/{uuid}.png?y=-40")
             embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
             
             await ctx.send(embed=embed)

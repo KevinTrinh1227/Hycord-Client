@@ -144,7 +144,7 @@ class dailygpoints(commands.Cog):
                             )
                         # embed.set_thumbnail(url = guild_icon_url)
                         embed.timestamp = datetime.now()
-                        embed.set_footer(text=f"©️ {guild.name} | {elapsed_time:.4f}s", icon_url = guild_icon_url)
+                        embed.set_footer(text=f"©️ {guild.name} | {elapsed_time:.0f}s", icon_url = guild_icon_url)
                         await channel.send(embed=embed)
                     
                     already_sent = True
