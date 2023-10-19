@@ -16,6 +16,7 @@
 <details>
   <summary align="center">VIEW MORE PHOTOS HERE</summary>
     <a href="https://www.hycord.net" target="_blank">
+      <img alt="Screen Shot" src="https://raw.githubusercontent.com/KevinTrinh1227/Hycord-Bot/main/assets/screenshot_3.png">
       <img alt="Screen Shot" src="https://raw.githubusercontent.com/KevinTrinh1227/Hycord-Bot/main/assets/screenshot_2.png">
     </a>
 </details>
