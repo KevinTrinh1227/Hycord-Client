@@ -27,7 +27,6 @@ if not os.path.exists('config.json'):
         },
         "features": {
             "filtered_chat": 0,
-            "auto_gexp": 0,
             "inactivity_cmd": 0,
             "punishments_cmd": 0
         },
@@ -43,8 +42,8 @@ if not os.path.exists('config.json'):
             "welcome": "",
             "inactivity_notice": "",
             "tickets_transcripts": "",
-            "leave_messages": "",
-            "daily_guild_points": ""
+            "daily_guild_points": "",
+            "bot_logs": ""
         },
         "role_ids": {
             "guild_member": "",
@@ -157,7 +156,6 @@ def activateBot (discord_bot_token, bot_prefix, discord_application_id):
         else:
             pass
             
- 
-    
+            
     client.run(discord_bot_token)
         

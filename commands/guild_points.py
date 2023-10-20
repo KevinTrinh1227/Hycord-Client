@@ -9,6 +9,7 @@ import os
 from dotenv import load_dotenv
 import asyncio
 import time
+import pytz
 
 # Open the JSON file and read in the data
 with open('config.json') as json_file:
@@ -27,13 +28,23 @@ class guildPointsCMD(commands.Cog):
     @commands.cooldown(1, 120, commands.BucketType.user) # 2 min cool down.
     async def guildpoints(self, ctx):
         
+        # Define the Eastern Time Zone
+        eastern = pytz.timezone('US/Eastern')
+
+        # Get the current time in the Eastern Time Zone
+        current_time = datetime.now(eastern)
+
+        # Format the date as "YYYY-MM-DD"
+        formatted_date = current_time.strftime('%Y-%m-%d')
+        
         
         try:
             # Load the "verified_accounts.json" file as a dictionary
             with open('verified_accounts.json', 'r') as verified_file:
                 verified_accounts = json.load(verified_file)
                 
-            yesterday_date = (datetime.now() - timedelta(days=0)).strftime('%Y-%m-%d') # this means todays date since we subtract 0 days
+            yesterday_date = formatted_date # this is just todays date EST
+            # print(yesterday_date)
             hypixel_api_key = os.getenv("HYPIXEL_API_KEY")
             api_link = f'https://api.hypixel.net/guild?key={hypixel_api_key}&id={hypixel_guild_id}'
             response = requests.get(api_link)

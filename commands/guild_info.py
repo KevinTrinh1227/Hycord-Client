@@ -18,7 +18,7 @@ embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex co
 hypixel_guild_id = data["hypixel_ids"]["guild_id"]
 
 
-class guildList(commands.Cog):
+class guildInfo(commands.Cog):
     def __init__(self, client):
         self.client = client
     
@@ -98,6 +98,6 @@ class guildList(commands.Cog):
 
         
 async def setup(client):
-    await client.add_cog(guildList(client))
+    await client.add_cog(guildInfo(client))
     
 
