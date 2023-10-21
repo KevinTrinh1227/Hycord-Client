@@ -7,7 +7,7 @@ import json
 import os
 from discord.ext.commands import cooldown, BucketType
 from dotenv import load_dotenv
-from PIL import Image
+from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
 import requests
 
@@ -17,7 +17,9 @@ with open('config.json') as json_file:
     data = json.load(json_file)
     
 
-embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
+embed_color = int(data["general"]["embed_color"].strip("#"), 16) 
+font_title = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 60)
+font_footer = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 45)
     
 
 class minecraft_skin(commands.Cog):
@@ -25,19 +27,18 @@ class minecraft_skin(commands.Cog):
         self.client = client
         self.data = {}
             
-    #bedwars stats command
+    # playerskin
     @commands.hybrid_command(aliases=["playerskin"], brief="skin [Minecraft IGN]", description="Displays the skin of the specified player", with_app_command=True)
     @commands.cooldown(1, 10, commands.BucketType.user) # 1 use for every 10 seconds.
     async def skin(self, ctx, *, username):
         
-        
-        try:
+        try:            
             url = f"https://api.mojang.com/users/profiles/minecraft/{username}?"
             response = requests.get(url)
             uuid = response.json()['id']
             
 
-            front_skin_url = f"https://starlightskins.lunareclipse.studio/skin-render/default/{uuid}/full"
+            front_skin_url = f"https://visage.surgeplay.com/full/832/{uuid}.png?no=cape"
             back_skin_url = f"https://visage.surgeplay.com/full/832/{uuid}.png?no=cape&y=140"
 
             background_image = Image.open("./assets/backgrounds/player_skin.png")
@@ -48,33 +49,36 @@ class minecraft_skin(commands.Cog):
             back_response = requests.get(back_skin_url)
             back_skin = Image.open(BytesIO(back_response.content))
 
-            max_width = 600  
-            max_height = 800  
-            # Resize the download img
-            front_skin.thumbnail((max_width, max_height))
+            # front_skin.thumbnail((600, 800)) # resize
+            
+            # Calculate the center x-coordinate for text
+            image_width, _ = background_image.size
+            text1 = f"{username}'s Skin"
+            text2 = f"\u00A9 {ctx.guild.name} | Powered by: Hycord.net"
+
+            draw = ImageDraw.Draw(background_image)
+
+            _, _, text1_width, _ = draw.textbbox((0, 0), text1, font=font_title)
+            _, _, text2_width, _ = draw.textbbox((0, 0), text2, font=font_footer)
+
+            center_x1 = (image_width - text1_width) // 2
+            center_x2 = (image_width - text2_width) // 2
 
             # Paste the downloaded image onto the background
-            background_image.paste(front_skin, (220, 250), front_skin)
+            background_image.paste(front_skin, (180, 235), front_skin)
             background_image.paste(back_skin, (850, 235), back_skin)
-
-            # Save the resulting image
-            background_image.save("./assets/example_outputs/player_skin.png")
-
-            """
-            embed = discord.Embed(
-                title = f"🔗  |  {username}\'s download link",
-                url = f"https://crafatar.com/skins/{uuid}",
-                color = embed_color
-            )
-            embed.timestamp = datetime.datetime.now()
-            #embed.set_image(url=f"https://visage.surgeplay.com/full/832/{uuid}.png?no=ears,cape&y=-40")
-            embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
-            await ctx.send(embed=embed)
-            """
             
-            await ctx.send(file=discord.File("./assets/example_outputs/player_skin.png"))
+            draw = ImageDraw.Draw(background_image)
+            draw.text((center_x1,40), text1, (255, 255, 255), font=font_title)
+            draw.text((center_x2,1150), text2, (255, 255, 255), font=font_footer)
+
+            background_image.save("./assets/outputs/player_skin.png") # save the img
+
+            await ctx.send(f"Use `/skindownload {username}` for skin download.", file=discord.File("./assets/outputs/player_skin.png"))
+            
         except Exception as e:
             error_message = str(e)
+            print(error_message)
             embed = discord.Embed(
                 title = f"Username does not exist",
                 url = f"https://mcchecker.net/",
@@ -84,7 +88,43 @@ class minecraft_skin(commands.Cog):
             embed.timestamp = datetime.datetime.now()
             embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
             
-            await ctx.send(error_message)
+            await ctx.send(embed=embed)
+            
+            
+            
+    # player skin download feature
+    @commands.hybrid_command(aliases=["downloadskin"], brief="skindownload [Minecraft IGN]", description="Downloads a specific player's skin", with_app_command=True)
+    @commands.cooldown(1, 10, commands.BucketType.user) # 1 use for every 10 seconds.
+    async def skindownload(self, ctx, *, username):
+        
+        try:            
+            url = f"https://api.mojang.com/users/profiles/minecraft/{username}?"
+            response = requests.get(url)
+            uuid = response.json()['id']
+
+            # await ctx.send(f"https://crafatar.com/skins/{uuid}")
+            
+            
+            embed = discord.Embed(
+                description=f"[Download Link](https://crafatar.com/skins/{uuid})",
+                color = embed_color
+            )
+            embed.set_image(url=f"https://crafatar.com/skins/{uuid}")
+            await ctx.send(embed=embed)
+            
+        except Exception as e:
+            error_message = str(e)
+            print(error_message)
+            embed = discord.Embed(
+                title = f"Username does not exist",
+                url = f"https://mcchecker.net/",
+                description = f"Username: `{username}`\n\nThe username you have entered does not exist. Please check your spelling and try again. (You can use https://mcchecker.net/ to validate the username)",
+                color = embed_color
+            )
+            embed.timestamp = datetime.datetime.now()
+            embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+            
+            await ctx.send(embed=embed)
         
 async def setup(client):
     await client.add_cog(minecraft_skin(client))     
