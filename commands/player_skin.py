@@ -19,7 +19,7 @@ with open('config.json') as json_file:
 
 embed_color = int(data["general"]["embed_color"].strip("#"), 16) 
 font_title = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 60)
-font_footer = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 45)
+font_footer = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 40)
     
 
 class minecraft_skin(commands.Cog):
@@ -54,7 +54,7 @@ class minecraft_skin(commands.Cog):
             # Calculate the center x-coordinate for text
             image_width, _ = background_image.size
             text1 = f"{username}'s Skin"
-            text2 = f"\u00A9 {ctx.guild.name} | Powered by: Hycord.net"
+            text2 = f"{ctx.guild.name} | Powered by: Hycord.net"
 
             draw = ImageDraw.Draw(background_image)
 
@@ -69,12 +69,12 @@ class minecraft_skin(commands.Cog):
             background_image.paste(back_skin, (850, 235), back_skin)
             
             draw = ImageDraw.Draw(background_image)
-            draw.text((center_x1,40), text1, (255, 255, 255), font=font_title)
+            draw.text((center_x1,20), text1, (255, 255, 255), font=font_title)
             draw.text((center_x2,1150), text2, (255, 255, 255), font=font_footer)
 
             background_image.save("./assets/outputs/player_skin.png") # save the img
 
-            await ctx.send(f"Use `/skindownload {username}` for skin download.", file=discord.File("./assets/outputs/player_skin.png"))
+            await ctx.send(file=discord.File("./assets/outputs/player_skin.png"))
             
         except Exception as e:
             error_message = str(e)
