@@ -6,6 +6,9 @@ import datetime
 import json
 import os
 from dotenv import load_dotenv
+from PIL import Image, ImageFont, ImageDraw
+from io import BytesIO
+import requests
 
 
 # Open the JSON file and read in the data
@@ -13,15 +16,27 @@ with open('config.json') as json_file:
     data = json.load(json_file)
 
 embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
-
+font_title = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 17)
+font_stat = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 16)
     
 class bedwarsstats(commands.Cog):
     def __init__(self, client):
         self.client = client
+        
    
     #bedwars stats command
     @commands.hybrid_command(aliases=["bedwarstats", "bwstat", "bws"], brief="bws [Minecraft User Name]", description="View a players Bedwars Stats", with_app_command=True)
     async def bedwars(self, ctx, *, username):
+        
+        def center(x, text, font):
+            text = str(text)
+            try:
+                _, _, text_width, _ = ImageDraw.Draw(Image.new("RGB", (1, 1))).textbbox((0, 0), text, font=font)
+                centered_x = x - (text_width / 2)
+                return centered_x
+            except Exception as e:
+                print(f"Error in center function: {e}")
+                return x
         
         try:#if player exist it will work
             
@@ -61,6 +76,45 @@ class bedwarsstats(commands.Cog):
             #other statistics
             bedwars_level = hydata["player"]["achievements"]["bedwars_level"] #bedwars level
             
+            
+            background_image = Image.open("./assets/backgrounds/bedwars_stats.png")
+            front_response = requests.get(f"https://visage.surgeplay.com/full/300/{uuid}.png?y=-50")
+            front_skin = Image.open(BytesIO(front_response.content))
+            
+            
+            # Paste the downloaded image onto the background
+            background_image.paste(front_skin, (437, 38), front_skin)
+            
+            draw = ImageDraw.Draw(background_image)
+            draw.text((20,18), f"{username}'s Bedwars Stats", (255, 255, 255), font=font_title)
+            draw.text((20,307), f"{ctx.guild.name} | Powered by: Hycord.net", (255, 255, 255), font=font_title)
+            draw.text((center(525, f"Lvl. {bedwars_level}", font_stat),13), f"Lvl. {bedwars_level}", (255, 255, 255), font=font_stat)
+        
+            # wins row
+            draw.text((center(70, bedwars_wins, font_stat), 85), f"{bedwars_wins}", (255, 255, 255), font=font_stat)
+            draw.text((center(222, bedwars_losses, font_stat), 85), f"{bedwars_losses}", (255, 255, 255), font=font_stat)
+            draw.text((center(360, bedwars_wlr, font_stat), 85), f"{bedwars_wlr}", (255, 255, 255), font=font_stat)
+
+            # finals row
+            draw.text((center(70, bedwars_final_kills, font_stat), 142), f"{bedwars_final_kills}", (255, 255, 255), font=font_stat)
+            draw.text((center(222, bedwars_final_deaths, font_stat), 142), f"{bedwars_final_deaths}", (255, 255, 255), font=font_stat)
+            draw.text((center(360, bedwars_fkdr, font_stat), 142), f"{bedwars_fkdr}", (255, 255, 255), font=font_stat)
+
+            # beds stats row
+            draw.text((center(70, bedwars_beds_broken, font_stat), 203), f"{bedwars_beds_broken}", (255, 255, 255), font=font_stat)
+            draw.text((center(222, bedwars_beds_lost, font_stat), 203), f"{bedwars_beds_lost}", (255, 255, 255), font=font_stat)
+            draw.text((center(360, bedwars_bed_bblr, font_stat), 203), f"{bedwars_bed_bblr}", (255, 255, 255), font=font_stat)
+
+            # normal kills
+            draw.text((center(70, bedwars_kills, font_stat), 262), f"{bedwars_kills}", (255, 255, 255), font=font_stat)
+            draw.text((center(222, bedwars_deaths, font_stat), 262), f"{bedwars_deaths}", (255, 255, 255), font=font_stat)
+            draw.text((center(360, bedwars_kdr, font_stat), 262), f"{bedwars_kdr}", (255, 255, 255), font=font_stat)
+   
+            background_image.save("./assets/outputs/bedwars_stats.png") # save the img
+            
+            await ctx.send(file=discord.File("./assets/outputs/bedwars_stats.png"))
+            
+            """
             #player embed
             embed = discord.Embed(
                 title = f"**[{bedwars_level}✫] {username}'s Bedwars Stats**",
@@ -86,6 +140,7 @@ class bedwarsstats(commands.Cog):
             embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
             
             await ctx.send(embed=embed)
+            """
         except:     #if player does not exist
             embed = discord.Embed(
                 title = f"User Does Not Exist",

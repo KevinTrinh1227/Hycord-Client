@@ -93,7 +93,7 @@ class minecraft_skin(commands.Cog):
             
             
     # player skin download feature
-    @commands.hybrid_command(aliases=["downloadskin"], brief="skindownload [Minecraft IGN]", description="Downloads a specific player's skin", with_app_command=True)
+    @commands.hybrid_command(aliases=["downloadskin"], brief="skindownload [Minecraft IGN]", description="Gets a specific player's skin download link", with_app_command=True)
     @commands.cooldown(1, 10, commands.BucketType.user) # 1 use for every 10 seconds.
     async def skindownload(self, ctx, *, username):
         
