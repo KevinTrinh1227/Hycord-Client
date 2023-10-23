@@ -81,13 +81,19 @@ class bedwarsstats(commands.Cog):
             front_response = requests.get(f"https://visage.surgeplay.com/full/300/{uuid}.png?y=-50")
             front_skin = Image.open(BytesIO(front_response.content))
             
+            try:
+                front_response = requests.get(f"https://visage.surgeplay.com/full/300/{uuid}.png?y=-50")
+                front_skin = Image.open(BytesIO(front_response.content))
+            except:
+                front_skin = Image.open("./assets/resources/default_skin_front.png")
+            
             
             # Paste the downloaded image onto the background
             background_image.paste(front_skin, (437, 38), front_skin)
             
             draw = ImageDraw.Draw(background_image)
             draw.text((20,18), f"{username}'s Bedwars Stats", (255, 255, 255), font=font_title)
-            draw.text((20,307), f"{ctx.guild.name} | Powered by: Hycord.net", (255, 255, 255), font=font_title)
+            draw.text((20,307), f"{ctx.guild.name} | By: Hycord.net", (255, 255, 255), font=font_title)
             draw.text((center(525, f"Lvl. {bedwars_level}", font_stat),13), f"Lvl. {bedwars_level}", (255, 255, 255), font=font_stat)
         
             # wins row

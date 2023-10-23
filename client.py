@@ -53,6 +53,23 @@ if not os.path.exists('config.json'):
         },
         "hypixel_ids": {
             "guild_id": ""
+        },
+        "embed_templates": {
+            "welcome_embed": {
+            "embed_description": "Welcome to {guild_name}, {member.mention}!",
+            "photo_title": "{member.name} has joined! (#{member_count})",
+            "photo_footer": "Welcome to {guild.name}, and enjoy your stay!"
+            },
+            "join_dm_message": {
+            "title": "Welcome to {guild_name}, {member} (#{member_count})",
+            "description": "Welcome to the {guild_name}! Verify your account using `/verify [Hypixel Username]`.\n\nMember: {member_mention}\n\n*THIS IS A PLACEHOLDER DM JOIN MESSAGE YOU CAN EDIT THIS IN `~/Hycord-Bot/config.json`* embed_templates section.",
+            "footer_text": "©️ {guild_name}"
+            },
+            "server_rules": {
+            "title": "**DISCORD SERVER RULES**",
+            "description": "*THIS IS A PLACE HOLDER RULES COMMAND*\n*TO MAKE ANY EDITS GO TO `~/Hycord-Bot/config.json`*\n\n(+) Be respectful and kind to all members.\n(+) No spamming or excessive advertising.\n(+) Use appropriate and safe-for-work content.\n(+) No discrimination or offensive language.\n(+) Respect privacy and don't share personal information without consent.\n(+) Stay on-topic and avoid derailing discussions.\n(+) Follow Discord's terms of service and guidelines.\n(+) No trolling, baiting, or disruptive behavior.\n(+) Respect server staff and their instructions.\n(+) Report issues to server staff.\n(+) No excessive self-promotion or spamming personal links.\n(+) Keep discussions civil and avoid arguments.",
+            "footer_text": "©️ {guild_name}"
+            }
         }
     }
 

@@ -38,23 +38,28 @@ class minecraft_skin(commands.Cog):
             uuid = response.json()['id']
             
 
-            front_skin_url = f"https://visage.surgeplay.com/full/832/{uuid}.png?no=cape"
-            back_skin_url = f"https://visage.surgeplay.com/full/832/{uuid}.png?no=cape&y=140"
+            try:
+                front_skin_url = f"https://visage.surgeplay.com/full/832/{uuid}.png?no=cape"
+                back_skin_url = f"https://visage.surgeplay.com/full/832/{uuid}.png?no=cape&y=140"
 
-            background_image = Image.open("./assets/backgrounds/player_skin.png")
+                background_image = Image.open("./assets/backgrounds/player_skin.png")
 
-            front_response = requests.get(front_skin_url)
-            front_skin = Image.open(BytesIO(front_response.content))
+                front_response = requests.get(front_skin_url)
+                front_skin = Image.open(BytesIO(front_response.content))
 
-            back_response = requests.get(back_skin_url)
-            back_skin = Image.open(BytesIO(back_response.content))
+                back_response = requests.get(back_skin_url)
+                back_skin = Image.open(BytesIO(back_response.content))
+            except:
+                front_skin = Image.open("./assets/resources/default_skin_front.png")
+                back_skin = Image.open("./assets/resources/default_skin_back.png")
+                
 
             # front_skin.thumbnail((600, 800)) # resize
             
             # Calculate the center x-coordinate for text
             image_width, _ = background_image.size
             text1 = f"{username}'s Skin"
-            text2 = f"{ctx.guild.name} | Powered by: Hycord.net"
+            text2 = f"{ctx.guild.name} | By: Hycord.net"
 
             draw = ImageDraw.Draw(background_image)
 

@@ -145,7 +145,7 @@ class verify_mcaccount(commands.Cog):
                                 front_response = requests.get(front_skin_url)
                                 front_skin = Image.open(BytesIO(front_response.content))
                             except:
-                                front_skin = Image.open("./assets/resources/default_skin.png")
+                                front_skin = Image.open("./assets/resources/default_skin_front.png")
                                 
                                 
                             front_skin = front_skin.resize((151, 124))

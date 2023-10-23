@@ -22,13 +22,9 @@ class Meme(commands.Cog):
           meme = await response.json()
 
       embed = discord.Embed(
-        title=meme['title'],
-        url=meme['postLink'],
         color=embed_color 
         )
       embed.set_image(url=meme['url'])
-      embed.timestamp = datetime.datetime.now()
-      embed.set_footer(text=f"{ctx.guild.name}", icon_url = ctx.guild.icon.url)
 
       await ctx.send(embed=embed)
        
