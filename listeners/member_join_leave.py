@@ -11,6 +11,9 @@ import requests
 with open('config.json') as json_file:
     data = json.load(json_file)
     
+# Load the "join_dm_message" template
+join_dm_template = data["embed_templates"]["join_dm_message"]
+    
 #json data to run bot
 bot_prefix = data["general"]["bot_prefix"]
 embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
@@ -21,6 +24,7 @@ pre_embed_color = data["general"]["embed_color"].strip("#")
 
 font_title = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 20)
 font_footer = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 15)
+
 
 class joinleave(commands.Cog):
     def __init__(self, client):
@@ -133,20 +137,29 @@ class joinleave(commands.Cog):
             )
         embed.set_image(url="attachment://welcome.png")
         
+        # Replace placeholders with actual values
+        title = join_dm_template["title"].format(
+            guild_name=member.guild.name,
+            member=member,
+            member_count=member_count
+        )
+
+        description = join_dm_template["description"].format(
+            guild_name=member.guild.name,
+            member_mention=member.mention
+        )
+
+        footer_text = join_dm_template["footer_text"].format(
+            guild_name=member.guild.name
+        )
+        
         embed2 = discord.Embed(
-            title=(f"Welcome to {member.guild.name}, {member} (#{member_count})"),
-            description = f"""
-            Welcome to the {member.guild.name}! Verify your account using `{bot_prefix}link [your IGN]`.
-
-            *THIS IS A PLACEHOLDER CUSTOM DM JOIN MESSAGE
-            YOU CAN EDIT THIS IN "~/Hycord-Bot/listeners/member_join_leave.py"*
-
-            Member: {member.mention} 
-            """,
+            title=title,
+            description =description,
             colour= embed_color
             )
         embed2.timestamp = datetime.datetime.now()
-        embed2.set_footer(text=f"©️ {member.guild.name}", icon_url = member.guild.icon.url)
+        embed2.set_footer(text=footer_text, icon_url = member.guild.icon.url)
         
         try:
             await member.send(embed=embed2)     # sends the custom dm embed to user

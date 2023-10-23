@@ -81,9 +81,9 @@ Should you run into any issues or bugs, please create an [issue ticket](https://
 
 ## Client Features
 
-### 🔓 General Commands
+### 🔓 Public Commands (No Permissions)
 
-Public commands, no perms required. Note that aliases will not work on slash commands.
+Important: Aliases will not work on slash commands, only prefix commands.
 | Bot Feature | Command Usage | Aliases | Description |
 | :--------------------: | :---------------------------: | :----------------: | :---------------------------------------------------------------------------------------------------------: |
 | Link Account | `!verify [Hypixel username]` | `link` `sync` | Validates and syncs your Discord account to your Hypixel account |
@@ -93,7 +93,6 @@ Public commands, no perms required. Note that aliases will not work on slash com
 | Inactivity | `!inactive` | `mia` | Send a custom Hypixel guild inactivity notice embed message to a specified channel |
 | Avatar | `!avatar [@mention member]` | `pfp` `av` | Get a certain user's avatar profile picture |
 | Bedwars Statistics | `!bwstats [Hypixel username]` | `bws` `bwstat` | View a certain Hypixel player's in-game Bedwars statistics |
-| Guild List | `!guildlist` | `gl` | Show a list of all current members within the Hypixel guild |
 | Help Command | `!help` | `idk` `h` `aid` | Show all bot commands, aliases, and command usage examples |
 | Server Information | `!information` | `info` `inform` | Print out a custom information embed message for your server |
 | Ping | `!ping` | `lt` | View your bot's current latency connection speed |

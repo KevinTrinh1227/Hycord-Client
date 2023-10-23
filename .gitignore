@@ -15,6 +15,9 @@ config.json
 verified_accounts.json
 user_data.json
 
+# removes the test file
+/commands/test.py
+
 __pycache__/
 
 .idea
