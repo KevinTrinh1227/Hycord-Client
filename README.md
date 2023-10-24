@@ -1,6 +1,6 @@
-<h1 align="center">
-  <a href="https://www.hycord.net" target="_blank"><img src="https://github.com/KevinTrinh1227/Hycord-Bot/assets/48145892/69bb5241-481e-4e90-bcf0-beed3c968871" width="750px"></a>
-</h1>
+<h4 align="center">
+  <a href="https://www.hycord.net" target="_blank"><img src="https://raw.githubusercontent.com/KevinTrinh1227/Hycord-Bot/main/assets/display_banner.png" alt="Display Banner"></a>
+</h4>
 <p align="center">
   A versatile Hypixel-integrated Discord.py client.
   Visit <a href="https://hycord.net" target="_blank"><strong>hycord.net</strong></a> for more information.
@@ -9,17 +9,7 @@
   <img src="https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg" alt="Maintained status" />
   <img src="https://img.shields.io/github/v/release/KevinTrinh1227/Hycord-Bot.svg" alt="Release badge" />
 </div>
-
-<h4 align="center">
-  <a href="https://www.hycord.net" target="_blank"><img src="https://raw.githubusercontent.com/KevinTrinh1227/Hycord-Bot/main/assets/display_banner.png" alt="Display Banner"></a>
-</h4>
-<details>
-  <summary align="center">VIEW MORE PHOTOS HERE</summary>
-    <a href="https://www.hycord.net" target="_blank">
-      <img alt="Screen Shot" src="https://raw.githubusercontent.com/KevinTrinh1227/Hycord-Bot/main/assets/screenshot_3.png">
-      <img alt="Screen Shot" src="https://raw.githubusercontent.com/KevinTrinh1227/Hycord-Bot/main/assets/screenshot_2.png">
-    </a>
-</details>
+<br/>
 
 ## 📌 Information
 
