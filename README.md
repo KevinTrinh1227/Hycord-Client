@@ -11,7 +11,7 @@
 </div>
 
 <h4 align="center">
-  <a href="https://www.hycord.net" target="_blank"><img src="https://raw.githubusercontent.com/KevinTrinh1227/Hycord-Bot/main/assets/screenshot_1.png" alt="Screen Shot"></a>
+  <a href="https://www.hycord.net" target="_blank"><img src="https://raw.githubusercontent.com/KevinTrinh1227/Hycord-Bot/main/assets/display_banner.png" alt="Display Banner"></a>
 </h4>
 <details>
   <summary align="center">VIEW MORE PHOTOS HERE</summary>

@@ -137,8 +137,8 @@ class forceVerify(commands.Cog):
                     
                     
                 front_skin = front_skin.resize((151, 124))
-                background_image.paste(front_skin, (16, 68), front_skin)
                 background_image.paste(overlay_image, (0, 0), overlay_image)
+                background_image.paste(front_skin, (16, 68), front_skin)
                 
                 text1 = "Verification Success"
                 text2 = f"{ctx.guild.name} | Hycord.net"
