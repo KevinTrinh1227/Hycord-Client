@@ -45,9 +45,9 @@ class guildPoints(commands.Cog):
 
         return None, None  # Return None if the player is not in the guild
     
-    @commands.hybrid_command(aliases = ["wgp", "weeklygp"], brief="guildpoints [Guild Member IGN]", description="Shows a specified guild member's weekly points", with_app_command=True)
+    @commands.hybrid_command(aliases = ["weeklypoints", "weeklygp"], brief="guildpoints [Guild Member IGN]", description="Shows a specified guild member's weekly points", with_app_command=True)
     @commands.cooldown(1, 10, commands.BucketType.user) # 1 use for every 10 seconds.
-    async def weeklypoints(self, ctx, *, username):
+    async def weekly(self, ctx, *, username):
         uuid, member_data = await self.get_player_stats(username)
 
         # this if statement is if the member is not found inside the guild

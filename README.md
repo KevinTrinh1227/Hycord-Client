@@ -71,47 +71,62 @@ Should you run into any issues or bugs, please create an [issue ticket](https://
 
 ## Client Features
 
+Note that the lists below may be outdated. Please use `/help` inside your server to view an updated commands menu.
+Important: Parameters inside `<>` are required while `[]` are optional.
+
 ### 🔓 Public Commands (No Permissions)
 
-Important: Aliases will not work on slash commands, only prefix commands.
-| Bot Feature | Command Usage | Aliases | Description |
-| :--------------------: | :---------------------------: | :----------------: | :---------------------------------------------------------------------------------------------------------: |
-| Link Account | `!verify [Hypixel username]` | `link` `sync` | Validates and syncs your Discord account to your Hypixel account |
-| Update Account | `!update` | `N/A` | Update your account info in the server. (Useful if your level went up or you changed your Hypixel username) |
-| Display Guild Points | `!guildpoints` | `dp` `dgp` | Display current daily guild points from each guild member |
-| Bedwars Statistics | `!bwstats [Hypixel username]` | `bws` `bwstat` | View a certain Hypixel player's in-game Bedwars statistics |
-| Inactivity | `!inactive` | `mia` | Send a custom Hypixel guild inactivity notice embed message to a specified channel |
-| Avatar | `!avatar [@mention member]` | `pfp` `av` | Get a certain user's avatar profile picture |
-| Bedwars Statistics | `!bwstats [Hypixel username]` | `bws` `bwstat` | View a certain Hypixel player's in-game Bedwars statistics |
-| Help Command | `!help` | `idk` `h` `aid` | Show all bot commands, aliases, and command usage examples |
-| Server Information | `!information` | `info` `inform` | Print out a custom information embed message for your server |
-| Ping | `!ping` | `lt` | View your bot's current latency connection speed |
-| Rules | `!rules` | `r` `rule` | Display the discord server rules in a customizable embed message |
-| Unlink Account | `!unverify` | `unlink` | Unlinks your discord account from your in-game Hypixel account |
-| User Info | `!whois @[mention member]` | `who` | Displays general information about a certain discord user |
-| Verification Stats | `!vstats` | `vs` | Sends your server's verified users report |
+These commands are open to the public for use.
+| Bot Feature | Command Usage | Description |
+| :--------------------: | :----------------------------------: |:---------------------------------------------------------------------------------------------------------: |
+| Link Account | `/verify <Hypixel username>` | Validates and syncs your Discord account to your Hypixel account |
+| Unlink Account | `/unverify` | Unlinks your discord account from your in-game Hypixel account |
+| Update Account | `/update` |Update your account info in the server. (Useful if your level went up or you changed your Hypixel username) |
+| Guild Information | `/guildinfo` | Displays information about your Hypixel guild |
+| Display Guild Points | `/guildpoints` | Display current daily guild points from each guild member |
+| Guild List | `/guildlist` | Displays a list of guild members |
+| Weekly Points Report | `/weekly <Guild Player Name>` | View a guild member's weekly point contribution |
+| Bedwars Statistics | `/bedwars <Player Name>` | View a certain Hypixel player's in-game Bedwars statistics |
+| Player Skin | `/skin <Player Name>` | View any Minecraft player's skin. Front and back. |
+| Inactivity | `/inactive` | Send a custom Hypixel guild inactivity notice embed message to a specified channel |
+| Verification Stats | `/verifiedstats` | Sends your server's verified users report |
+| Avatar | `/avatar [@Server Member]` | Get a certain user's avatar profile picture |
+| Help Command | `/help [Page Number]` | Show all bot commands, aliases, and command usage examples |
+| Server Information | `/information` | Print out a custom information embed message for your server |
+| Ping | `/ping` | View your bot's current latency connection speed |
+| Rules | `/rules` | Display the discord server rules in a customizable embed message |
+| User Info | `/whois [@Server Member]` | Displays general information about a certain discord user |
+| Reddit Memes | `/meme` | Displays a random reddit meme as an embed |
+| Experience Leaderboard | `/expleader` | Displays top server members with most XP |
+| Coins Leaderboard | `/coinleader` | Displays top server members with most coins |
+| Server Profile | `/profile` | Displays your profile information and stats |
+| Client Setup | `/setup` | Initial bot setup command. Only works when there is no config file, meaning bot has not been setup yet. |
 
 ### 🔐 Mod Commands (Requires Permissions)
 
 Mod commands require certain permission nodes to execute. View corresponding command files for more info.
-| Bot Feature | Command Usage | Aliases | Description |
-| :--------------------: | :---------------------------: | :----------------: | :---------------------------------------------------------------------------------------------------------: |
-| Ban Player | `!ban [@mention member]` | `b` | Ban a player from your server. This punishment will also be logged in a specified channel |
-| Kick Player | `!kick @[mention member]` | `k` | Kick a player from your server. This punishment will also be logged in a specified channel |
-| Purge Messages | `!purge [integer value]` | `clear` `del` | Clear a specified amount of message in that specific channel |
-| Announcements | `!announce` | `announcement` `a` | Create a custom embed message and send it to any channel |
-| Say | `!say [Message]` | `yell` `s` | Send any message as an embed to current channel |
-| Ticket System | `!tickets` | `t` | Sends a ticket menu message with buttons that allow users to create their own support tickets |
-| Role Claiming | `!roles` | `sr` | Sends a customizable public roles menu with buttons to select desired roles |
+| Bot Feature | Command Usage | Description |
+| :--------------------: | :----------------------------------: |:---------------------------------------------------------------------------------------------------------: |
+| Force Verification | `/forceverify <@Discord Member> <Hypixel username>` | Force sync a discord member to a Hypixel account |
+| Force Unverification | `/forceunverify <@Discord Member>` | Force unsync a discord member to a Hypixel account |
+| Ban Player | `/ban [@Server Member]` | Ban a player from your server. This punishment will also be logged in a specified channel |
+| Kick Player | `/kick [@Server Member]` | Kick a player from your server. This punishment will also be logged in a specified channel |
+| Purge Messages | `/purge <Message Amount>` | Clear a specified amount of message in that specific channel |
+| Announcements | `/announce` | Create a custom embed message and send it to any channel |
+| Say | `/say <Message>` | Send any message as an embed to current channel |
+| Ticket System | `/tickets` | Sends a ticket menu message with buttons that allow users to create their own support tickets |
+| Role Claiming | `/roles` | Sends a customizable public roles menu with buttons to select desired roles |
 
 ### 🦻 Listeners
 
 These listeners listen for certain event triggers or run asynchronously.
-| Bot Feature | Command Usage | Aliases | Description |
-| :--------------------: | :---------------------------: | :----------------: | :---------------------------------------------------------------------------------------------------------: |
-| Level & Economy System | `N/A` | `N/A` | Users gain coins and exp by sending messages in chat |
-| Custom Welcome Message | `N/A` | `N/A` | Sends a customizable welcome message in a specified channel |
-| Custom Join Message | `N/A` | `N/A` | Sends a custom private message to a new server member on join |
-| Leave Message Logs | `N/A` | `N/A` | Sends a log report for each member that leaves your server in a specified channel |
-| Cycling Bot Status | `N/A` | `N/A` | Rotating bot statuses with placeholders inside |
-| Auto Gexp Announcement | `N/A` | `N/A` | Sends an embed message of all guild points earned by every member in a specified channel |
+| Bot Feature | Command Usage | Description |
+| :--------------------: | :----------------------------------: |:---------------------------------------------------------------------------------------------------------: |
+| Level & Economy System | `N/A` | Users gain coins and exp by sending messages in chat |
+| Custom Welcome Message | `N/A` | Sends a customizable welcome message in a specified channel |
+| Custom Join Message | `N/A` | Sends a custom private message to a new server member on join |
+| Leave Message Logs | `N/A` | Sends a log report for each member that leaves your server in a specified channel |
+| Cycling Bot Status | `N/A` | Rotating bot statuses with placeholders inside |
+| Auto Gexp Announcement | `N/A` | Sends a message of the top guild point contributors for that dady in a specified channel |
+| Abuse Logs | `N/A` | Sends logs of members abusing tickets system, etc |
+| Twitch Integration | `N/A` | Sends a custom message whenever a specified person is streaming on twitch |
