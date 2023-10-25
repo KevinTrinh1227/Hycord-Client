@@ -120,8 +120,8 @@ Mod commands require certain permission nodes to execute. View corresponding com
 ### 🦻 Listeners
 
 These listeners listen for certain event triggers or run asynchronously.
-| Bot Feature | Command Usage | Description |
-| :--------------------: | :----------------------------------: |:---------------------------------------------------------------------------------------------------------: |
+| Bot Feature | Description |
+| :--------------------: | :-------------------------------------------------------------------------------------------------------------------: |
 | Level & Economy System | `N/A` | Users gain coins and exp by sending messages in chat |
 | Custom Welcome Message | `N/A` | Sends a customizable welcome message in a specified channel |
 | Custom Join Message | `N/A` | Sends a custom private message to a new server member on join |
