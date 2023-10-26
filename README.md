@@ -109,11 +109,7 @@ Mod commands require certain permission nodes to execute. View corresponding com
 | Bot Feature | Command Usage | Description |
 | :--------------------: | :----------------------------------: |:---------------------------------------------------------------------------------------------------------: |
 | Force Verification | `/forceverify <@Discord Member> <Hypixel username>` | Force sync a discord member to a Hypixel account |
-<<<<<<< HEAD
-| Force Unverification | `/forceunverify <@Discord Member>` | Force unsync a discord member from a Hypixel account |
-=======
-| Force Unverification | `/forceunverify <@Discord Member>` | Force un-sync a discord member to a Hypixel account |
->>>>>>> refs/remotes/origin/main
+| Force Unverification | `/forceunverify <@Discord Member>` | Force un-sync a discord member from a Hypixel account |
 | Ban Player | `/ban [@Server Member]` | Ban a player from your server. This punishment will also be logged in a specified channel |
 | Kick Player | `/kick [@Server Member]` | Kick a player from your server. This punishment will also be logged in a specified channel |
 | Purge Messages | `/purge <Message Amount>` | Clear a specified amount of message in that specific channel |
@@ -128,7 +124,7 @@ These listeners listen for certain event triggers or run asynchronously.
 | Bot Feature | Description |
 | :-------------------------: | :---------------------------------------------------------------------------------------------------------------------------------: |
 | Ticket Transcripts | When tickets are closed, a ticket transcript will be sent to the user who opened the ticket, and a copy will be stored in a specified channel|
-| Level & Economy System | Users gain coins and experience points by sending messages  and participating in chat |
+| Level & Economy System | Users gain coins and experience points by sending messages and participating in chat |
 | Custom Welcome Message | Sends a customizable welcome message in a specified channel |
 | Custom Join Private Message | Sends a customizable welcome message in a specified channel |
 | Leave Message Logs | Sends a log report for each member that leaves your server in a specified channel |
