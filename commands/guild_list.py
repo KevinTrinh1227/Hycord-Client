@@ -25,7 +25,7 @@ class guildList(commands.Cog):
         self.guild_id = hypixel_guild_id
     
     @commands.hybrid_command(aliases = ["gl", "guildl"], brief="guildlist", description="Displays list of all guild members", with_app_command=True)
-    @commands.cooldown(1, 120, commands.BucketType.user) # 2 min cool down.
+    @commands.cooldown(1, 30, commands.BucketType.user) # 2 min cool down.
     async def guildlist(self, ctx):
         
         
@@ -93,7 +93,7 @@ class guildList(commands.Cog):
                                 )
                             #embed.set_thumbnail(url = "{}".format(ctx.guild.icon.url)),
                             embed.timestamp = datetime.now()
-                            embed.set_footer(text=f"©️ {ctx.guild.name} | {elapsed_time:.0f}s", icon_url = ctx.guild.icon.url)
+                            embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
                             await ctx.send(embed=embed)
                         output = ""
 

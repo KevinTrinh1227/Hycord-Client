@@ -24,7 +24,7 @@ class guildInfo(commands.Cog):
         self.client = client
     
     @commands.hybrid_command(aliases = ["gi"], brief="guildinfo", description="Shows your general guild information", with_app_command=True)
-    @commands.cooldown(1, 20, commands.BucketType.user) # 20 seconds.
+    @commands.cooldown(1, 30, commands.BucketType.user) # 20 seconds.
     async def guildinfo(self, ctx):
         
         
