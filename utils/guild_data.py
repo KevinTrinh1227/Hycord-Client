@@ -1,3 +1,5 @@
+import json
+
 def get_guild_exp_data(exp):
     """
     The function `get_guild_exp_data` calculates the guild level, remaining experience, and total
@@ -45,3 +47,34 @@ def get_guild_exp_data(exp):
         exp -= need
 
     return 1000, 0, 0, 0, total_exp  # Level cap and default values if not found
+
+
+
+
+def search_uuid_and_return_name(json_file, uuid):
+    """
+    The function searches for a given UUID in a JSON file and returns the corresponding name if found,
+    or an error message if not found or if there is an error.
+    
+    @param json_file The `json_file` parameter is the path to the JSON file that contains the data you
+    want to search. It should be a string representing the file path, including the file extension
+    (e.g., "data.json").
+    @param uuid The `uuid` parameter is a unique identifier that is used to search for a specific entry
+    in the JSON file.
+    
+    @return The function `search_uuid_and_return_name` returns the name associated with the given UUID
+    if it is found in the JSON file. If the UUID is not found, it returns the string "UUID not found".
+    If the JSON file is not found, it returns the string "JSON file not found". If any other error
+    occurs, it returns a string indicating that an error occurred along with the specific error
+    """
+    try:
+        with open(json_file, 'r') as file:
+            data = json.load(file)
+            if uuid in data:
+                return data[uuid]
+            else:
+                return None
+    except FileNotFoundError:
+        return "JSON file not found"
+    except Exception as e:
+        return f"An error occurred: {str(e)}"

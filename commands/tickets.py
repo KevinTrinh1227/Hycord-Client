@@ -135,7 +135,6 @@ class Ticket(commands.Cog):
     @commands.has_permissions(administrator=True)
     @commands.hybrid_command(aliases=["ticket"], brief="ticket", description="Sends a ticket menu", with_app_command=True)
     async def tickets(self, ctx):
-        await ctx.channel.purge(limit=1)
         serverIconLink = ctx.guild.icon.url
         embed = discord.Embed(
             title = f"**{ctx.guild.name} Support**",

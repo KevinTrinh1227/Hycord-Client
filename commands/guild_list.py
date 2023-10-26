@@ -9,6 +9,7 @@ import os
 from dotenv import load_dotenv
 import asyncio
 import time
+import utils.guild_data as guild
 
 # Open the JSON file and read in the data
 with open('config.json') as json_file:
@@ -56,11 +57,13 @@ class guildList(commands.Cog):
                 
                 for idx, member in enumerate(members):
                     uuid = member["uuid"]
-                    await asyncio.sleep(0.5)
-                    playerdb_url = f'https://playerdb.co/api/player/minecraft/{uuid}'
-                    username_requests = requests.get(playerdb_url)
-                    user_data = username_requests.json()
-                    user_name = user_data["data"]["player"]["username"]
+                    
+                    user_name = guild.search_uuid_and_return_name("guild_cache.json", uuid)
+                    
+                    if user_name == None:
+                        user_name = uuid
+                    else:
+                        pass
                     
                     
                     current_time = int(time.time() * 1000)

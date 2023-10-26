@@ -46,10 +46,10 @@ class serverstats(commands.Cog):
             
             
             guild_data = data['guild']
-            total__guild_members = len(guild_data['members'])
+            total_guild_members = len(guild_data['members'])
             
         except:
-            total__guild_members = "NA"
+            total_guild_members = "NA"
 
         # Open the JSON file and read in the data
         with open('config.json') as json_file:
@@ -97,10 +97,10 @@ class serverstats(commands.Cog):
                 pass
 
             global global_online_and_guild_member
-            if (global_online_and_guild_member != total__guild_members):
-                global_online_and_guild_member = total__guild_members
+            if (global_online_and_guild_member != total_guild_members):
+                global_online_and_guild_member = total_guild_members
                 try:
-                    await guild_member_online_channel.edit(name=f"Guild Members {total__guild_members}/125")
+                    await guild_member_online_channel.edit(name=f"Guild Members {total_guild_members}/125")
                 except:
                     pass # means we got rated limited so try again in 5 min
             else:

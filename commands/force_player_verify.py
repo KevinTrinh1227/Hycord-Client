@@ -74,6 +74,7 @@ class forceVerify(commands.Cog):
                 url = f"https://api.mojang.com/users/profiles/minecraft/{username}?"
                 response = requests.get(url)
                 uuid = response.json()['id']
+                ign = response.json()['name']
 
                 requestlink = f"https://api.hypixel.net/player?key={hypixel_api_key}&uuid={uuid}"
                 hydata = requests.get(requestlink).json()
@@ -85,7 +86,7 @@ class forceVerify(commands.Cog):
             
                 #other bedwars stats
                 bedwars_level = hydata["player"]["achievements"]["bedwars_level"] #bedwars level
-                new_nickname = f"[{bedwars_level}✫] {username}"
+                new_nickname = f"[{bedwars_level}✫] {ign}"
                 
                 #user guild information
                 guild_url = f"https://api.hypixel.net/guild?player={uuid}&key={hypixel_api_key}"
@@ -166,7 +167,7 @@ class forceVerify(commands.Cog):
                 draw.text((205,142), text6, (255, 255, 85), font=font_footer)
                 draw.text((205,167), text7, (255, 255, 85), font=font_footer)
 
-                draw.text((293,67), username, (255, 255, 255), font=font_footer)
+                draw.text((293,67), ign, (255, 255, 255), font=font_footer)
                 draw.text((306,92), user.name, (255, 255, 255), font=font_footer)
                 draw.text((250,167), str(bedwars_fkdr), (255, 255, 255), font=font_footer)
                 draw.text((257,142), str(bedwars_level), (255, 255, 255), font=font_footer)
@@ -174,7 +175,8 @@ class forceVerify(commands.Cog):
                 background_image.save("./assets/outputs/verified.png") # save the img
                 
                 self.data[user_id] = {
-                    "uuid":uuid, 
+                    "uuid":uuid,
+                    "username":ign
                     }
                 await self.save_data()
                 with open('verified_accounts.json', 'w') as f:

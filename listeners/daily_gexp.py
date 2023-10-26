@@ -9,7 +9,7 @@ import discord.ui
 import os
 from dotenv import load_dotenv
 import time
-import asyncio
+import utils.guild_data as guild
 
 # Open the JSON file and read in the data
 with open('config.json') as json_file:
@@ -93,20 +93,19 @@ class dailygpoints(commands.Cog):
                                 if account_data.get('uuid') == user_uuid:
                                     discord_id = discord_user_id
                                     break
+                            
+                            uuid = user_uuid
+                            user_name = guild.search_uuid_and_return_name("guild_cache.json", uuid)
+                            
+                            if user_name == None:
+                                user_name = uuid
+                            else:
+                                pass
 
                             if discord_id:
-                                user_string = f"<@{discord_id}>"
-                                formatted_info = f"**{i}.** {user_string} [✓](https://plancke.io/hypixel/player/stats/{user_uuid}) - **{experience}** GEXP"
+                                formatted_info = f"**{i}.** [{user_name} ✓](https://plancke.io/hypixel/player/stats/{user_uuid}) - **{experience}** GEXP"
                             else:
-                                try:
-                                    await asyncio.sleep(0.1)
-                                    playerdb_url = f'https://playerdb.co/api/player/minecraft/{user_uuid}'
-                                    username_requests = requests.get(playerdb_url)
-                                    user_data = username_requests.json()
-                                    user_string = user_data["data"]["player"]["username"]
-                                except:
-                                    user_string = user_uuid
-                                formatted_info = f"**{i}.** [{user_string}](https://plancke.io/hypixel/player/stats/{user_uuid}) - **{experience}** GEXP"
+                                formatted_info = f"**{i}.** [{user_name}](https://plancke.io/hypixel/player/stats/{user_uuid}) - **{experience}** GEXP"
 
                             # print(formatted_info)
                             formatted_member_info.append(formatted_info)
@@ -144,7 +143,7 @@ class dailygpoints(commands.Cog):
                             )
                         # embed.set_thumbnail(url = guild_icon_url)
                         embed.timestamp = datetime.now()
-                        embed.set_footer(text=f"©️ {guild.name} | {elapsed_time:.0f}s", icon_url = guild_icon_url)
+                        embed.set_footer(text=f"©️ {guild.name}", icon_url = guild_icon_url)
                         await channel.send(embed=embed)
                     
                     already_sent = True
