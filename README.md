@@ -72,11 +72,11 @@ Should you run into any issues or bugs, please create an [issue ticket](https://
 ## Client Features
 
 Note that the lists below may be outdated. Please use `/help` inside your server to view an updated commands menu.
-Important: Parameters inside `<>` are required while `[]` are optional.
+Important: Parameters inside `<>` are required while parameters inside `[]` are optional.
 
 ### 🔓 Public Commands (No Permissions)
 
-These commands are open to the public for use.
+These commands are open to the public and anyone can execute them.
 | Bot Feature | Command Usage | Description |
 | :--------------------: | :----------------------------------: |:---------------------------------------------------------------------------------------------------------: |
 | Link Account | `/verify <Hypixel username>` | Validates and syncs your Discord account to your Hypixel account |
@@ -96,11 +96,12 @@ These commands are open to the public for use.
 | Ping | `/ping` | View your bot's current latency connection speed |
 | Rules | `/rules` | Display the discord server rules in a customizable embed message |
 | User Info | `/whois [@Server Member]` | Displays general information about a certain discord user |
-| Reddit Memes | `/meme` | Displays a random reddit meme as an embed |
+| Reddit Memes | `/meme` | Displays a random Reddit meme as an embed |
 | Experience Leaderboard | `/expleader` | Displays top server members with most XP |
 | Coins Leaderboard | `/coinleader` | Displays top server members with most coins |
 | Server Profile | `/profile` | Displays your profile information and stats |
-| Client Setup | `/setup` | Initial bot setup command. Only works when there is no config file, meaning bot has not been setup yet. |
+| Close Ticket | `/closeticket` | Closes a ticket channel |
+| Client Setup | `/setup` | Initial bot setup command. Only works when there is no config file, meaning the bot has not been set up yet. |
 
 ### 🔐 Mod Commands (Requires Permissions)
 
@@ -108,25 +109,30 @@ Mod commands require certain permission nodes to execute. View corresponding com
 | Bot Feature | Command Usage | Description |
 | :--------------------: | :----------------------------------: |:---------------------------------------------------------------------------------------------------------: |
 | Force Verification | `/forceverify <@Discord Member> <Hypixel username>` | Force sync a discord member to a Hypixel account |
+<<<<<<< HEAD
 | Force Unverification | `/forceunverify <@Discord Member>` | Force unsync a discord member from a Hypixel account |
+=======
+| Force Unverification | `/forceunverify <@Discord Member>` | Force un-sync a discord member to a Hypixel account |
+>>>>>>> refs/remotes/origin/main
 | Ban Player | `/ban [@Server Member]` | Ban a player from your server. This punishment will also be logged in a specified channel |
 | Kick Player | `/kick [@Server Member]` | Kick a player from your server. This punishment will also be logged in a specified channel |
 | Purge Messages | `/purge <Message Amount>` | Clear a specified amount of message in that specific channel |
 | Announcements | `/announce` | Create a custom embed message and send it to any channel |
 | Say | `/say <Message>` | Send any message as an embed to current channel |
-| Ticket System | `/tickets` | Sends a ticket menu message with buttons that allow users to create their own support tickets |
+| Ticket System | `/tickets` | Sends a ticket menu message with buttons that allow users to open their own support tickets |
 | Role Claiming | `/roles` | Sends a customizable public roles menu with buttons to select desired roles |
 
 ### 🦻 Listeners
 
 These listeners listen for certain event triggers or run asynchronously.
 | Bot Feature | Description |
-| :--------------------: | :-------------------------------------------------------------------------------------------------------------------: |
-| Level & Economy System | `N/A` | Users gain coins and exp by sending messages in chat |
-| Custom Welcome Message | `N/A` | Sends a customizable welcome message in a specified channel |
-| Custom Join Message | `N/A` | Sends a custom private message to a new server member on join |
-| Leave Message Logs | `N/A` | Sends a log report for each member that leaves your server in a specified channel |
-| Cycling Bot Status | `N/A` | Rotating bot statuses with placeholders inside |
-| Auto Gexp Announcement | `N/A` | Sends a message of the top guild point contributors for that dady in a specified channel |
-| Abuse Logs | `N/A` | Sends logs of members abusing tickets system, etc |
-| Twitch Integration | `N/A` | Sends a custom message whenever a specified person is streaming on twitch |
+| :-------------------------: | :---------------------------------------------------------------------------------------------------------------------------------: |
+| Ticket Transcripts | When tickets are closed, a ticket transcript will be sent to the user who opened the ticket, and a copy will be stored in a specified channel|
+| Level & Economy System | Users gain coins and experience points by sending messages  and participating in chat |
+| Custom Welcome Message | Sends a customizable welcome message in a specified channel |
+| Custom Join Private Message | Sends a customizable welcome message in a specified channel |
+| Leave Message Logs | Sends a log report for each member that leaves your server in a specified channel |
+| Cycling Bot Status | Rotating bot statuses with placeholders inside |
+| Auto Gexp Announcement | Sends a message of the top guild point contributors for that specific day in a specified channel |
+| Abuse Logs | Sends logs of members abusing tickets system, etc |
+| Twitch Integration | Sends a custom message whenever a specified person is streaming on Twitch |
