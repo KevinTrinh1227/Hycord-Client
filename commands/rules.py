@@ -10,8 +10,6 @@ with open('config.json') as json_file:
     
 # Load the "server_rules" template
 server_rules_template = data["embed_templates"]["server_rules"]
-# Load the "server_rules" template
-server_rules_template = data["embed_templates"]["server_rules"]
 
 
 embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
@@ -37,7 +35,7 @@ class rules(commands.Cog):
         )
         embed.timestamp = datetime.datetime.now()
         embed.set_footer(text=footer_text, icon_url=ctx.guild.icon.url)
-        await ctx.channel.purge(limit = 1)
+        # await ctx.channel.purge(limit = 1)
         await ctx.send(embed=embed)
         
         

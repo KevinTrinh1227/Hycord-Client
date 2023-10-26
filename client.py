@@ -62,13 +62,61 @@ if not os.path.exists('config.json'):
             },
             "join_dm_message": {
             "title": "Welcome to {guild_name}, {member} (#{member_count})",
-            "description": "Welcome to the {guild_name}! Verify your account using `/verify [Hypixel Username]`.\n\nMember: {member_mention}\n\n*THIS IS A PLACEHOLDER DM JOIN MESSAGE YOU CAN EDIT THIS IN `~/Hycord-Bot/config.json`* embed_templates section.",
-            "footer_text": "©️ {guild_name}"
+            "description": "Welcome to the {guild_name}! Verify your account using `/verify [Hypixel Username]`.\n\nMember: {member_mention}\n\nPlease be sure to read our server rules and if you have any questions, contact a staff member. Enjoy your stay!",
+            "footer_text": "\u00a9\ufe0f {guild_name}"
             },
             "server_rules": {
-            "title": "**DISCORD SERVER RULES**",
-            "description": "*THIS IS A PLACE HOLDER RULES COMMAND*\n*TO MAKE ANY EDITS GO TO `~/Hycord-Bot/config.json`*\n\n(+) Be respectful and kind to all members.\n(+) No spamming or excessive advertising.\n(+) Use appropriate and safe-for-work content.\n(+) No discrimination or offensive language.\n(+) Respect privacy and don't share personal information without consent.\n(+) Stay on-topic and avoid derailing discussions.\n(+) Follow Discord's terms of service and guidelines.\n(+) No trolling, baiting, or disruptive behavior.\n(+) Respect server staff and their instructions.\n(+) Report issues to server staff.\n(+) No excessive self-promotion or spamming personal links.\n(+) Keep discussions civil and avoid arguments.",
-            "footer_text": "©️ {guild_name}"
+            "title": "**🔖 | DISCORD SERVER RULES**",
+            "description": "(+) Be respectful and kind to all members.\n(+) No spamming or excessive advertising.\n(+) Use appropriate and safe-for-work content.\n(+) No discrimination or offensive language.\n(+) Respect privacy and don't share personal information without consent.\n(+) Stay on-topic and avoid derailing discussions.\n(+) Follow Discord's terms of service and guidelines.\n(+) No trolling, baiting, or disruptive behavior.\n(+) Respect server staff and their instructions.\n(+) Report issues to server staff.\n(+) No excessive self-promotion or spamming personal links.\n(+) Keep discussions civil and avoid arguments.",
+            "footer_text": "\u00a9\ufe0f {guild_name}"
+            },
+            "information": {
+            "title": "**📌 | Server Information**",
+            "description": "Welcome to the Community discord server. Be sure to view all of our rules and select our self-roles. Please do not abuse any server bots and members. In order to use our bot please use `/help` to view the bot's commands menu.\n\n**Bot Help Command:** `/help`\n\nFor additional help or information please contact a staff member. Enjoy your stay!",
+            "footer_text": "\u00a9\ufe0f {guild_name}"
+            },
+            "selection_roles": {
+            "title": "**🔔 | PUBLIC SELF SELECTION ROLES**",
+            "description": "Use the following buttons below to chose your own personal roles. By clicking the button, you will claim or unclaim the specified role.",
+            "footer_text": "\u00a9\ufe0f {guild_name}",
+            "list_of_roles": [
+                { "button_label": "🛏️ Bedwars", "role_id": 1166655627708342352 },
+                { "button_label": "🗡️ Duels", "role_id": 1166655663162802207 },
+                { "button_label": "⚔️ Skywars", "role_id": 1166655647459315743 },
+                { "button_label": "🕹️ Arcade", "role_id": 1166855643995590757 }
+            ]
+            },
+            "ticket_system": {
+            "title": "**🎟️ | Ticket Support**",
+            "description": "Require Support? Click a button below with the corresponding category's emoji and a private channel will be created where our staff team will be ready to assist you!\n\n**Categories**\n🔨 Report a cheater\n🫂 Apply for staff\n📮 Request a role(s)\n🔥 Apply for guild\n🔍 Other\n\nPlease be patient with our team & any ticket abuse will result in a punishment. Note: only 1 ticket can be opened at a time.",
+            "footer_text": "\u00a9\ufe0f {guild_name}",
+            "ticket_type_list": [
+                {
+                "button_label": "Report a cheater",
+                "ticket_type": "🔨 | Report a cheater",
+                "ticket_type_emoji": "🔨"
+                },
+                {
+                "button_label": "Apply for staff",
+                "ticket_type": "🫂 | Apply for staff",
+                "ticket_type_emoji": "🫂"
+                },
+                {
+                "button_label": "Request a role(s)",
+                "ticket_type": "📮 | Request a role(s)",
+                "ticket_type_emoji": "📮"
+                },
+                {
+                "button_label": "Apply for guild",
+                "ticket_type": "🔥 | Apply for guild",
+                "ticket_type_emoji": "🔥"
+                },
+                {
+                "button_label": "Other",
+                "ticket_type": "🔍 | Other",
+                "ticket_type_emoji": "🔍"
+                }
+            ]
             }
         }
     }

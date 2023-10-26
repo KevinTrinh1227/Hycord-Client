@@ -8,6 +8,7 @@ import os
 from dotenv import load_dotenv
 import json
 from discord import app_commands
+import traceback
 
 
 # Open the JSON file and read in the data
@@ -40,12 +41,12 @@ class initialsetup(commands.Cog):
                 timeout_time_in_seconds = 60
 
                 # General bot prefix
-                await ctx.send("Enter a bot command prefix (e.g., `.`):")
+                await ctx.send("Enter a bot prefix you would like your bot to use. Note that all commands are hybrid, meaning they will work with either prefix or with a `/`. Some examples: `?`, `.`, `!`.")
                 chosen_command_prefix = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 config['general']['bot_prefix'] = chosen_command_prefix.content
 
                 # General embed color
-                await ctx.send("Enter the embed color (in hex format, e.g., #ff0000 for red):")
+                await ctx.send("Enter a primary color in HEX format (e.g., #ff0000 for bright red). This color will be used as all your embed colors.")
                 chosen_hex_color = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 config['general']['embed_color'] = chosen_hex_color.content
 
@@ -56,19 +57,19 @@ class initialsetup(commands.Cog):
 
 
                 # Server Stats
-                await ctx.send("Enable server stats? (0 for No, 1 for Yes):")
+                await ctx.send("Enable the server stats channels? These channels will update every 10 minutes with your member count, guild member online count, etc. (0 for No, 1 for Yes)")
                 server_stats = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=timeout_time_in_seconds)
                 config['features']['server_stats'] = int(server_stats.content)
                 # the server stats category and channels will be generated at the end of the setup process
                     
                     
                 # Coins & level system question
-                await ctx.send("Enable chat coin and level system? (0 for No, 1 for Yes):")
+                await ctx.send("Enable chat coin and level system? This will reward members for chatting and participating in your server channels. (0 for No, 1 for Yes):")
                 filtered_chat = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 config['features']['coin_level_system'] = int(filtered_chat.content)
                 
                 # Auto GEXp feature
-                await ctx.send("Enable auto GEXP feature? (0 for No, 1 for Yes):")
+                await ctx.send("Enable auto GEXP feature? This feature will automatically send a daily guild points report of the top guild contributors in a specified channel. (0 for No, 1 for Yes):")
                 auto_gexp_feature = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 config['features']['auto_daily_gexp'] = int(auto_gexp_feature.content)
 
@@ -76,15 +77,46 @@ class initialsetup(commands.Cog):
                 await ctx.send("Enable filtered chat? (0 for No, 1 for Yes):")
                 filtered_chat = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 config['features']['filtered_chat'] = int(filtered_chat.content)
+                
+                # Self selection roles
+                await ctx.send("Enable self selection roles? This will allow users to select their own public roles from a list of roles you provide in a bit. Remember that you can always edit the description, title, roles labels, etc all inside the `config.json`. (0 for No, 1 for Yes")
+                self_roles = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
+                if self_roles.content == '1':
+                    await ctx.send("How many roles would you like to add to the menu? Please enter an integer number.")
+                    roles_count = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=timeout_time_in_seconds)
+                    list_of_roles = []
 
+                    for i in range(int(roles_count.content)):
+                        await ctx.send(f"Enter the label for role #{i + 1}. Note that this label will be used as the button label, so you can either only enter an emoji, or the emoji + name of the role, etc.")
+                        label_message = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=timeout_time_in_seconds)
+                        role_label = label_message.content
+
+                        await ctx.send(f"Reference the role for {role_label} (Mention the role by using @<role name>):")
+                        role_mention_message = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=timeout_time_in_seconds)
+                        role_id = role_mention_message.role_mentions[0].id
+
+                        # Create a role object with label and role ID
+                        role = {
+                            "button_label": role_label,
+                            "role_id": role_id
+                        }
+
+                        # Append this role to the list_of_roles
+                        list_of_roles.append(role)
+
+                    # Now, you can use the list_of_roles to construct your JSON object
+                    config["embed_templates"]["selection_roles"]["list_of_roles"] = list_of_roles
+                    print(list_of_roles)
+                        
+                    
 
                 # Inactivity command
-                await ctx.send("Enable inactivity command? This command will allow guild members only to share a time frame where they will be inactive for in a specific channel. (0 for No, 1 for Yes):")
+                await ctx.send("Enable inactivity command? This command will allow guild members only, to share a time frame where they will be inactive for, in a specific channel. (0 for No, 1 for Yes):")
                 inactivity_cmd = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 config['features']['inactivity_cmd'] = int(inactivity_cmd.content)
 
                 # Punishments command
-                await ctx.send("Enable punishments command? (0 for No, 1 for Yes):")
+                await ctx.send("Enable punishments command? If you want to use a different bot for punishment commands, enter `0`. (0 for No, 1 for Yes):")
                 punishments_cmd = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 config['features']['punishments_cmd'] = int(punishments_cmd.content)
 
@@ -106,13 +138,13 @@ class initialsetup(commands.Cog):
                     config['text_channel_ids']['inactivity_notice'] = str(inactivity_notice_channel_id)
 
                 # Staff chat channel
-                await ctx.send("Reference your bot logs channel. (Mention the channel by using #<channel name>):")
+                await ctx.send("Reference your bot logs channel. All bot logs will be posted in this channel. (Mention the channel by using #<channel name>):")
                 bot_logs_channel_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 bot_logs_channel_id = bot_logs_channel_mention.channel_mentions[0].id
                 config['text_channel_ids']['bot_logs'] = str(bot_logs_channel_id)
 
                 # Tickets transcripts channel
-                await ctx.send("Reference your tickets transcripts channel (Mention the channel by using #<channel name>):")
+                await ctx.send("Reference your tickets transcripts channel. This channel will house all of your closed ticket reciepts for backup. Do Not Delete them. (Mention the channel by using #<channel name>):")
                 tickets_transcripts_channel_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 tickets_transcripts_channel_id = tickets_transcripts_channel_mention.channel_mentions[0].id
                 config['text_channel_ids']['tickets_transcripts'] = str(tickets_transcripts_channel_id)
@@ -129,25 +161,25 @@ class initialsetup(commands.Cog):
 
 
                 # Guild member role
-                await ctx.send("Reference the guild member role (Mention the role by using @<role name>):")
+                await ctx.send("Reference the guild member role. This is the role all guild members have. (Mention the role by using @<role name>):")
                 guild_member_role_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 guild_member_role_id = guild_member_role_mention.role_mentions[0].id
                 config['role_ids']['guild_member'] = str(guild_member_role_id)
 
                 # Verified member role
-                await ctx.send("Reference the verified member role (Mention the role by using @<role name>):")
+                await ctx.send("Reference the verified member role. This role will be given to users that verify/link their Discord and Hypixel Minecraft accounts together. (Mention the role by using @<role name>):")
                 verified_member_role_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 verified_member_role_id = verified_member_role_mention.role_mentions[0].id
                 config['role_ids']['verified_member'] = str(verified_member_role_id)
 
                 # Unverified member role
-                await ctx.send("Reference the unverified member role (Mention the role by using @<role name>):")
+                await ctx.send("Reference the unverified member role. This is the default role all members will get when they first join your server. (Mention the role by using @<role name>):")
                 unverified_member_role_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 unverified_member_role_id = unverified_member_role_mention.role_mentions[0].id
                 config['role_ids']['unverified_member'] = str(unverified_member_role_id)
 
                 # Staff member role
-                await ctx.send("Reference the staff member role (Mention the role by using @<role name>):")
+                await ctx.send("Reference the staff member role. Note that staff members will also be able to view support tickets. (Mention the role by using @<role name>):")
                 staff_member_role_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
                 staff_member_role_id = staff_member_role_mention.role_mentions[0].id
                 config['role_ids']['staff_member'] = str(staff_member_role_id)
@@ -280,6 +312,8 @@ class initialsetup(commands.Cog):
                     json.dump(config, config_file, indent=2)
 
 
+                await ctx.send("**IMPORTANT:** Remember that you you can always edit your settings, embed messages layout, and everything else inside the `config.json` file. If when you do, restart your bot/client for the new changes to take effect.")
+
                 # saves all the data we just got to the config.json
                 await ctx.send("Configuration settings updated successfully. 🟢")
                 await ctx.send("You must **RESTART** your bot again for it to work! ⚠️ ")
@@ -292,7 +326,9 @@ class initialsetup(commands.Cog):
                 
                 
             # means that the use did not give us data in time
-            except:
+            except Exception as e:  # Capture the exception
+                traceback.print_exc()  # Print the exception traceback
+                await ctx.send(f"An exception occurred: {str(e)}")  # Send the exception message to the user
                 await ctx.send("No response received. Please try again.")
                 
             

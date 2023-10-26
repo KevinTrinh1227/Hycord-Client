@@ -9,8 +9,9 @@ import os
 from dotenv import load_dotenv
 import asyncio
 import time
+import utils.guild_data as guild
 
-# Open the JSON file and read in the data
+
 with open('config.json') as json_file:
     data = json.load(json_file)
 
@@ -25,6 +26,7 @@ class guildInfo(commands.Cog):
     @commands.hybrid_command(aliases = ["gi"], brief="guildinfo", description="Shows your general guild information", with_app_command=True)
     @commands.cooldown(1, 20, commands.BucketType.user) # 20 seconds.
     async def guildinfo(self, ctx):
+        
         
         try:
             hypixel_api_key = os.getenv("HYPIXEL_API_KEY")
@@ -59,6 +61,7 @@ class guildInfo(commands.Cog):
                 guild_tag = "No Tag Available"
                 
             guild_id = guild_data['_id']
+            guild_level, current_exp, exp_needed, exp_remaining, total_exp = guild.get_guild_exp_data(total_guild_exp)
             
             total_members = len(guild_data['members'])
             
@@ -78,7 +81,10 @@ class guildInfo(commands.Cog):
                 - **Guild Tag:** [{guild_tag}]
                 - **Guild ID:** `{guild_id}`
                 - **Total Members:** `{total_members}`/`125`
-                - **Total Guild EXP:** {total_guild_exp} experience
+                - **Total Guild EXP:** {total_guild_exp} EXP
+                - **Guild Level:** {guild_level}
+                - **GEXP to Next Level:** `{current_exp}`/`{exp_needed}`
+                - **GEXP Remaining:** {exp_remaining}
                 - **Guild Age:** {guild_age:.2f} month(s) old
                 - **Description:** {guild_description}
                 - **Stats Link:** [{guild_name} Plancke.io Link]({guild_stats_link})

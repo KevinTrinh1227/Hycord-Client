@@ -108,7 +108,7 @@ Mod commands require certain permission nodes to execute. View corresponding com
 | Bot Feature | Command Usage | Description |
 | :--------------------: | :----------------------------------: |:---------------------------------------------------------------------------------------------------------: |
 | Force Verification | `/forceverify <@Discord Member> <Hypixel username>` | Force sync a discord member to a Hypixel account |
-| Force Unverification | `/forceunverify <@Discord Member>` | Force unsync a discord member to a Hypixel account |
+| Force Unverification | `/forceunverify <@Discord Member>` | Force unsync a discord member from a Hypixel account |
 | Ban Player | `/ban [@Server Member]` | Ban a player from your server. This punishment will also be logged in a specified channel |
 | Kick Player | `/kick [@Server Member]` | Kick a player from your server. This punishment will also be logged in a specified channel |
 | Purge Messages | `/purge <Message Amount>` | Clear a specified amount of message in that specific channel |
