@@ -18,6 +18,7 @@ guild_cache.json
 
 # removes the test file
 /commands/test.py
+./assets/outputs/*
 
 __pycache__/
 
