@@ -18,8 +18,6 @@ user_data.json
 # removes the test file
 /commands/test.py
 
-/assets/outputs/*
-
 __pycache__/
 
 .idea

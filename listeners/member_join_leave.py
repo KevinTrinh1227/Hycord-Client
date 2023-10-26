@@ -146,7 +146,8 @@ class joinleave(commands.Cog):
 
         description = join_dm_template["description"].format(
             guild_name=member.guild.name,
-            member_mention=member.mention
+            member_mention=member.mention,
+            member_name = member.name
         )
 
         footer_text = join_dm_template["footer_text"].format(
