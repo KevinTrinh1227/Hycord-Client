@@ -86,7 +86,7 @@ class forceVerify(commands.Cog):
             
                 #other bedwars stats
                 bedwars_level = hydata["player"]["achievements"]["bedwars_level"] #bedwars level
-                new_nickname = f"[{bedwars_level}✫] {ign}"
+                new_nickname = ign
                 
                 #user guild information
                 guild_url = f"https://api.hypixel.net/guild?player={uuid}&key={hypixel_api_key}"

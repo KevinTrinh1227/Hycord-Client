@@ -52,7 +52,7 @@ class guildList(commands.Cog):
                 if total_members % page_size != 0:
                     total_pages += 1
                 
-                await ctx.send(f"Now fetching {guild_name}'s data. Estimated wait time: `{(total_members * 2):.0f}` seconds.")
+                # await ctx.send(f"Now fetching {guild_name}'s data. Estimated wait time: `{(total_members * 2):.0f}` seconds.")
                 
                 
                 for idx, member in enumerate(members):

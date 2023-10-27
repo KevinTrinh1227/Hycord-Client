@@ -16,7 +16,7 @@ class inactive(commands.Cog):
         self.client = client
     
     
-    @commands.hybrid_command(aliases = ["inactivity", "mia"], pass_context=True, brief="inactive", description="Let others know that you will be inactive", with_app_command=True)
+    @commands.hybrid_command(aliases = ["inactivity"], pass_context=True, brief="inactive", description="Let others know that you will be inactive", with_app_command=True)
     async def inactive(self, ctx):
         
         try:
@@ -49,7 +49,7 @@ class inactive(commands.Cog):
                     title = f"**Inactivity Notice from {ctx.author.name} ⌛**", 
                     colour = embed_color
                     )
-                embed.set_author(name = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+                #embed.set_author(name = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
                 embed.add_field(name='IGN', value=f"`{username}`", inline=True)
                 embed.add_field(name='Discord Tag', value=f"`{ctx.author}`", inline=True)
                 embed.add_field(name='Inactivity Duration', value=f"`{inactive_duration.content}`", inline=True)

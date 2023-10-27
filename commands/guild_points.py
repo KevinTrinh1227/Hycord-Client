@@ -60,7 +60,7 @@ class guildPointsCMD(commands.Cog):
                     guild_tag = ""
                 formatted_member_info = []
                 
-                await ctx.send(f"Now fetching {guild_name}'s data. This could take up to 1 minute.")
+                # await ctx.send(f"Now fetching {guild_name}'s data. This could take up to 1 minute.")
 
                 # Sort members by GEXP points in descending order
                 member_data.sort(key=lambda member: member['expHistory'].get(yesterday_date, 0), reverse=True)
@@ -73,11 +73,13 @@ class guildPointsCMD(commands.Cog):
                     
                 #print(f"Full total GEXP: {self.total_points}")
 
-                max_contributors = 25
+                max_contributors = 30
                 max_contributors = min(max_contributors, len(member_data))  # Ensure max_contributors is within the list size
                 
                 # Record the start time
                 start_time = time.time()
+                
+                # formatted_member_info = []  # Create an empty list
 
                 for i, member in enumerate(member_data[:max_contributors], start=1):
                     user_uuid = member['uuid']
@@ -99,12 +101,12 @@ class guildPointsCMD(commands.Cog):
                         pass
 
                     if discord_id:
-                        formatted_info = f"**{i}.** [{user_name} ✓](https://plancke.io/hypixel/player/stats/{user_uuid}) - **{experience}** GEXP"
+                        formatted_info = f"{i}. {user_name} ✓ - {experience}"
                     else:
-                        formatted_info = f"**{i}.** [{user_name}](https://plancke.io/hypixel/player/stats/{user_uuid}) - **{experience}** GEXP"
+                        formatted_info = f"{i}. {user_name} - {experience}"
 
-                    # print(formatted_info)
                     formatted_member_info.append(formatted_info)
+                    # print(formatted_member_info)
 
                 # this will go into effect if your Ensure max_contributors is within the list size
                 # max contributors variable is OFF or commented out. Otherwise you can ignore.

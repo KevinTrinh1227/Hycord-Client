@@ -53,7 +53,7 @@ class guildMemberCacher(commands.Cog):
                 # Remove entries from guild_member_data if the UUID is not in api_uuids
                 for uuid in list(guild_member_data.keys()):
                     if uuid not in api_uuids:
-                        print(f"Removing {guild_member_data[uuid]} from the JSON.")
+                        #print(f"Removing {guild_member_data[uuid]} from the JSON.")
                         del guild_member_data[uuid]
 
                 member_counter = 0  # Counter for added members in the current loop iteration

@@ -9,7 +9,11 @@ import discord.ui
 import os
 from dotenv import load_dotenv
 import time
-import utils.guild_data as guild
+from utils.guild_data import *
+from PIL import Image, ImageFont, ImageDraw
+from io import BytesIO
+from utils.guild_data import *
+from utils.pillow import *
 
 # Open the JSON file and read in the data
 with open('config.json') as json_file:
@@ -23,6 +27,10 @@ hypixel_guild_id = data["hypixel_ids"]["guild_id"]
 daily_points_channel_id = int(data["text_channel_ids"]["daily_guild_points"])
 guild_id = int(data["general"]["discord_server_guild_id"])
 command_prefix = data["general"]["bot_prefix"]
+
+font_title = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 22)
+font_footer = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 14)
+font_username = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 14)
 
 already_sent = False
 
@@ -39,6 +47,7 @@ class dailygpoints(commands.Cog):
         global already_sent
         if enable_feature:
             channel = self.client.get_channel(daily_points_channel_id)
+            guild = self.client.get_guild(self.guild_id)
             est = pytz.timezone('US/Eastern')
             current_time = datetime.now(est)
             
@@ -57,15 +66,14 @@ class dailygpoints(commands.Cog):
                     if response.status_code == 200:
                         data = response.json()
                         member_data = data['guild']['members']
+                        total_members = len(member_data)
                         guild_name = data['guild']['name']
                         try:
                             guild_tag = f" [{data['guild']['tag']}]"
                         except KeyError:
                             guild_tag = ""
-                        formatted_member_info = []
+                        formatted_member_info = []      
                         
-                        # await ctx.send(f"Now fetching {guild_name}'s data. This could take up to 1 minute.")
-
                         # Sort members by GEXP points in descending order
                         member_data.sort(key=lambda member: member['expHistory'].get(yesterday_date, 0), reverse=True)
                         
@@ -74,14 +82,19 @@ class dailygpoints(commands.Cog):
                         for member in member_data:
                             #print(member['uuid'], member['expHistory'][yesterday_date])
                             self.total_points += member['expHistory'][yesterday_date]
+                        
+                        for member in member_data:
+                            #print(member['uuid'], member['expHistory'][yesterday_date])
+                            self.total_points += member['expHistory'][yesterday_date]
                             
                         #print(f"Full total GEXP: {self.total_points}")
 
-                        max_contributors = 25
+                        max_contributors = 30
                         max_contributors = min(max_contributors, len(member_data))  # Ensure max_contributors is within the list size
+                        total_contributors = 0
                         
-                        # Record the start time
-                        start_time = time.time()
+                        
+                        formatted_member_info = []  # Create an empty list
 
                         for i, member in enumerate(member_data[:max_contributors], start=1):
                             user_uuid = member['uuid']
@@ -93,58 +106,76 @@ class dailygpoints(commands.Cog):
                                 if account_data.get('uuid') == user_uuid:
                                     discord_id = discord_user_id
                                     break
-                            
+                                
                             uuid = user_uuid
-                            user_name = guild.search_uuid_and_return_name("guild_cache.json", uuid)
+                            user_name = search_uuid_and_return_name("guild_cache.json", uuid)
                             
                             if user_name == None:
-                                user_name = uuid
+                                user_name = "Still loading member data..."
                             else:
                                 pass
+                            
+                            if experience > 0:
+                                total_contributors += 1
 
                             if discord_id:
-                                formatted_info = f"**{i}.** [{user_name} ✓](https://plancke.io/hypixel/player/stats/{user_uuid}) - **{experience}** GEXP"
+                                formatted_info = f"#{str(i).zfill(2)}. - {user_name} - {'{:,}'.format(experience)}"
                             else:
-                                formatted_info = f"**{i}.** [{user_name}](https://plancke.io/hypixel/player/stats/{user_uuid}) - **{experience}** GEXP"
+                                formatted_info = f"#{str(i).zfill(2)}. - {user_name} - {'{:,}'.format(experience)}"
 
-                            # print(formatted_info)
                             formatted_member_info.append(formatted_info)
+                
+                    background_image = Image.open("./assets/backgrounds/810_670.png")
+                    overlay_image = Image.open("./assets/overlays/guild_points_top.png")
+                        
+                    background_image.paste(overlay_image, (0, 0), overlay_image)
+                    
+                    text1 = f"{guild_name}{guild_tag} - Daily GEXP"
+                    text2 = f"© {guild.name}"
+                    text3 = f"Total:  {'{:,}'.format(self.total_points)}       Contributors: {total_contributors}/{total_members}       Average:  {(self.total_points / total_members):.1f}"
+                    
+                    draw = ImageDraw.Draw(background_image)
+                    
+                    _, _, text1_width, _ = draw.textbbox((0, 0), text1, font=font_title)
+                    _, _, text2_width, _ = draw.textbbox((0, 0), text2, font=font_footer)
+                    _, _, text3_width, _ = draw.textbbox((0, 0), text3, font=font_footer)
+                    
+                    image_width, _ = background_image.size
+                    center_x1 = (image_width - text1_width) // 2
+                    center_x2 = (image_width - text2_width) // 2
+                    center_x3 = (image_width - text3_width) // 2
+                    
+                    draw = ImageDraw.Draw(background_image)
+                    draw.text((center_x1,20), text1, (85, 255, 85), font=font_title)
+                    draw.text((center_x2,636), text2, (255, 255, 255), font=font_footer)
+                    draw.text((center_x3,70), text3, (85, 255, 85), font=font_footer)
 
-                        # this will go into effect if your Ensure max_contributors is within the list size
-                        # max contributors variable is OFF or commented out. Otherwise you can ignore.
-                        while len(formatted_member_info) < max_contributors:
-                            i = len(formatted_member_info) + 1
-                            formatted_info = f"**{i}.** Empty Member Slot - **0** GEXP"
-                            formatted_member_info.append(formatted_info)
+                    # Define the starting positions for the left and right columns
+                    left_column_x = 25
+                    right_column_x = 420
+                    starting_y = 107  # Adjust this value as needed
 
-                        formatted_member_string = ' \n '.join(formatted_member_info)
-                        #print(formatted_member_string)
+                    # Define colors for the different parts of the text
+                    index_color = (255, 255, 85)  # Red
+                    username_color = (255, 255, 255)  # Green
+                    experience_color = (255, 255, 85)  # Blue
+
+                    # Iterate through the usernames and draw them with different colors
+                    for i, formatted_info in enumerate(formatted_member_info, start=1):
+                        x = left_column_x if i <= 15 else right_column_x
+                        y = starting_y + (i - 1) % 15 * 35  # 30px spacing
+
+                        # Split the formatted_info into parts
+                        parts = formatted_info.split(" - ")
                         
-                        # Record the end time
-                        end_time = time.time()
-                        # Calculate the elapsed time
-                        elapsed_time = end_time - start_time
-                        #print(f"Elapsed time: {elapsed_time:.2f} seconds")
                         
-                        guild = self.client.get_guild(self.guild_id)
-                        guild_icon_url = guild.icon.url
-                        
-                        embed = discord.Embed(
-                            title = f"**🏆 | {guild_name}{guild_tag} Daily GEXP Report**", 
-                            description=f"""
-                            **{format(self.total_points, ",")}** Total GEXP was earned on `{yesterday_date}`.
-                            
-                            **Top {max_contributors} GEXP Contributors:**
-                            {formatted_member_string}
-                            
-                            Hypixel GEXP resets every 24 hours at 12AM EST.
-                            """,
-                            colour = embed_color
-                            )
-                        # embed.set_thumbnail(url = guild_icon_url)
-                        embed.timestamp = datetime.now()
-                        embed.set_footer(text=f"©️ {guild.name}", icon_url = guild_icon_url)
-                        await channel.send(embed=embed)
+                        # Draw each part with a specific color
+                        draw.text((x, y), f"#{str(i).zfill(2)}.", index_color, font=font_username)
+                        draw.text((x + 40, y), parts[1], username_color, font=font_username)
+                        draw.text((center((x + 320), parts[2], font_username), y), parts[2], experience_color, font=font_username)
+                    
+                    background_image.save("./assets/outputs/guild_daily_top.png") # save the img
+                    await channel.send(file=discord.File("./assets/outputs/guild_daily_top.png"))
                     
                     already_sent = True
                 else:
