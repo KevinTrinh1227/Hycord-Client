@@ -78,3 +78,19 @@ def search_uuid_and_return_name(json_file, uuid):
         return "JSON file not found"
     except Exception as e:
         return f"An error occurred: {str(e)}"
+    
+    
+def update_username(json_path, uuid, new_username):
+    try:
+        with open(json_path, 'r') as json_file:
+            data = json.load(json_file)
+
+        if uuid in data:
+            data[uuid] = new_username
+
+        with open(json_path, 'w') as json_file:
+            json.dump(data, json_file, indent=2)
+
+        # print("Username updated successfully.")
+    except Exception as e:
+        print(f"An error occurred: {e}")

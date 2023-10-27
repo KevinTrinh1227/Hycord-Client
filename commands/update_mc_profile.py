@@ -7,6 +7,7 @@ import json
 import os
 from discord.ext.commands import cooldown, BucketType
 from dotenv import load_dotenv
+import utils.guild_data as guild
 
 
 # Open the JSON file and read in the data
@@ -24,7 +25,7 @@ class update_account(commands.Cog):
             
     #bedwars stats command
     @commands.hybrid_command(aliases=["relink", "resync"], brief="Updates your discord information", description="update your account profile on discord", with_app_command=True)
-    @commands.cooldown(1, 600, commands.BucketType.user) # 1 use for every 10 minutes cooldown.
+    @commands.cooldown(1, 3600, commands.BucketType.user) # 1 use for every 10 minutes cooldown.
     async def update(self, ctx):
         
         member = ctx.message.author
@@ -41,40 +42,37 @@ class update_account(commands.Cog):
             load_dotenv() 
 
             uuid = self.data[str(member.id)]["uuid"]
-            url = f"https://playerdb.co/api/player/minecraft/{uuid}"
-            try: 
-                response = requests.get(url)
-                if response.status_code == 200:
-                    data = response.json()
-                    username = data['data']['player']['username'] # gets updated username
-            except Exception as e:
-                error_message = f"An unexpected error occurred: {e}"
-                await ctx.send(error_message)
+            username_url = f'https://api.mojang.com/user/profile/{uuid}'
+            ign_response = requests.get(username_url)
+            if ign_response.status_code == 200:
+                ign = ign_response.json()['name']
+            else:
+                ign = "Username Not Found"  # if API fails
+                
+            # Load the JSON data from the "guild_cache.json" file
+            with open("guild_cache.json", "r") as json_file:
+                guild_cache = json.load(json_file)
 
-            hypixel_api_key = os.getenv("HYPIXEL_API_KEY")
-
-            requestlink = f"https://api.hypixel.net/player?key={hypixel_api_key}&uuid={uuid}"
-            hydata = requests.get(requestlink).json()
-
-            #other bedwars stats
-            bedwars_level = hydata["player"]["achievements"]["bedwars_level"] #bedwars level
-            new_nickname = f"[{bedwars_level}✫] {username}"
+            # Check if the target UUID exists in the JSON data
+            if uuid in guild_cache:
+                before_name = guild.search_uuid_and_return_name("guild_cache.json", uuid)
+                if before_name != ign:
+                    guild.update_username("guild_cache.json", uuid, ign)
 
             embed = discord.Embed(
                 title = f"**✅ | Successfully Updated Account**",
-                url = f"https://plancke.io/hypixel/player/stats/{username}",
+                url = f"https://plancke.io/hypixel/player/stats/{ign}",
                 description = f"You have **successfully** updated your profile.",
                 color = embed_color               
             )
             embed.set_author(name = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
             embed.timestamp = datetime.datetime.now()
-            embed.add_field(name='IGN', value=username, inline=True)
-            embed.add_field(name='Level', value=f"{bedwars_level}✫", inline=True)
+            embed.add_field(name='IGN', value=ign, inline=True)
             embed.add_field(name='UUID', value=uuid, inline=True)
-            embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/128/{uuid}")
+            embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/{uuid}.png?y=-40")
             embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
 
-            await ctx.author.edit(nick=new_nickname)
+            await ctx.author.edit(nick=ign)
             await ctx.send(f"{ctx.author.mention}'s account is has just been updated.", embed=embed)
 
             
