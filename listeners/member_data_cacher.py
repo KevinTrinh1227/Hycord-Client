@@ -5,10 +5,15 @@ import discord.ui
 import requests
 import os
 import asyncio
+import datetime
 
 # Open the JSON file and read in the data
 with open('config.json') as json_file:
     data = json.load(json_file)
+
+guild_id = int(data["general"]["discord_server_guild_id"])
+logs_channel_id = int(data["text_channel_ids"]["bot_logs"])    # logs the bot logs in this channel
+embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
 
 hypixel_guild_id = data["hypixel_ids"]["guild_id"]
 hypixel_api_key = os.getenv("HYPIXEL_API_KEY")
@@ -18,6 +23,7 @@ hypixel_api_key = os.getenv("HYPIXEL_API_KEY")
 class guildMemberCacher(commands.Cog):
 
     def __init__(self, client):
+        self.guild_id = guild_id
         self.client = client
         # Load existing guild_member_data from JSON file
         try:
@@ -31,6 +37,7 @@ class guildMemberCacher(commands.Cog):
     @tasks.loop(seconds=120)  # 2 players in 2 minutes (1 player per min)
     async def guildMemberCacher(self):
         #print("Loop Started")
+        guild = self.client.get_guild(self.guild_id)
         try:
             api_link = f'https://api.hypixel.net/guild?key={hypixel_api_key}&id={hypixel_guild_id}'
             response = requests.get(api_link)
@@ -54,7 +61,19 @@ class guildMemberCacher(commands.Cog):
                 for uuid in list(guild_member_data.keys()):
                     if uuid not in api_uuids:
                         #print(f"Removing {guild_member_data[uuid]} from the JSON.")
+                        player_name = guild_member_data[uuid]
                         del guild_member_data[uuid]
+                        channel = self.client.get_channel(logs_channel_id)
+                        embed = discord.Embed(
+                            title=(f"😭 | {player_name} left/got kicked the guild."),
+                            description=f"Player `{player_name}` has been removed from the guild data because they either left the guild or was kicked.",
+                            colour= embed_color
+                        )
+                        # embed.timestamp = datetime.datetime.now()
+                        embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/{uuid}.png?y=-40")
+                        # embed.set_footer(text=f"©️ {guild.name}", icon_url = guild.icon.url)
+                        
+                        await channel.send(embed=embed)
 
                 member_counter = 0  # Counter for added members in the current loop iteration
 
@@ -75,6 +94,19 @@ class guildMemberCacher(commands.Cog):
                             ign = "Username Not Found"  # if API fails
                         guild_member_data[uuid] = ign
                         #print(f"{ign} has been added!")
+                        
+                        
+                        channel = self.client.get_channel(logs_channel_id)
+                        embed = discord.Embed(
+                            title=(f"😊 | {ign} has just joined/loaded."),
+                            description=f"Player `{ign}` was just loaded into the guild cache. This means that they either just joined or was just now loaded. Their username will now appear in all guild commands.",
+                            colour= embed_color
+                        )
+                        # embed.timestamp = datetime.datetime.now()
+                        embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/{uuid}.png?y=-40")
+                        # embed.set_footer(text=f"©️ {guild.name}", icon_url = guild.icon.url)
+                        
+                        await channel.send(embed=embed)
 
                         member_counter += 1  # Increment the member counter
 

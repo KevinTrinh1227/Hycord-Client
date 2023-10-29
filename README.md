@@ -123,7 +123,8 @@ Mod commands require certain permission nodes to execute. View corresponding com
 These listeners listen for certain event triggers or run asynchronously.
 | Bot Feature | Description |
 | :-------------------------: | :---------------------------------------------------------------------------------------------------------------------------------: |
-| Ticket Transcripts | When tickets are closed, a ticket transcript will be sent to the user who opened the ticket, and a copy will be stored in a specified channel|
+| Guild Logs | Sends a message in a specified channel, when a player join or leaves your Hypixel guild, this also includes if a player was kicked |
+| Ticket Transcripts | When tickets are closed, a ticket transcript will be sent to the user who opened the ticket, and a copy will be stored in a specified channel |
 | Level & Economy System | Users gain coins and experience points by sending messages and participating in chat |
 | Custom Welcome Message | Sends a customizable welcome message in a specified channel |
 | Custom Join Private Message | Sends a customizable welcome message in a specified channel |
