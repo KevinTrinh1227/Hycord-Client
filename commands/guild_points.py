@@ -68,12 +68,10 @@ class guildPointsCMD(commands.Cog):
                 self.total_points = 0
                 
                 for member in member_data:
-                    #print(member['uuid'], member['expHistory'][yesterday_date])
+                    #print(member['uuid'], "Earned:", member['expHistory'][yesterday_date])
                     self.total_points += member['expHistory'][yesterday_date]
                 
-                for member in member_data:
-                    #print(member['uuid'], member['expHistory'][yesterday_date])
-                    self.total_points += member['expHistory'][yesterday_date]
+                #print(self.total_points, "Total points:", self.total_points)
                     
                 #print(f"Full total GEXP: {self.total_points}")
 
@@ -120,7 +118,7 @@ class guildPointsCMD(commands.Cog):
             
             text1 = f"{guild_name}{guild_tag} - Daily GEXP"
             text2 = f"© {ctx.guild.name}"
-            text3 = f"Total:  {'{:,}'.format(self.total_points)}       Contributors: {total_contributors}/{total_members}       Average:  {(self.total_points / total_members):.1f}"
+            text3 = f"Total: {self.total_points:,.0f}       Contributors: {total_contributors}/{total_members}       Average:  {self.total_points / total_members:,.0f}"
             
             draw = ImageDraw.Draw(background_image)
             

@@ -17,8 +17,10 @@ with open('config.json') as json_file:
 embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
 unverified_role_id = int(data["role_ids"]["unverified_member"])
 verified_role_id = int(data["role_ids"]["verified_member"])
+guild_role_id = int(data["role_ids"]["guild_member"])
 font_title = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 16)
 font_footer = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 13)
+hypixel_guild_id = data["hypixel_ids"]["guild_id"]
     
 class forceVerify(commands.Cog):
     def __init__(self, client):
@@ -35,7 +37,7 @@ class forceVerify(commands.Cog):
     async def forceverify(self, ctx, user: discord.Member, username: str):
         
         #deletes the admin's command before executing
-        await ctx.channel.purge(limit = 1)
+        # await ctx.channel.purge(limit = 1)
         
         try:
             with open("verified_accounts.json", "r") as f:
@@ -65,6 +67,11 @@ class forceVerify(commands.Cog):
         else:
             try: #if player exist it will work
                 
+                # gets discord roles by ID
+                unverified_role = discord.utils.get(ctx.guild.roles, id=unverified_role_id) #default role id
+                verified_linked_role = discord.utils.get(ctx.guild.roles, id=verified_role_id) #verified role id
+                guild_role = discord.utils.get(ctx.guild.roles, id=guild_role_id) #verified role id
+                
                 #load in .env variables
                 load_dotenv() 
 
@@ -86,26 +93,41 @@ class forceVerify(commands.Cog):
             
                 #other bedwars stats
                 bedwars_level = hydata["player"]["achievements"]["bedwars_level"] #bedwars level
-                new_nickname = ign
+                new_nickname = f"{ign} [✔]"
                 
                 #user guild information
                 guild_url = f"https://api.hypixel.net/guild?player={uuid}&key={hypixel_api_key}"
                 guild_response = requests.get(guild_url)
                 guild_data = guild_response.json()
-                    
+                # print(guild_url)
+                
                 
                 #checks if user is in a guild
                 try:
+                    for member in guild_data["guild"]["members"]:
+                        if member.get("uuid") == uuid:
+                            member_data = member
+                            user_rank = member_data.get("rank")
+                            # print(user_rank)
+
                     if "name" in guild_data["guild"]:
                         guild_name = guild_data["guild"]["name"]
+                        guild_id = guild_data["guild"]["_id"]
+                        
+                        if guild_id == hypixel_guild_id:
+                            # print("This user is in your guild!")
+                            new_nickname = f"{user_rank} | {ign} ✔"
+                            await user.add_roles(verified_linked_role) # gives user guild role
+                            
+                        else:
+                            print("Player is not in your guild!")
+                            
+                        
                     else:
                         guild_name = "Not in Guild"
-                except: #runs if player is not in a guild
+                except Exception as error:
                     guild_name = "No Guild"
-            
-                
-                unverified_role = discord.utils.get(ctx.guild.roles, id=unverified_role_id) #default role id
-                verified_linked_role = discord.utils.get(ctx.guild.roles, id=verified_role_id) #verified role id
+                    print("An error occurred:", error) # An error occurred: name 'x' is not defined
                 
                 """
                 #embed message and linking step below

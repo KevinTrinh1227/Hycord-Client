@@ -72,7 +72,7 @@ class update_account(commands.Cog):
             embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/{uuid}.png?y=-40")
             embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
 
-            await ctx.author.edit(nick=ign)
+            await ctx.author.edit(nick=f"{ign} ✔")
             await ctx.send(f"{ctx.author.mention}'s account is has just been updated.", embed=embed)
 
             

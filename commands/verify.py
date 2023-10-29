@@ -197,7 +197,7 @@ class verify_mcaccount(commands.Cog):
                                 json.dump(self.data, f, indent=4)
                             
                             #modifies user's roles and nickname
-                            await ctx.author.edit(nick=new_nickname)
+                            await ctx.author.edit(nick=f"{new_nickname} ✔")
                             await ctx.author.add_roles(verified_linked_role)
                             await ctx.author.remove_roles(unverified_role)
                             #await ctx.send(f"{ctx.author.mention}'s account is now linked and updated.", embed=embed)
