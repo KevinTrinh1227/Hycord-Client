@@ -52,28 +52,38 @@ class guildMemberCacher(commands.Cog):
                     with open('guild_cache.json', 'r') as file:
                         guild_member_data = json.load(file)
                 except FileNotFoundError:
-                    guild_member_data = {}  # Initialize an empty dictionary if the file doesn't exist
+                    guild_member_data = {"usernames": {}, "guild_data": {}}  # Initialize an empty dictionary if the file doesn't exist
+                    
+                # adds the api response to the guild data section
+                guild_member_data["guild_data"] = data
 
                 # Create a list of UUIDs from the API response
                 api_uuids = [member["uuid"] for member in members]
+                
+                # Create a list of UUIDs to remove
+                uuids_to_remove = []
 
                 # Remove entries from guild_member_data if the UUID is not in api_uuids
-                for uuid in list(guild_member_data.keys()):
+                for uuid in guild_member_data["usernames"]:
                     if uuid not in api_uuids:
-                        #print(f"Removing {guild_member_data[uuid]} from the JSON.")
-                        player_name = guild_member_data[uuid]
-                        del guild_member_data[uuid]
-                        channel = self.client.get_channel(logs_channel_id)
-                        embed = discord.Embed(
-                            title=(f"😭 | {player_name} left/got kicked the guild."),
-                            description=f"Player `{player_name}` has been removed from the guild data because they either left the guild or was kicked.",
-                            colour= embed_color
-                        )
-                        # embed.timestamp = datetime.datetime.now()
-                        embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/{uuid}.png?y=-40")
-                        # embed.set_footer(text=f"©️ {guild.name}", icon_url = guild.icon.url)
+                        uuids_to_remove.append(uuid)
                         
-                        await channel.send(embed=embed)
+                for uuid in uuids_to_remove:
+                    #print(f"Removing {guild_member_data[uuid]} from the JSON.")
+                    player_name = guild_member_data["usernames"][uuid]
+                    del guild_member_data["usernames"][uuid]
+                    
+                    channel = self.client.get_channel(logs_channel_id)
+                    embed = discord.Embed(
+                        title=(f"😭 | {player_name} left/got kicked the guild."),
+                        description=f"Player `{player_name}` has been removed from the guild data because they either left the guild or was kicked.",
+                        colour= embed_color
+                    )
+                    # embed.timestamp = datetime.datetime.now()
+                    embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/{uuid}.png?y=-40")
+                    # embed.set_footer(text=f"©️ {guild.name}", icon_url = guild.icon.url)
+                    
+                    await channel.send(embed=embed)
 
                 member_counter = 0  # Counter for added members in the current loop iteration
 
@@ -84,7 +94,7 @@ class guildMemberCacher(commands.Cog):
                     uuid = member["uuid"]
 
                     # Add member data to the guild_member_data dictionary if it's not a duplicate
-                    if uuid not in guild_member_data:
+                    if uuid not in guild_member_data["usernames"]:
                         await asyncio.sleep(0.25)
                         username_url = f'https://api.mojang.com/user/profile/{uuid}'
                         ign_response = requests.get(username_url)
@@ -92,7 +102,7 @@ class guildMemberCacher(commands.Cog):
                             ign = ign_response.json()['name']
                         else:
                             ign = "Username Not Found"  # if API fails
-                        guild_member_data[uuid] = ign
+                        guild_member_data["usernames"][uuid] = ign
                         #print(f"{ign} has been added!")
                         
                         

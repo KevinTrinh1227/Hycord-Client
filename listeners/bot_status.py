@@ -9,35 +9,38 @@ with open('config.json') as json_file:
     data = json.load(json_file)
 
 command_prefix = data["general"]["bot_prefix"]
+
 # global variable to switch statuses
 x = 0
 
 
 class bot_status(commands.Cog):
-
     def __init__(self, client):
         self.client = client
         self.bot_status.start()
 
-    @tasks.loop(seconds=2)
+    @tasks.loop(seconds=120)  # Change the interval to 10 seconds
     async def bot_status(self):
         global x
-        if (x <= 60):
-            sweaty_role = discord.utils.get(self.client.guilds[0].roles, id=int(data["role_ids"]["guild_member"]))
-            online_and_sweaty_members = len([member for member in self.client.guilds[0].members if
-                                             sweaty_role in member.roles and member.status != discord.Status.offline])
-            await self.client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching,
-                                                                        name=f"{online_and_sweaty_members} Guild Members"))
-            x += 1
-        elif (61 <= x <= 120):
-            x += 1
+        
+        try:
+            with open('guild_cache.json') as json_file:
+                guild_data = json.load(json_file)
+                
+            guild_total = len(guild_data["guild_data"]["guild"]["members"])
+        except:
+            guild_total = "NA"
+            
+        
+        if 0 <= x < 1:  # Change status every 120 seconds (1 time)
+            await self.client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{guild_total} Guild Members"))
+        elif 1 <= x < 2:
             await self.client.change_presence(activity=discord.Game(name="with sweats 🔪"))
-        elif (121 <= x <= 180):
-            x += 1
+        else:
             await self.client.change_presence(
                 activity=discord.Activity(type=discord.ActivityType.listening, name=f"{command_prefix}help command 🔎"))
-        else:
-            x = 0
+        
+        x = (x + 1) % 3  # Reset x after three status changes
 
 
 async def setup(client):
