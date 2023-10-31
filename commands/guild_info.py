@@ -14,6 +14,9 @@ import utils.guild_data as guild
 
 with open('config.json') as json_file:
     data = json.load(json_file)
+    
+with open('guild_cache.json') as json_file:
+    guild_data = json.load(json_file)["guild_data"]["guild"]
 
 embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
 hypixel_guild_id = data["hypixel_ids"]["guild_id"]
@@ -29,14 +32,7 @@ class guildInfo(commands.Cog):
         
         
         try:
-            hypixel_api_key = os.getenv("HYPIXEL_API_KEY")
             
-            api_link = f'https://api.hypixel.net/guild?key={hypixel_api_key}&id={hypixel_guild_id}'
-            response = requests.get(api_link)
-            data = response.json()
-            
-            
-            guild_data = data['guild']
             guild_name = guild_data['name']
             created_timestamp = guild_data['created']
             total_guild_exp = guild_data['exp']

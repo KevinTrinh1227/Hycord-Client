@@ -14,7 +14,8 @@ import utils.guild_data as guild
 with open('config.json') as json_file:
     data = json.load(json_file)
     
-
+# Load the "server_rules" template
+verification_template = data["embed_templates"]["verification_nickname"]
 embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
     
 
@@ -52,12 +53,37 @@ class update_account(commands.Cog):
             # Load the JSON data from the "guild_cache.json" file
             with open("guild_cache.json", "r") as json_file:
                 guild_cache = json.load(json_file)
-
+                
             # Check if the target UUID exists in the JSON data
-            if uuid in guild_cache:
+            # meaning they are in the guild cache / in the guild
+            if uuid in guild_cache["usernames"]:
                 before_name = guild.search_uuid_and_return_name("guild_cache.json", uuid)
+                #print("User found in guild! Result:", guild_nickname)
+                
+                # finds the user and gets their rank
+                for member in guild_cache["guild_data"]["guild"]["members"]:
+                    if member.get("uuid") == uuid: # if we find a user in the guild cahce. Else: then nothing happens
+                        member_data = member
+                        user_rank = member_data.get("rank")
+                        # print(user_rank)
+                        
+                guild_nickname = verification_template["verified_guild_member"].format(
+                    ign = ign,
+                    guild_rank = user_rank
+                )
+                        
+                await ctx.author.edit(nick=guild_nickname)
                 if before_name != ign:
-                    guild.update_username("guild_cache.json", uuid, ign)
+                    guild.update_username("guild_cache.json", uuid, ign)                    
+                else:
+                    pass
+            else: # if user is not found in guild cache, so they are not in the guild.
+                non_guild_nickname = verification_template["verified_non_guild_member"].format(
+                    ign = ign
+                )
+            
+                #print("User not in guild. Result:", non_guild_nickname)
+                await ctx.author.edit(nick=non_guild_nickname)
 
             embed = discord.Embed(
                 title = f"**✅ | Successfully Updated Account**",
@@ -72,7 +98,6 @@ class update_account(commands.Cog):
             embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/{uuid}.png?y=-40")
             embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
 
-            await ctx.author.edit(nick=f"{ign} ✔")
             await ctx.send(f"{ctx.author.mention}'s account is has just been updated.", embed=embed)
 
             

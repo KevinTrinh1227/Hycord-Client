@@ -93,7 +93,7 @@ class forceVerify(commands.Cog):
             
                 #other bedwars stats
                 bedwars_level = hydata["player"]["achievements"]["bedwars_level"] #bedwars level
-                new_nickname = f"{ign} [✔]"
+                new_nickname = f"[v] {ign}"
                 
                 #user guild information
                 guild_url = f"https://api.hypixel.net/guild?player={uuid}&key={hypixel_api_key}"
@@ -120,7 +120,8 @@ class forceVerify(commands.Cog):
                             await user.add_roles(verified_linked_role) # gives user guild role
                             
                         else:
-                            print("Player is not in your guild!")
+                            pass
+                            #print("Player is not in your guild!")
                             
                         
                     else:

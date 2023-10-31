@@ -70,14 +70,12 @@ def search_uuid_and_return_name(json_file, uuid):
     try:
         with open(json_file, 'r') as file:
             data = json.load(file)
-            if uuid in data:
-                return data[uuid]
-            else:
-                return None
-    except FileNotFoundError:
-        return "JSON file not found"
-    except Exception as e:
-        return f"An error occurred: {str(e)}"
+            usernames = data.get('usernames', {})
+            name = usernames.get(uuid, None)
+            return name
+    except (FileNotFoundError, json.JSONDecodeError):
+        return None
+
     
     
 def update_username(json_path, uuid, new_username):
@@ -86,7 +84,7 @@ def update_username(json_path, uuid, new_username):
             data = json.load(json_file)
 
         if uuid in data:
-            data[uuid] = new_username
+            data["usernames"][uuid] = new_username
 
         with open(json_path, 'w') as json_file:
             json.dump(data, json_file, indent=2)

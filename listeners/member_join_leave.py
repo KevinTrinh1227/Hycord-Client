@@ -181,9 +181,13 @@ class joinleave(commands.Cog):
         channel = self.client.get_channel(leave_channel_id)
         embed = discord.Embed(
             title=(f"{member.display_name} has left the server."),
-            description=f"{member.mention} has left {member.guild.name}.",
+            description=f"{member.mention} aka `{member.name}` has left {member.guild.name}.",
             colour= embed_color
             )
+        if member.avatar:
+            embed.set_thumbnail(url=member.avatar.url)
+        else:
+            embed.set_thumbnail(url=member.guild.icon.url)
         embed.timestamp = datetime.datetime.now()
         embed.set_footer(text=f"©️ {member.guild.name}", icon_url = member.guild.icon.url)
         await channel.send(embed=embed)
