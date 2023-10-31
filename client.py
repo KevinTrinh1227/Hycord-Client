@@ -55,6 +55,10 @@ if not os.path.exists('config.json'):
             "guild_id": ""
         },
         "embed_templates": {
+            "verification_nickname": {
+            "verified_non_guild_member": "[v] {ign}",
+            "verified_guild_member": "{guild_rank} | {ign} ✔"
+            },
             "welcome_embed": {
             "embed_description": "Welcome to {guild_name}, {member.mention}!",
             "photo_title": "{member.name} has joined! (#{member_count})",
