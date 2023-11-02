@@ -19,6 +19,7 @@ class unverify(commands.Cog):
         self.client = client
     
     @commands.hybrid_command(aliases=["unlink", "unconnect"], brief="unverify", description="unsync your minecraft account", with_app_command=True)
+    @commands.cooldown(1, 600, commands.BucketType.user) # 10 min cool down.
     async def unverify(self, ctx):
         member = ctx.message.author
         with open('verified_accounts.json', 'r') as f:
@@ -60,7 +61,10 @@ class unverify(commands.Cog):
                 embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
                 
                 await ctx.author.add_roles(unverified_role) #give the unverified role
-                await member.edit(nick=None) # This line will reset the user's nickname
+                try:
+                    await member.edit(nick=None) # This line will reset the user's nickname
+                except:
+                    await ctx.send("Unlinking was a success, but the bot could not change the user's nickname. This means the user is the server owner, or they have a higher role priority than the bot.")
                 await ctx.send(embed=embed)
                 
                 

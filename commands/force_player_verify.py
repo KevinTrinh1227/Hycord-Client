@@ -21,6 +21,8 @@ guild_role_id = int(data["role_ids"]["guild_member"])
 font_title = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 16)
 font_footer = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 13)
 hypixel_guild_id = data["hypixel_ids"]["guild_id"]
+
+verification_template = data["embed_templates"]["verification_nickname"]
     
 class forceVerify(commands.Cog):
     def __init__(self, client):
@@ -93,7 +95,11 @@ class forceVerify(commands.Cog):
             
                 #other bedwars stats
                 bedwars_level = hydata["player"]["achievements"]["bedwars_level"] #bedwars level
-                new_nickname = f"[v] {ign}"
+                
+                # default for users not in the server guild
+                new_nickname = verification_template["verified_non_guild_member"].format(
+                    ign = ign
+                )
                 
                 #user guild information
                 guild_url = f"https://api.hypixel.net/guild?player={uuid}&key={hypixel_api_key}"
@@ -107,7 +113,7 @@ class forceVerify(commands.Cog):
                     for member in guild_data["guild"]["members"]:
                         if member.get("uuid") == uuid:
                             member_data = member
-                            user_rank = member_data.get("rank")
+                            user_rank = member_data.get("rank") # guild rank/role
                             # print(user_rank)
 
                     if "name" in guild_data["guild"]:
@@ -116,7 +122,11 @@ class forceVerify(commands.Cog):
                         
                         if guild_id == hypixel_guild_id:
                             # print("This user is in your guild!")
-                            new_nickname = f"{user_rank} | {ign} ✔"
+                            
+                            new_nickname = verification_template["verified_guild_member"].format(
+                                ign = ign,
+                                guild_rank = user_rank
+                            )
                             await user.add_roles(verified_linked_role) # gives user guild role
                             
                         else:

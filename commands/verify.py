@@ -21,6 +21,9 @@ unverified_role_id = int(data["role_ids"]["unverified_member"])
 verified_role_id = int(data["role_ids"]["verified_member"])
 font_title = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 16)
 font_footer = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 13)
+
+hypixel_guild_id = data["hypixel_ids"]["guild_id"]
+verification_template = data["embed_templates"]["verification_nickname"]
     
     
 class verify_mcaccount(commands.Cog):
@@ -35,6 +38,7 @@ class verify_mcaccount(commands.Cog):
             
     #bedwars stats command
     @commands.hybrid_command(aliases=["sync", "connect", "link"], brief="verify [Minecraft User Name]",description="sync/verify your minecraft account", with_app_command=True)
+    @commands.cooldown(1, 20, commands.BucketType.user) # 20 sec cool down.
     async def verify(self, ctx, *, username):
         
         try:
@@ -85,25 +89,51 @@ class verify_mcaccount(commands.Cog):
             
                 #other bedwars stats
                 bedwars_level = hydata["player"]["achievements"]["bedwars_level"] #bedwars level
-                new_nickname = ign
+                
+                # default for users not in the server guild
+                new_nickname = verification_template["verified_non_guild_member"].format(
+                    ign = ign
+                )
                 
                 #user guild information
                 guild_url = f"https://api.hypixel.net/guild?player={uuid}&key={hypixel_api_key}"
                 guild_response = requests.get(guild_url)
                 guild_data = guild_response.json()
                 
-                #checks if user is in a guild
-                try:
-                    if "name" in guild_data["guild"]:
-                        guild_name = guild_data["guild"]["name"]
-                    else:
-                        guild_name = "Not in Guild"
-                except: #runs if player is not in a guild
-                    guild_name = "No Guild"
-            
-                
                 unverified_role = discord.utils.get(ctx.guild.roles, id=unverified_role_id) #default role id
                 verified_linked_role = discord.utils.get(ctx.guild.roles, id=verified_role_id) #verified role id
+                
+                #checks if user is in a guild
+                try:
+                    for member in guild_data["guild"]["members"]:
+                        if member.get("uuid") == uuid:
+                            member_data = member
+                            user_rank = member_data.get("rank") # guild rank/role
+                            # print(user_rank)
+
+                    if "name" in guild_data["guild"]:
+                        guild_name = guild_data["guild"]["name"]
+                        guild_id = guild_data["guild"]["_id"]
+                        
+                        if guild_id == hypixel_guild_id:
+                            # print("This user is in your guild!")
+                            
+                            new_nickname = verification_template["verified_guild_member"].format(
+                                ign = ign,
+                                guild_rank = user_rank
+                            )
+                            await ctx.author.add_roles(verified_linked_role) # gives user guild role
+                            
+                        else:
+                            pass
+                            #print("Player is not in your guild!")
+                            
+                        
+                    else:
+                        guild_name = "Not in Guild"
+                except Exception as error:
+                    guild_name = "No Guild"
+                    #print("An error occurred:", error) # An error occurred: name 'x' is not defined
                 
                 
                 #check if the user even has social media activated
@@ -150,11 +180,11 @@ class verify_mcaccount(commands.Cog):
                                 
                                 
                             front_skin = front_skin.resize((151, 124))
-                            background_image.paste(front_skin, (16, 68), front_skin)
                             background_image.paste(overlay_image, (0, 0), overlay_image)
+                            background_image.paste(front_skin, (16, 68), front_skin)
                             
                             text1 = "Verification Success"
-                            text2 = f"{ctx.guild.name} | Hycord.net"
+                            text2 = f"© {ctx.guild.name} | Hycord.net"
                             text3 = f"Username:"
                             text4 = f"Discord Tag:"
                             text5 = f"Guild:"
@@ -197,7 +227,10 @@ class verify_mcaccount(commands.Cog):
                                 json.dump(self.data, f, indent=4)
                             
                             #modifies user's roles and nickname
-                            await ctx.author.edit(nick=f"{new_nickname} ✔")
+                            try:
+                                await ctx.author.edit(nick=new_nickname)
+                            except:
+                                await ctx.send("Verification was a success, but the bot could not change the user's nickname. This means the user is the server owner, or they have a higher role priority than the bot.")
                             await ctx.author.add_roles(verified_linked_role)
                             await ctx.author.remove_roles(unverified_role)
                             #await ctx.send(f"{ctx.author.mention}'s account is now linked and updated.", embed=embed)
@@ -243,7 +276,10 @@ class verify_mcaccount(commands.Cog):
                     embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
                     await ctx.send(embed=embed)
                     
-            except:
+            except Exception as e:
+                error_message = str(e)
+                print("ERROR:", error_message)
+                
                 embed = discord.Embed(
                     title = f"User Does Not Exist",
                     url = f"https://mcchecker.net/",
