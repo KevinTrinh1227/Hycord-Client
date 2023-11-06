@@ -34,7 +34,7 @@ class guildMemberCacher(commands.Cog):
         self.guildMemberCacher.start()
 
 
-    @tasks.loop(seconds=120)  # 2 players in 2 minutes (1 player per min)
+    @tasks.loop(seconds=120)  # 2 players in 2 minutes (1 player per min).
     async def guildMemberCacher(self):
         #print("Loop Started")
         guild = self.client.get_guild(self.guild_id)
