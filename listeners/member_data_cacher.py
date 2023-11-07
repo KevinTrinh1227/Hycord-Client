@@ -36,8 +36,8 @@ class guildMemberCacher(commands.Cog):
 
     @tasks.loop(seconds=120)  # 2 players in 2 minutes (1 player per min).
     async def guildMemberCacher(self):
-        #print("Loop Started")
-        guild = self.client.get_guild(self.guild_id)
+        # print("Loop Started")
+        # guild = self.client.get_guild(self.guild_id)
         try:
             api_link = f'https://api.hypixel.net/guild?key={hypixel_api_key}&id={hypixel_guild_id}'
             response = requests.get(api_link)
