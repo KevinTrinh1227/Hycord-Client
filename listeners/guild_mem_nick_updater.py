@@ -53,28 +53,30 @@ class guild_discord_nick_updater(commands.Cog):
                     )
 
                     #print(member.display_name)
-                    
-                    if guild_nickname != member.display_name:
-                        # print(f"Current: {member.display_name} did NOT match required: {guild_nickname}. Now renaming to: {guild_nickname}")
-                        
-                        channel = self.client.get_channel(logs_channel_id)
-                        embed = discord.Embed(
-                            title=(f"👤 | Updated guild member's discord nickname."),
-                            description=f"{member.mention}'s server nickname has been updated. Name Change: `{member.display_name}` ➜ `{guild_nickname}`.",
-                            colour= embed_color
-                        )
-                        # embed.timestamp = datetime.datetime.now()
-                        embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/{member_uuid}.png?y=-40")
-                        # embed.set_footer(text=f"©️ {guild.name}", icon_url = guild.icon.url)
-                        try:
-                            await member.edit(nick=guild_nickname)
-                            await channel.send(embed=embed)
-                        except: # this means that the bot could not rename a specific person that has higher priorities.
-                            pass
+                    try:
+                        if guild_nickname != member.display_name:
+                            # print(f"Current: {member.display_name} did NOT match required: {guild_nickname}. Now renaming to: {guild_nickname}")
+                            
+                            channel = self.client.get_channel(logs_channel_id)
+                            embed = discord.Embed(
+                                title=(f"👤 | Updated guild member's discord nickname."),
+                                description=f"{member.mention}'s server nickname has been updated. Name Change: `{member.display_name}` ➜ `{guild_nickname}`.",
+                                colour= embed_color
+                            )
+                            # embed.timestamp = datetime.datetime.now()
+                            embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/{member_uuid}.png?y=-40")
+                            # embed.set_footer(text=f"©️ {guild.name}", icon_url = guild.icon.url)
+                            try:
+                                await member.edit(nick=guild_nickname)
+                                await channel.send(embed=embed)
+                            except: # this means that the bot could not rename a specific person that has higher priorities.
+                                pass
 
-                    else:
-                        # print("Nick name already matched so skipping...")
-                        # print(f"Discord Nick: {member.display_name}, Member UUID: {member_uuid}, Username: {username}, Rank: {rank}")
+                        else:
+                            # print("Nick name already matched so skipping...")
+                            # print(f"Discord Nick: {member.display_name}, Member UUID: {member_uuid}, Username: {username}, Rank: {rank}")
+                            pass
+                    except:
                         pass
         
         
