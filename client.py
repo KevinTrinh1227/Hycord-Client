@@ -41,6 +41,7 @@ if not os.path.exists('config.json'):
         "text_channel_ids": {
             "welcome": "",
             "inactivity_notice": "",
+            "guild_news": "",
             "tickets_transcripts": "",
             "daily_guild_points": "",
             "bot_logs": ""

@@ -12,7 +12,7 @@ with open('config.json') as json_file:
     data = json.load(json_file)
 
 guild_id = int(data["general"]["discord_server_guild_id"])
-logs_channel_id = int(data["text_channel_ids"]["bot_logs"])    # logs the bot logs in this channel
+logs_channel_id = int(data["text_channel_ids"]["guild_news"])    # logs the bot logs in this channel
 embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
 
 hypixel_guild_id = data["hypixel_ids"]["guild_id"]

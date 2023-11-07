@@ -143,6 +143,12 @@ class initialsetup(commands.Cog):
                 bot_logs_channel_id = bot_logs_channel_mention.channel_mentions[0].id
                 config['text_channel_ids']['bot_logs'] = str(bot_logs_channel_id)
 
+                # guild news channel
+                await ctx.send("Reference your guild news channel. This channel is where the bot will send messages when someone join/leaves your guild, guild level ups, etc. (Mention the channel by using #<channel name>):")
+                guild_news_channel_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
+                guild_news_channel_id = guild_news_channel_mention.channel_mentions[0].id
+                config['text_channel_ids']['guild_news'] = str(guild_news_channel_id)
+
                 # Tickets transcripts channel
                 await ctx.send("Reference your tickets transcripts channel. This channel will house all of your closed ticket reciepts for backup. Do Not Delete them. (Mention the channel by using #<channel name>):")
                 tickets_transcripts_channel_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
