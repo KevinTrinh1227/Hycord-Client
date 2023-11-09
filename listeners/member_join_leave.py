@@ -188,8 +188,8 @@ class joinleave(commands.Cog):
             embed.set_thumbnail(url=member.avatar.url)
         else:
             embed.set_thumbnail(url=member.guild.icon.url)
-        embed.timestamp = datetime.datetime.now()
-        embed.set_footer(text=f"©️ {member.guild.name}", icon_url = member.guild.icon.url)
+        # embed.timestamp = datetime.datetime.now()
+        # embed.set_footer(text=f"©️ {member.guild.name}", icon_url = member.guild.icon.url)
         await channel.send(embed=embed)
         
         
