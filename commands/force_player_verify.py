@@ -127,7 +127,7 @@ class forceVerify(commands.Cog):
                                 ign = ign,
                                 guild_rank = user_rank
                             )
-                            await user.add_roles(verified_linked_role) # gives user guild role
+                            await user.add_roles(guild_role) # gives user guild role
                             
                         else:
                             pass

@@ -108,7 +108,7 @@ class guildMemberCacher(commands.Cog):
                         
                         channel = self.client.get_channel(logs_channel_id)
                         embed = discord.Embed(
-                            title=(f"😊 | {ign} has just joined the guild!."),
+                            title=(f"😊 | {ign} has just joined the guild!"),
                             description=f"Player `{ign}` was just loaded into the guild cache. This means that they either just joined or was just now loaded. Their username will now appear in all guild commands.",
                             colour= embed_color
                         )

@@ -19,6 +19,7 @@ with open('config.json') as json_file:
 embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
 unverified_role_id = int(data["role_ids"]["unverified_member"])
 verified_role_id = int(data["role_ids"]["verified_member"])
+guild_role_id = int(data["role_ids"]["guild_member"])
 font_title = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 16)
 font_footer = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 13)
 
@@ -102,6 +103,7 @@ class verify_mcaccount(commands.Cog):
                 
                 unverified_role = discord.utils.get(ctx.guild.roles, id=unverified_role_id) #default role id
                 verified_linked_role = discord.utils.get(ctx.guild.roles, id=verified_role_id) #verified role id
+                guild_role = discord.utils.get(ctx.guild.roles, id=guild_role_id) #verified role id
                 
                 #checks if user is in a guild
                 try:
@@ -122,7 +124,7 @@ class verify_mcaccount(commands.Cog):
                                 ign = ign,
                                 guild_rank = user_rank
                             )
-                            await ctx.author.add_roles(verified_linked_role) # gives user guild role
+                            await ctx.author.add_roles(guild_role) # gives user guild role
                             
                         else:
                             pass
