@@ -29,7 +29,7 @@ class dailyguildlevelup(commands.Cog):
         self.guild_id = guild_id
         self.dailyguildlevelup.start()
 
-    @tasks.loop(seconds=10)  # Run every 60 seconds
+    @tasks.loop(seconds=60)  # Run every 60 seconds
     async def dailyguildlevelup(self):
         
         discord_guild = self.client.get_guild(guild_id)
