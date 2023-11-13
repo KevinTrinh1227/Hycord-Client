@@ -57,7 +57,7 @@ class guildInfo(commands.Cog):
                 guild_tag = "No Tag Available"
                 
             guild_id = guild_data['_id']
-            guild_level, current_exp, exp_needed, exp_remaining, total_exp = guild.get_guild_exp_data(total_guild_exp)
+            guild_level, current_exp, exp_needed, exp_remaining, total_exp = guild.get_guild_level_data(total_guild_exp)
             
             total_members = len(guild_data['members'])
             

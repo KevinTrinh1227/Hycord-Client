@@ -199,8 +199,8 @@ class joinleave(commands.Cog):
         async for entry in message.guild.audit_logs(limit=1, action=discord.AuditLogAction.message_delete):
             deleter = entry.user
             
-            #print(entry)
-            #print(message)
+            print(entry)
+            print(message)
         
             channel = self.client.get_channel(logs_channel_id)
         

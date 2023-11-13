@@ -1,13 +1,13 @@
 import json
 
-def get_guild_exp_data(exp):
+def get_guild_level_data(exp):
     """
-    The function `get_guild_exp_data` calculates the guild level, remaining experience, and total
+    The function `get_guild_level_data` calculates the guild level, remaining experience, and total
     experience based on the given experience points.
     
     @param exp The "exp" parameter represents the amount of experience points that a guild has.
     
-    @return The function `get_guild_exp_data` returns a tuple containing the following values:
+    @return The function `get_guild_level_data` returns a tuple containing the following values:
     """
     EXP_NEEDED = [
         100000,
