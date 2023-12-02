@@ -26,7 +26,7 @@ class say(commands.Cog):
         )
         embed.timestamp = datetime.datetime.now()
         embed.set_footer(text=f"© {ctx.guild.name}", icon_url=ctx.guild.icon.url)
-        await ctx.channel.purge(limit=1)
+        #await ctx.channel.purge(limit=1)
         await ctx.send(embed=embed)
 
 

@@ -15,7 +15,7 @@ class ping(commands.Cog):
      
   @commands.hybrid_command(aliases = ["lt", "pong"], brief="ping",description="View bot latency connection", with_app_command=True)
   async def ping(self, ctx: commands.Context):
-    await ctx.channel.purge(limit = 1)
+    #await ctx.channel.purge(limit = 1)
     ping1 = round(self.client.latency * 1000)
     ping2 = round(self.client.latency * 1000)
     ping3 = round(self.client.latency * 1000)
