@@ -129,7 +129,7 @@ These listeners listen for certain event triggers or run asynchronously.
 | Level & Economy System | Users gain coins and experience points by sending messages and participating in chat |
 | Custom Welcome Message | Sends a customizable welcome message in a specified channel |
 | Custom Join Private Message | Sends a customizable welcome message in a specified channel |
-| General logs | Sends sends general log reports such as members joining, leaving, editing messages, deleting messages, and more all in a specified channel. |
+| General logs | Sends general log reports such as members joining, leaving, editing messages, deleting messages, and more all in a specified channel. |
 | Cycling Bot Status | Rotating bot statuses with placeholders inside |
 | Auto Gexp Announcement | Sends a message of the top guild point contributors for that specific day in a specified channel |
 | Abuse Logs | Sends logs of members abusing tickets system, etc |
