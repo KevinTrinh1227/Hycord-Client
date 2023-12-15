@@ -241,7 +241,7 @@ class joinleave(commands.Cog):
             embed = discord.Embed(
                 title=f"✂️ | A message was edited in #{message_before.channel.name}",
                 description=f"**Old Message:**\n```{message_before.content}```\n**New Message:**\n```{message_after.content} ```",
-                color=0xFF0000
+                color=embed_color
                 )
             embed.set_author(name=f"{message_before.author.name} ({message_before.author.display_name})", icon_url=message_before.author.avatar.url)
             embed.add_field(name="Message Author", value=message_before.author.mention,

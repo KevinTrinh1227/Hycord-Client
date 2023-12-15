@@ -46,6 +46,7 @@ class guildMemberCacher(commands.Cog):
             if response.status_code == 200:
                 data = response.json()
                 members = data['guild']['members']
+                total_guild_members = len(data['guild']['members'])
 
                 # Load existing guild_member_data from JSON file
                 try:
@@ -69,14 +70,16 @@ class guildMemberCacher(commands.Cog):
                         uuids_to_remove.append(uuid)
                         
                 for uuid in uuids_to_remove:
-                    #print(f"Removing {guild_member_data[uuid]} from the JSON.")
+                    # print(f"Removing {guild_member_data[uuid]} from the JSON.")
                     player_name = guild_member_data["usernames"][uuid]
                     del guild_member_data["usernames"][uuid]
+                    
+                    guild_member_cache_total = len(guild_member_data["usernames"])
                     
                     channel = self.client.get_channel(logs_channel_id)
                     embed = discord.Embed(
                         title=(f"😭 | {player_name} left/got kicked the guild."),
-                        description=f"Player `{player_name}` has been removed from the guild data because they either left the guild or was kicked.",
+                        description=f"Player `{player_name}` has been removed from the guild data because they either left the guild or was kicked.\n\n **Total Guild Members: `{guild_member_cache_total}`/`125`**",
                         colour= embed_color
                     )
                     # embed.timestamp = datetime.datetime.now()
@@ -105,11 +108,14 @@ class guildMemberCacher(commands.Cog):
                         guild_member_data["usernames"][uuid] = ign
                         #print(f"{ign} has been added!")
                         
+                        guild_member_cache_total = len(guild_member_data["usernames"])
+                        # print(f"Total: {guild_member_cache_total}")
+                        
                         
                         channel = self.client.get_channel(logs_channel_id)
                         embed = discord.Embed(
                             title=(f"😊 | {ign} has just joined the guild!"),
-                            description=f"Player `{ign}` was just loaded into the guild cache. This means that they either just joined or was just now loaded. Their username will now appear in all guild commands.",
+                            description=f"Player `{ign}` was just loaded into the guild cache. This means that they either just joined or was just now loaded. Their username will now appear in all guild commands.\n\n **Total Guild Members: `{guild_member_cache_total}`/`125`**",
                             colour= embed_color
                         )
                         # embed.timestamp = datetime.datetime.now()
