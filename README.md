@@ -57,7 +57,7 @@ Should you run into any issues or bugs, please create an [issue ticket](https://
    python main.py
    ```
 
-2. Setup the bot using the cmd in your server
+2. Setup the bot using the command in your discord server
 
    ```sh
    /setup
@@ -71,7 +71,7 @@ Should you run into any issues or bugs, please create an [issue ticket](https://
 
 ## Client Features
 
-Note that the lists below may be outdated. Please use `/help` inside your server to view an updated commands menu.
+NOTE: the lists below may be outdated. Please use `/help` inside your server to view an updated commands menu.
 Important: Parameters inside `<>` are required while parameters inside `[]` are optional.
 
 ### 🔓 Public Commands (No Permissions)
@@ -115,7 +115,7 @@ Mod commands require certain permission nodes to execute. View corresponding com
 | Purge Messages | `/purge <Message Amount>` | Clear a specified amount of message in that specific channel |
 | Announcements | `/announce` | Create a custom embed message and send it to any channel |
 | Say | `/say <Message>` | Send any message as an embed to current channel |
-| Ticket System | `/tickets` | Sends a ticket menu message with buttons that allow users to open their own support tickets |
+| Ticket System | `/tickets` | Sends a ticket menu message with buttons that allow users to open their support tickets |
 | Role Claiming | `/roles` | Sends a customizable public roles menu with buttons to select desired roles |
 
 ### 🦻 Listeners
