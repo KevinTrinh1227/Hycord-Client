@@ -82,10 +82,6 @@ class dailygpoints(commands.Cog):
                         for member in member_data:
                             #print(member['uuid'], member['expHistory'][yesterday_date])
                             self.total_points += member['expHistory'][yesterday_date]
-                        
-                        for member in member_data:
-                            #print(member['uuid'], member['expHistory'][yesterday_date])
-                            self.total_points += member['expHistory'][yesterday_date]
                             
                         #print(f"Full total GEXP: {self.total_points}")
 
