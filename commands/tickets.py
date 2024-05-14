@@ -118,7 +118,11 @@ class Roles(discord.ui.View):
             description = f"Please describe your issue clearly and a staff member will assist you shortly. Be sure to provide any attachments if necessary.\n\nTicket Issuer: {user.mention}\n\nUse the command `{bot_prefix}close` to close this ticket.",
             color = embed_color
         )
-        embed.set_author(name=f"Requested by {user}", icon_url=user.avatar.url),
+        # Check if user has an avatar
+        if user.avatar:
+            embed.set_author(name=f"Requested by {user}", icon_url=user.avatar.url)
+        else:
+            embed.set_author(name=f"Requested by {user}")
         embed.timestamp = datetime.datetime.now()
         embed.set_thumbnail(url="{}".format(guild.icon.url)),
         embed.set_footer(text=f"©️ {guild.name}", icon_url = guild.icon.url)
