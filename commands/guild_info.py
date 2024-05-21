@@ -14,9 +14,6 @@ import utils.guild_data as guild
 
 with open('config.json') as json_file:
     data = json.load(json_file)
-    
-with open('guild_cache.json') as json_file:
-    guild_data = json.load(json_file)["guild_data"]["guild"]
 
 embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex color to hexadecimal format
 hypixel_guild_id = data["hypixel_ids"]["guild_id"]
@@ -30,6 +27,8 @@ class guildInfo(commands.Cog):
     @commands.cooldown(1, 30, commands.BucketType.user) # 20 seconds.
     async def guildinfo(self, ctx):
         
+        with open('guild_cache.json') as json_file:
+            guild_data = json.load(json_file)["guild_data"]["guild"]
         
         try:
             
@@ -37,6 +36,7 @@ class guildInfo(commands.Cog):
             created_timestamp = guild_data['created']
             total_guild_exp = guild_data['exp']
             guild_description = guild_data['description']
+            
             
             try:
                 guild_master_uuid = guild_data["members"][0]["uuid"]
@@ -87,7 +87,10 @@ class guildInfo(commands.Cog):
                 """,
                 colour = embed_color
             )
-            embed.set_author(name = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+            if ctx.author.avatar: 
+                embed.set_author(name = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+            else:
+                embed.set_author(name = f"Requested by {ctx.author}")
             embed.set_thumbnail(url = "{}".format(ctx.guild.icon.url)),
             embed.timestamp = datetime.datetime.now()
             embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)

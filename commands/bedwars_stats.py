@@ -41,8 +41,9 @@ class bedwarsstats(commands.Cog):
             response = requests.get(url)
             uuid = response.json()['id']
 
-            requestlink = f"https://api.hypixel.net/player?key={hypixel_api_key}&uuid={uuid}"
+            requestlink = f"https://api.hypixel.net/v2/player?key={hypixel_api_key}&uuid={uuid}"
             hydata = requests.get(requestlink).json()
+            #print(hydata)
             
             #finals stats
             bedwars_final_kills = hydata["player"]["stats"]["Bedwars"]["final_kills_bedwars"]
@@ -67,20 +68,17 @@ class bedwarsstats(commands.Cog):
             #other statistics
             bedwars_level = hydata["player"]["achievements"]["bedwars_level"] #bedwars level
             
-            
             background_image = Image.open("./assets/backgrounds/bedwars_stats.png")
-            front_response = requests.get(f"https://visage.surgeplay.com/full/300/{uuid}.png?y=-50")
-            front_skin = Image.open(BytesIO(front_response.content))
             
             try:
-                front_response = requests.get(f"https://visage.surgeplay.com/full/300/{uuid}.png?y=-50")
+                front_response = requests.get(f"https://starlightskins.lunareclipse.studio/render/isometric/{uuid}/full")
                 front_skin = Image.open(BytesIO(front_response.content))
             except:
                 front_skin = Image.open("./assets/resources/default_skin_front.png")
             
-            
+            resized_front_skin = front_skin.resize((115, 285))
             # Paste the downloaded image onto the background
-            background_image.paste(front_skin, (437, 38), front_skin)
+            background_image.paste(resized_front_skin, (470, 45), resized_front_skin)
             
             header_text = f"{username}'s Overall Stats"
             footer_text = f"© {ctx.guild.name}"
@@ -100,7 +98,7 @@ class bedwarsstats(commands.Cog):
             draw.text((pillow.center(222, bedwars_final_deaths, font_stat), 142), f"{bedwars_final_deaths}", (255, 255, 255), font=font_stat)
             draw.text((pillow.center(360, bedwars_fkdr, font_stat), 142), f"{bedwars_fkdr}", (255, 255, 255), font=font_stat)
 
-            # beds stats row
+            # beds stats row50
             draw.text((pillow.center(70, bedwars_beds_broken, font_stat), 203), f"{bedwars_beds_broken}", (255, 255, 255), font=font_stat)
             draw.text((pillow.center(222, bedwars_beds_lost, font_stat), 203), f"{bedwars_beds_lost}", (255, 255, 255), font=font_stat)
             draw.text((pillow.center(360, bedwars_bed_bblr, font_stat), 203), f"{bedwars_bed_bblr}", (255, 255, 255), font=font_stat)
