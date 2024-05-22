@@ -19,6 +19,18 @@ discord_bot_token = os.getenv("DISCORD_BOT_TOKEN")
 
 with open('config.json') as json_file:
     data = json.load(json_file)
+    
+    
+# Check if the file exists
+file_name = 'verified_account.json'
+if os.path.exists(file_name):
+    # print(f"The file '{file_name}' already exists.")
+    pass
+else:
+    # Create the file
+    with open(file_name, 'w') as file:
+        file.write('{}')  # Writing an empty JSON object
+    print(f"The file '{file_name}' has been created.")
 
 # json data to run bot
 bot_prefix = data["general"]["bot_prefix"]

@@ -51,8 +51,10 @@ class dailygpoints(commands.Cog):
             est = pytz.timezone('US/Eastern')
             current_time = datetime.now(est)
             
-            if current_time.hour == 0 and current_time.minute == 0: # 00:00 mid night EST
+            if current_time.hour == 6 and current_time.minute == 24: # 00:00 mid night EST
                 if not already_sent:
+                    
+                    #print("PRINT DAILY GP POINTS NOW...")
                     
                     # Load the "verified_accounts.json" file as a dictionary
                     with open('verified_accounts.json', 'r') as verified_file:
@@ -62,8 +64,11 @@ class dailygpoints(commands.Cog):
                     hypixel_api_key = os.getenv("HYPIXEL_API_KEY")
                     api_link = f'https://api.hypixel.net/guild?key={hypixel_api_key}&id={hypixel_guild_id}'
                     response = requests.get(api_link)
+                    
+                    #print("Part 1")
 
                     if response.status_code == 200:
+                        #print("STATUS CODE WORKED!")
                         data = response.json()
                         member_data = data['guild']['members']
                         total_members = len(member_data)
