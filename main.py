@@ -22,7 +22,7 @@ with open('config.json') as json_file:
     
     
 # Check if the file exists
-file_name = 'verified_account.json'
+file_name = 'verified_accounts.json'
 if os.path.exists(file_name):
     # print(f"The file '{file_name}' already exists.")
     pass
