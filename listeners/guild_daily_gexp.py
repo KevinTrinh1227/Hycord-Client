@@ -51,7 +51,7 @@ class dailygpoints(commands.Cog):
             est = pytz.timezone('US/Eastern')
             current_time = datetime.now(est)
             
-            if current_time.hour == 6 and current_time.minute == 24: # 00:00 mid night EST
+            if current_time.hour == 0 and current_time.minute == 0: # 00:00 mid night EST
                 if not already_sent:
                     
                     #print("PRINT DAILY GP POINTS NOW...")
