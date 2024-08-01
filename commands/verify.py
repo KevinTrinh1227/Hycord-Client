@@ -175,7 +175,11 @@ class verify_mcaccount(commands.Cog):
                             
                             try:
                                 front_skin_url = f"https://visage.surgeplay.com/bust/{uuid}.png"
-                                front_response = requests.get(front_skin_url)
+                                headers = {
+                                    "User-Agent": "HycordBot/2.0 (+https://github.com/KevinTrinh1227/Hycord-Client; https://kevintrinh.dev)"
+                                }
+                                front_response = requests.get(front_skin_url, headers=headers)
+                                front_response.raise_for_status()  # This will raise an error for HTTP errors
                                 front_skin = Image.open(BytesIO(front_response.content))
                             except:
                                 front_skin = Image.open("./assets/resources/default_skin_front.png")
