@@ -94,7 +94,11 @@ class LevelingCog(commands.Cog):
             embed.add_field(name='Current Level ⭐', value=f"Lvl. {user_data['level']:}", inline=True)
             embed.add_field(name='Experience ✨', value=f"{user_data['exp']:.2f} xp", inline=True)
             embed.add_field(name='Balance 🪙', value=f"{user_data['coins']} {currency_name}", inline=True)
-            embed.set_thumbnail(url="{}".format(ctx.author.avatar.url))
+            # Handle user avatar
+            if ctx.author.avatar:
+                embed.set_thumbnail(url=ctx.author.avatar.url)
+            # else:
+                # embed.set_thumbnail(url=ctx.guild.icon.url)
             embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url=ctx.guild.icon.url)
             await ctx.send(embed=embed)
             # await ctx.send(f"Level: {user_data['level']}, Exp: {user_data['exp']}, Coins: {user_data['coins']}")

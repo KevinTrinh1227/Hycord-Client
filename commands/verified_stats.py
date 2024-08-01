@@ -42,7 +42,10 @@ class verifiedstats(commands.Cog):
             description = f"Now showing your server's verified users statistics.",
             colour = embed_color
             )
-        embed.set_author(name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url),
+        try:
+            embed.set_author(name=f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+        except:
+            pass
         embed.add_field(name='Not Verified', value=f"{not_linked} users", inline=True),
         embed.add_field(name='Guild Members', value=f"{num_with_both_roles}/{total_guild_members} verified", inline=True),
         embed.add_field(name='Total Verifies', value=f"{num_linked} users", inline=True),
