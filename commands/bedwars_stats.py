@@ -27,9 +27,10 @@ class bedwarsstats(commands.Cog):
    
     #bedwars stats command
     @commands.hybrid_command(aliases=["bedwarstats", "bwstat", "bws"], brief="bws [Minecraft User Name]", description="View a players Bedwars Stats", with_app_command=True)
-    async def bedwars(self, ctx, *, username):
+    async def bedwars(self, ctx: commands.Context, *, username: str):
         
         try:#if player exist it will work
+            
             
             #load in .env variables
             load_dotenv() 
@@ -71,14 +72,17 @@ class bedwarsstats(commands.Cog):
             background_image = Image.open("./assets/backgrounds/bedwars_stats.png")
             
             try:
-                front_response = requests.get(f"https://starlightskins.lunareclipse.studio/render/isometric/{uuid}/full")
+                headers = {
+                    "User-Agent": "HycordBot/2.0 (+https://github.com/KevinTrinh1227/Hycord-Client; https://kevintrinh.dev)"
+                }
+                front_response = requests.get(f"https://visage.surgeplay.com/full/300/{uuid}.png?y=-50", headers=headers)
                 front_skin = Image.open(BytesIO(front_response.content))
             except:
                 front_skin = Image.open("./assets/resources/default_skin_front.png")
             
             resized_front_skin = front_skin.resize((115, 285))
             # Paste the downloaded image onto the background
-            background_image.paste(resized_front_skin, (470, 45), resized_front_skin)
+            background_image.paste(front_skin, (437, 38), front_skin)
             
             header_text = f"{username}'s Overall Stats"
             footer_text = f"© {ctx.guild.name}"
@@ -141,13 +145,16 @@ class bedwarsstats(commands.Cog):
             """
         except:     #if player does not exist
             embed = discord.Embed(
-                title = f"User Does Not Exist",
-                url = f"https://mcchecker.net/",
-                description = f"Username: `{username}`\n\nThe username you have entered does not exist. Please check your spelling and try again. (You can use https://mcchecker.net/ to validate the username)",
-                color = embed_color
+                title="User Does Not Exist",
+                url="https://mcchecker.net/",
+                description=f"Username: `{username}`\n\nThe username you have entered does not exist or an error occurred. Please check your spelling and try again. (You can use https://mcchecker.net/ to validate the username)",
+                color=discord.Color.red()
             )
             embed.timestamp = datetime.datetime.now()
-            embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+            if ctx.author.avatar:  # Check if the author has an avatar
+                embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+            else:
+                embed.set_footer(text=f"Requested by {ctx.author}")
             
             await ctx.send(embed=embed)
         
