@@ -36,7 +36,10 @@ class ping(commands.Cog):
     embed.add_field(name='Ping Test #5', value=f"{str(ping5)}ms", inline=True)
     embed.add_field(name='Ping Test #6', value=f"{str(ping6)}ms", inline=True)
     embed.set_thumbnail(url = "{}".format(ctx.guild.icon.url))
-    embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+    try:
+      embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+    except:
+      pass
     await ctx.send(embed=embed)
         
         
