@@ -212,7 +212,10 @@ class joinleave(commands.Cog):
                     description=f"**Message deleted:** ```{message.content}```",
                     colour= embed_color
                     )
-                embed.set_author(name=f"{deleter.name} ({deleter.display_name})", icon_url=deleter.avatar.url)
+                if(deleter.avatar):
+                    embed.set_author(name=f"{deleter.name} ({deleter.display_name})", icon_url=deleter.avatar.url)
+                else:
+                    embed.set_author(name=f"{deleter.name} ({deleter.display_name})")
                 embed.add_field(name="Message Author", value=message.author.mention,
                                 inline=True)
                 embed.add_field(name="Author Name", value=message.author.name,
