@@ -39,15 +39,18 @@ class minecraft_skin(commands.Cog):
             
 
             try:
+                headers = {
+                    "User-Agent": "HycordBot/2.0 (+https://github.com/KevinTrinh1227/Hycord-Client; https://kevintrinh.dev)"
+                }
                 front_skin_url = f"https://visage.surgeplay.com/full/832/{uuid}.png?no=cape"
                 back_skin_url = f"https://visage.surgeplay.com/full/832/{uuid}.png?no=cape&y=140"
 
                 background_image = Image.open("./assets/backgrounds/player_skin.png")
 
-                front_response = requests.get(front_skin_url)
+                front_response = requests.get(front_skin_url, headers=headers)
                 front_skin = Image.open(BytesIO(front_response.content))
 
-                back_response = requests.get(back_skin_url)
+                back_response = requests.get(back_skin_url, headers=headers)
                 back_skin = Image.open(BytesIO(back_response.content))
             except:
                 front_skin = Image.open("./assets/resources/default_skin_front.png")
@@ -59,7 +62,7 @@ class minecraft_skin(commands.Cog):
             # Calculate the center x-coordinate for text
             image_width, _ = background_image.size
             text1 = f"{username}'s Skin"
-            text2 = f"{ctx.guild.name} | By: Hycord.net"
+            text2 = f"\u00a9\ufe0f {ctx.guild.name}"
 
             draw = ImageDraw.Draw(background_image)
 
@@ -91,7 +94,10 @@ class minecraft_skin(commands.Cog):
                 color = embed_color
             )
             embed.timestamp = datetime.datetime.now()
-            embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+            if(ctx.author.avatar):
+                embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+            else:
+                embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.guild.icon.url)
             
             await ctx.send(embed=embed)
             
@@ -127,7 +133,10 @@ class minecraft_skin(commands.Cog):
                 color = embed_color
             )
             embed.timestamp = datetime.datetime.now()
-            embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+            if(ctx.author.avatar):
+                embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
+            else:
+                embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.guild.icon.url)
             
             await ctx.send(embed=embed)
         

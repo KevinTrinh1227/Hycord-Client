@@ -45,6 +45,7 @@ class selfroles(commands.Cog):
     @commands.has_permissions(administrator = True)
     @commands.hybrid_command(aliases = ["sr", "serverroles"], brief="roles", description="Print menu for self selecting roles.", with_app_command=True)
     async def roles(self, ctx):
+        
         # Replace the footer text with actual values
         footer_text = selection_roles_template["footer_text"].format(
             guild_name=ctx.guild.name
