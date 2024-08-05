@@ -44,7 +44,7 @@ class BadWordCheck(commands.Cog):
                 guild = message.guild #getting guild
 
                 spoilered_message = f"||{message.content.replace(bad_word, f'__{bad_word}__')}||"
-
+        
                 embed = discord.Embed(
                     title=f"**Prohibited Word Warning | {message.author}**",
                     description=f"""
@@ -52,12 +52,10 @@ class BadWordCheck(commands.Cog):
                     
                     **Filtered Message:** `{bad_word}`
                     
-                    **Original Message:** {spoilered_message}
-                    
                     Please refrain from using any harmful content to avoid being punished. User: {message.author.mention}
                     """,
                     color=embed_color
-                )
+                ) # OPTIONAL: **Original Message:** {spoilered_message}
                 if message.author.avatar:
                     embed.set_thumbnail(url=message.author.avatar.url)
                 #else:
