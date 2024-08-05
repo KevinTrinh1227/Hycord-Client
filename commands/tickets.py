@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.ui import Button, View
 import discord.ui
 import datetime
 import json
@@ -155,32 +156,39 @@ class Ticket(commands.Cog):
     @commands.hybrid_command(aliases=["close"], brief="closeticket", description="Closes the current ticket", with_app_command=True)
     async def closeticket(self, ctx):
         if not ctx.channel.name.startswith("ticket-"):
-            #await ctx.send("This command can only be used in a ticket channel.")
-            pass
             return
 
         # Create a confirmation message
         embed = discord.Embed(
             title="🎟️ | Confirmation",
-            description="Are you sure that you want to close your ticket? If so please click on the reaction below this message. Otherwise please ignore this message.",
+            description="Are you sure that you want to close your ticket? If so please click the button below. Otherwise please ignore this message.",
             color=embed_color
         )
         embed.timestamp = datetime.datetime.now()
-        embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url = ctx.guild.icon.url)
-        confirm_msg = await ctx.send(embed=embed)
+        embed.set_footer(text=f"©️ {ctx.guild.name}", icon_url=ctx.guild.icon.url)
 
-        # Add a check mark reaction to the message
-        await confirm_msg.add_reaction("✅")
+        # Create the confirmation button
+        button = Button(label="Close Ticket", style=discord.ButtonStyle.red)
 
-        # Wait for the author to react with a check mark
-        def check(reaction, user):
-            return user == ctx.author and str(reaction.emoji) == "✅" and reaction.message == confirm_msg
+        async def button_callback(interaction):
+            if interaction.user == ctx.author:
+                # Add your ticket closing logic here. None for now
+                pass
+            else:
+                await interaction.response.send_message("You are not authorized to close this ticket.", ephemeral=True)
 
+        button.callback = button_callback
+
+        view = View()
+        view.add_item(button)
+        confirm_msg = await ctx.send(embed=embed, view=view)
+
+        # Wait for the button interaction
         try:
-            reaction, user = await self.client.wait_for("reaction_add", timeout=60.0, check=check)
+            await self.client.wait_for("interaction", timeout=30.0, check=lambda i: i.message.id == confirm_msg.id and i.user == ctx.author)
         except asyncio.TimeoutError:
             await ctx.send("Confirmation timed out. Ticket will not be closed. Run the command again to close.")
-            return
+            await confirm_msg.edit(view=None)
 
             
         #saving the channel as a html
