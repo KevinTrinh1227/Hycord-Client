@@ -28,7 +28,10 @@ class commend_error(commands.Cog):
                 colour= embed_color
                 )
             embed.timestamp = datetime.datetime.now()
-            embed.set_footer(text=f"Requested by {ctx.author}", icon_url = ctx.author.avatar.url)
+            if(ctx.author.avatar):  # if user does have an avatar
+                embed.set_footer(text=f"Requested by {ctx.author}", icon_url = ctx.author.avatar.url)
+            else:                   # if user DOES NOT have an avatar
+                embed.set_footer(text=f"Requested by {ctx.author}")
             await ctx.send(embed=embed)
 
         # ERROR: if user has a command cooldown
@@ -39,7 +42,10 @@ class commend_error(commands.Cog):
                 colour= embed_color
                 )
             embed.timestamp = datetime.datetime.now()
-            embed.set_footer(text=f"Requested by {ctx.author}", icon_url = ctx.author.avatar.url)
+            if(ctx.author.avatar):  # if user does have an avatar
+                embed.set_footer(text=f"Requested by {ctx.author}", icon_url = ctx.author.avatar.url)
+            else:                   # if user DOES NOT have an avatar
+                embed.set_footer(text=f"Requested by {ctx.author}")
             await ctx.send(embed=embed)
         # ERROR: if user does not have the permission node
         elif isinstance(error, commands.MissingPermissions):
@@ -50,7 +56,10 @@ class commend_error(commands.Cog):
 
             )
             embed.timestamp = datetime.datetime.now()
-            embed.set_footer(text=f"Requested by {ctx.author}", icon_url = ctx.author.avatar.url)
+            if(ctx.author.avatar):  # if user does have an avatar
+                embed.set_footer(text=f"Requested by {ctx.author}", icon_url = ctx.author.avatar.url)
+            else:                   # if user DOES NOT have an avatar
+                embed.set_footer(text=f"Requested by {ctx.author}")
             await ctx.send(embed=embed)
         # ERROR: if the command was missing arguments
         elif isinstance(error, commands.MissingRequiredArgument):
@@ -60,7 +69,10 @@ class commend_error(commands.Cog):
                 color = embed_color
             )
             embed.timestamp = datetime.datetime.now()
-            embed.set_footer(text=f"Requested by {ctx.author}", icon_url = ctx.author.avatar.url)
+            if(ctx.author.avatar):  # if user does have an avatar
+                embed.set_footer(text=f"Requested by {ctx.author}", icon_url = ctx.author.avatar.url)
+            else:                   # if user DOES NOT have an avatar
+                embed.set_footer(text=f"Requested by {ctx.author}")
             await ctx.send(embed=embed)
         else:
             print(error) # for other errors so they dont get suppressed

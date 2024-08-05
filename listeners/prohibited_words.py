@@ -11,6 +11,10 @@ import datetime
 * profanity checker system through API.
 * I recommend only using this feature if you
 * have a PG discord server community.
+
+* IMPORTANT: This feature only applies to messages
+* under 4096 characters. Otherwise it will ignore
+* any and all messages over that limit.
 ========================================== """
 
 # Open the JSON file and read in the data
@@ -56,8 +60,8 @@ class BadWordCheck(commands.Cog):
                 )
                 if message.author.avatar:
                     embed.set_thumbnail(url=message.author.avatar.url)
-                else:
-                    embed.set_thumbnail(url=message.author.guild.icon.url)
+                #else:
+                    #embed.set_thumbnail(url=message.author.guild.icon.url)
                 embed.timestamp = datetime.datetime.now()
                 embed.set_footer(text=f"© {guild.name}", icon_url=guild.icon.url)
 
@@ -69,6 +73,9 @@ class BadWordCheck(commands.Cog):
             return
 
     def check_profanity(self, text):
+        if len(text) > 4096:
+            return None
+        
         url = f"https://www.purgomalum.com/service/containsprofanity?text={text}"
         response = requests.get(url)
         if response.text.lower() == "true":
