@@ -5,7 +5,12 @@ import discord.ui
 import requests
 import os
 import asyncio
-import datetime
+from datetime import datetime
+
+from PIL import Image, ImageFont, ImageDraw
+from io import BytesIO
+import requests
+import utils.pillow as pillow
 
 # Open the JSON file and read in the data
 with open('config.json') as json_file:
@@ -77,16 +82,57 @@ class guildMemberCacher(commands.Cog):
                     guild_member_cache_total = len(guild_member_data["usernames"])
                     
                     channel = self.client.get_channel(logs_channel_id)
-                    embed = discord.Embed(
-                        title=(f"😭 | {player_name} left/got kicked the guild."),
-                        description=f"Player `{player_name}` has been removed from the guild data because they either left the guild or was kicked.\n\n **Total Guild Members: `{guild_member_cache_total}`/`125`**",
-                        colour= embed_color
-                    )
+                    #embed = discord.Embed(
+                    #    title=(f"😭 | {player_name} left/got kicked the guild."),
+                    #    description=f"Player `{player_name}` has been removed from the guild data because they either left the guild or was kicked.\n\n **Total Guild Members: `{guild_member_cache_total}`/`125`**",
+                    #    colour= embed_color
+                    #)
                     # embed.timestamp = datetime.datetime.now()
-                    embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/{uuid}.png?y=-40")
+                    #embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/{uuid}.png?y=-40")
                     # embed.set_footer(text=f"©️ {guild.name}", icon_url = guild.icon.url)
                     
-                    await channel.send(embed=embed)
+                    #await channel.send(embed=embed)
+                    
+                    try:
+                        headers = {
+                            "User-Agent": "HycordBot/2.0 (+https://github.com/KevinTrinh1227/Hycord-Client; https://kevintrinh.dev)"
+                        }
+                        front_response = requests.get(f"https://visage.surgeplay.com/bust/{uuid}.png?y=-40", headers=headers)
+                        member_avatar = Image.open(BytesIO(front_response.content))
+                    except:
+                        member_avatar = Image.open("./assets/resources/default_skin_burst.png")
+
+                    resized_avatar = member_avatar.resize((95, 95))
+                    background_image = Image.open("./assets/backgrounds/560_120.png")
+                    overlay_image = Image.open("./assets/overlays/member_join_leave.png")
+                    background_image.paste(overlay_image, (0, 0), overlay_image)
+                    background_image.paste(resized_avatar, (446, 18), resized_avatar)
+
+                    # Draw text on the image
+                    draw = ImageDraw.Draw(background_image)
+                    
+                    font_title = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 14)
+                    font_footer = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 13)
+
+                    current_time = datetime.now()
+                    timestamp = current_time.strftime("%m/%d/%Y  @  %H:%M")
+                    draw.text((20, 13), f"A guild member has left.", fill=(255, 85, 85), font=font_title)
+                    draw.text((220, 13), f"({guild_member_cache_total}/125)", fill=(170, 170, 170), font=font_title)
+                    
+                    
+                    draw.text((20, 47), f"• Player:", fill=(255, 255, 255), font=font_footer)
+                    draw.text((90, 47), f"{player_name}", fill=(255, 255, 85), font=font_footer)
+                    
+                    draw.text((20, 68), f"• Data deleted on:", fill=(255, 255, 255), font=font_footer)
+                    draw.text((160, 68), f"{timestamp}", fill=(255, 255, 85), font=font_footer)
+                    
+                    draw.text((20, 90), f"• UUID:", fill=(255, 255, 255), font=font_footer)
+                    draw.text((72, 90), f"{uuid}", fill=(255, 255, 85), font=font_footer)
+
+                    image_file = "./assets/outputs/guild_cache_leave.png"
+                    background_image.save(image_file)  # Save the image
+                    
+                    await channel.send(file=discord.File(image_file))
 
                 member_counter = 0  # Counter for added members in the current loop iteration
 
@@ -113,16 +159,57 @@ class guildMemberCacher(commands.Cog):
                         
                         
                         channel = self.client.get_channel(logs_channel_id)
-                        embed = discord.Embed(
-                            title=(f"😊 | {ign} has just joined the guild!"),
-                            description=f"Player `{ign}` was just loaded into the guild cache. This means that they either just joined or was just now loaded. Their username will now appear in all guild commands.\n\n **Total Guild Members: `{guild_member_cache_total}`/`125`**",
-                            colour= embed_color
-                        )
+                        #embed = discord.Embed(
+                        #    title=(f"😊 | {ign} has just joined the guild!"),
+                        #    description=f"Player `{ign}` was just loaded into the guild cache. This means that they either just joined or was just now loaded. Their username will now appear in all guild commands.\n\n **Total Guild Members: `{guild_member_cache_total}`/`125`**",
+                        #    colour= embed_color
+                        #)
                         # embed.timestamp = datetime.datetime.now()
-                        embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/{uuid}.png?y=-40")
+                        #embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/{uuid}.png?y=-40")
                         # embed.set_footer(text=f"©️ {guild.name}", icon_url = guild.icon.url)
                         
-                        await channel.send(embed=embed)
+                        #await channel.send(embed=embed)
+                        
+                        try:
+                            headers = {
+                                "User-Agent": "HycordBot/2.0 (+https://github.com/KevinTrinh1227/Hycord-Client; https://kevintrinh.dev)"
+                            }
+                            front_response = requests.get(f"https://visage.surgeplay.com/bust/{uuid}.png?y=-40", headers=headers)
+                            member_avatar = Image.open(BytesIO(front_response.content))
+                        except:
+                            member_avatar = Image.open("./assets/resources/default_skin_burst.png")
+
+                        resized_avatar = member_avatar.resize((95, 95))
+                        background_image = Image.open("./assets/backgrounds/560_120.png")
+                        overlay_image = Image.open("./assets/overlays/member_join_leave.png")
+                        background_image.paste(overlay_image, (0, 0), overlay_image)
+                        background_image.paste(resized_avatar, (446, 18), resized_avatar)
+
+                        # Draw text on the image
+                        draw = ImageDraw.Draw(background_image)
+                        
+                        font_title = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 14)
+                        font_footer = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 13)
+
+                        current_time = datetime.now()
+                        timestamp = current_time.strftime("%m/%d/%Y  @  %H:%M")
+                        draw.text((20, 13), f"A new guild member appeared!", fill=(85, 255, 85), font=font_title)
+                        draw.text((275, 13), f"({guild_member_cache_total}/125)", fill=(170, 170, 170), font=font_title)
+                        
+                        
+                        draw.text((20, 47), f"• Player:", fill=(255, 255, 255), font=font_footer)
+                        draw.text((90, 47), f"{ign}", fill=(255, 255, 85), font=font_footer)
+                        
+                        draw.text((20, 68), f"• Data loaded on:", fill=(255, 255, 255), font=font_footer)
+                        draw.text((153, 68), f"{timestamp}", fill=(255, 255, 85), font=font_footer)
+                        
+                        draw.text((20, 90), f"• UUID:", fill=(255, 255, 255), font=font_footer)
+                        draw.text((72, 90), f"{uuid}", fill=(255, 255, 85), font=font_footer)
+
+                        image_file = "./assets/outputs/guild_cache_join.png"
+                        background_image.save(image_file)  # Save the image
+                        
+                        await channel.send(file=discord.File(image_file))
 
                         member_counter += 1  # Increment the member counter
 
