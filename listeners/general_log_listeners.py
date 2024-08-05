@@ -196,41 +196,34 @@ class joinleave(commands.Cog):
     # logs when someone deletes a message
     @commands.Cog.listener()
     async def on_message_delete(self, message):
-        async for entry in message.guild.audit_logs(limit=1, action=discord.AuditLogAction.message_delete):
-            deleter = entry.user
-            
-            #print(entry)
-            #print(message)
-            #print(f"{message.author.id} - {self.client.user.id}")
-            
-            if not message.author.id == self.client.user.id:
-        
-                channel = self.client.get_channel(logs_channel_id)
-            
-                embed = discord.Embed(
-                    title=(f"🗑️ | A message was deleted in #{message.channel.name}"),
-                    description=f"**Message deleted:** ```{message.content}```",
-                    colour= embed_color
-                    )
-                if(deleter.avatar):
-                    embed.set_author(name=f"{deleter.name} ({deleter.display_name})", icon_url=deleter.avatar.url)
-                else:
-                    embed.set_author(name=f"{deleter.name} ({deleter.display_name})")
-                embed.add_field(name="Message Author", value=message.author.mention,
-                                inline=True)
-                embed.add_field(name="Author Name", value=message.author.name,
-                                inline=True)
-                embed.add_field(name="Author ID", value=message.author.id,
-                                inline=True)
+        # Ensure the bot has the necessary permissions
+        if message.guild.me.guild_permissions.view_audit_log:
+            async for entry in message.guild.audit_logs(limit=1, action=discord.AuditLogAction.message_delete):
+                deleter = entry.user
                 
-                embed.add_field(name="Deleter", value=deleter.mention,
-                                inline=True)
-                embed.add_field(name="Deleter Name", value=deleter.name,
-                                inline=True)
-                embed.add_field(name="Deleter ID", value=deleter.id,
-                                inline=True)
+                if message.author.id != self.client.user.id:
+                    channel = self.client.get_channel(logs_channel_id)
+                    
+                    embed = discord.Embed(
+                        title=f"🗑️ | A message was deleted in #{message.channel.name}",
+                        description=f"**Message deleted:** ```{message.content}```",
+                        colour=embed_color
+                    )
+                    
+                    if deleter.avatar:
+                        embed.set_author(name=f"{deleter.name} ({deleter.display_name})", icon_url=deleter.avatar.url)
+                    else:
+                        embed.set_author(name=f"{deleter.name} ({deleter.display_name})")
 
-                await channel.send(embed=embed)
+                    embed.add_field(name="Message Author", value=message.author.mention, inline=True)
+                    embed.add_field(name="Author Name", value=message.author.name, inline=True)
+                    embed.add_field(name="Author ID", value=message.author.id, inline=True)
+
+                    embed.add_field(name="Deleter", value=deleter.mention, inline=True)
+                    embed.add_field(name="Deleter Name", value=deleter.name, inline=True)
+                    embed.add_field(name="Deleter ID", value=deleter.id, inline=True)
+
+                    await channel.send(embed=embed)
 
 
     # logs when someone edits a message
