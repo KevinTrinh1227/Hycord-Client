@@ -1,4 +1,4 @@
-discord.py==2.3.2
+discord.py==2.4.0
 requests==2.32.3
 python-dotenv==1.0.1
 pytz==2024.1
