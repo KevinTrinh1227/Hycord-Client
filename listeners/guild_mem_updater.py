@@ -44,46 +44,38 @@ class guild_discord_nick_updater(commands.Cog):
         members = guild_cache_data['guild_data']["guild"]['members']
 
         # Iterate through the members and check for matches in 'verified_accounts.json'
-        for member in members:
-            member_uuid = member['uuid']
+        for member_data in members:
+            member_uuid = member_data['uuid']
             for discord_id, info in verified_accounts_data.items():
                 if member_uuid == info['uuid']:
                     username = info['username']
-                    rank = member['rank']
+                    rank = member_data['rank']  # Use the original member_data for dictionary access
                     
-                    member = guild.get_member(int(discord_id))
+                    discord_member = guild.get_member(int(discord_id))  # Use a different variable name for the Discord Member object
                     
                     guild_nickname = verification_template["verified_guild_member"].format(
-                        ign = username,
-                        guild_rank = rank
+                        ign=username,
+                        guild_rank=rank
                     )
 
-                    #print(member.display_name)
                     try:
-                        if guild_nickname != member.display_name:
-                            # print(f"Current: {member.display_name} did NOT match required: {guild_nickname}. Now renaming to: {guild_nickname}")
-                            
+                        if guild_nickname != discord_member.display_name:
                             channel = self.client.get_channel(logs_channel_id)
                             embed = discord.Embed(
-                                title=(f"👤 | Updated guild member's discord nickname."),
-                                description=f"{member.mention}'s server nickname has been updated. Name Change: `{member.display_name}` ➜ `{guild_nickname}`.",
-                                colour= embed_color
+                                title="👤 | Updated guild member's discord nickname.",
+                                description=f"{discord_member.mention}'s server nickname has been updated. Name Change: `{discord_member.display_name}` ➜ `{guild_nickname}`.",
+                                colour=embed_color
                             )
-                            # embed.timestamp = datetime.datetime.now()
-                            embed.set_thumbnail(url = f"https://visage.surgeplay.com/bust/{member_uuid}.png?y=-40")
-                            # embed.set_footer(text=f"©️ {guild.name}", icon_url = guild.icon.url)
+                            embed.set_thumbnail(url=f"https://visage.surgeplay.com/bust/{member_uuid}.png?y=-40")
+                            
                             try:
-                                await member.edit(nick=guild_nickname)
+                                await discord_member.edit(nick=guild_nickname)
                                 await channel.send(embed=embed)
-                            except: # this means that the bot could not rename a specific person that has higher priorities.
-                                pass
+                            except Exception as e:  # Catch and log the exception
+                                print(f"Could not rename {discord_member.name}: {e}")
 
-                        else:
-                            # print("Nick name already matched so skipping...")
-                            # print(f"Discord Nick: {member.display_name}, Member UUID: {member_uuid}, Username: {username}, Rank: {rank}")
-                            pass
-                    except:
-                        pass
+                    except Exception as e:
+                        print(f"An error occurred: {e}")
         
         
 async def setup(client):

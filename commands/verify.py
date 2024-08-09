@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
 import requests
+from utils.player_functions import *
 
 
 # Open the JSON file and read in the data
@@ -20,11 +21,32 @@ embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex co
 unverified_role_id = int(data["role_ids"]["unverified_member"])
 verified_role_id = int(data["role_ids"]["verified_member"])
 guild_role_id = int(data["role_ids"]["guild_member"])
-font_title = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 16)
-font_footer = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 13)
+font_title = ImageFont.truetype("./assets/fonts/main.ttf", 16)
+font_footer = ImageFont.truetype("./assets/fonts/main.ttf", 13)
 
 hypixel_guild_id = data["hypixel_ids"]["guild_id"]
 verification_template = data["embed_templates"]["verification_nickname"]
+
+minecraft_colors = {
+    '0': (0, 0, 0),
+    '1': (0, 0, 170),
+    '2': (0, 170, 0),
+    '3': (0, 170, 170),
+    '4': (170, 0, 0),
+    '5': (170, 0, 170),
+    '6': (255, 170, 0),
+    '7': (170, 170, 170),
+    '8': (85, 85, 85),
+    '9': (85, 85, 255),
+    'a': (85, 255, 85),
+    'b': (85, 255, 255),
+    'c': (255, 85, 85),
+    'd': (255, 85, 255),
+    'e': (255, 255, 85),
+    'f': (255, 255, 255),
+    'r': (255, 85, 85),  # default rank color
+    'p': (255, 170, 0)   # default plus color
+}
     
     
 class verify_mcaccount(commands.Cog):
@@ -190,14 +212,16 @@ class verify_mcaccount(commands.Cog):
                             background_image.paste(front_skin, (16, 68), front_skin)
                             
                             text1 = "Verification Success"
-                            text2 = f"© {ctx.guild.name} | Hycord.net"
-                            text3 = f"Username:"
-                            text4 = f"Discord Tag:"
-                            text5 = f"Guild:"
-                            text6 = f"Level:"
-                            text7 = f"FKDR:"
+                            text2 = f"©️ {ctx.guild.name}"
+                            text3 = f"• Username:"
+                            text4 = f"• Discord Tag:"
+                            text5 = f"• Guild:"
+                            text6 = f"• Level:"
+                            text7 = f"• FKDR:"
                             
                             draw = ImageDraw.Draw(background_image)
+                            
+                            player_tag = get_player_tag(hydata)
                             
                             _, _, text1_width, _ = draw.textbbox((0, 0), text1, font=font_title)
                             _, _, text2_width, _ = draw.textbbox((0, 0), text2, font=font_footer)
@@ -207,19 +231,31 @@ class verify_mcaccount(commands.Cog):
                             center_x2 = (image_width - text2_width) // 2
                             
                             draw = ImageDraw.Draw(background_image)
-                            draw.text((center_x1,20), text1, (85, 255, 85), font=font_title)
+                            draw.text((center_x1,24), text1, (85, 255, 85), font=font_title)
                             draw.text((center_x2,212), text2, (255, 255, 255), font=font_footer)
-                            draw.text((205,67), text3, (255, 255, 85), font=font_footer)
-                            draw.text((205,92), text4, (255, 255, 85), font=font_footer)
-                            draw.text((205,117), text5, (255, 255, 85), font=font_footer)
-                            draw.text((205,142), text6, (255, 255, 85), font=font_footer)
-                            draw.text((205,167), text7, (255, 255, 85), font=font_footer)
+                            draw.text((205,71), text3, (255, 255, 85), font=font_footer)
+                            draw.text((205,96), text4, (255, 255, 85), font=font_footer)
+                            draw.text((205,121), text5, (255, 255, 85), font=font_footer)
+                            draw.text((205,146), text6, (255, 255, 85), font=font_footer)
+                            draw.text((205,171), text7, (255, 255, 85), font=font_footer)
 
-                            draw.text((293,67), ign, (255, 255, 255), font=font_footer)
-                            draw.text((306,92), ctx.author.name, (255, 255, 255), font=font_footer)
-                            draw.text((250,167), str(bedwars_fkdr), (255, 255, 255), font=font_footer)
-                            draw.text((257,142), str(bedwars_level), (255, 255, 255), font=font_footer)
-                            draw.text((252,117), guild_name, (255, 255, 255), font=font_footer)
+
+                            # Draw the player tag and name with the correct colors
+                            x, y = 301, 71
+                            player_name = ign
+                            for component in player_tag:
+                                color = minecraft_colors.get(component[0], (255, 255, 255))
+                                draw.text((x, y), component[1], fill=color, font=font_footer)
+                                x += draw.textbbox((x, y), component[1], font=font_footer)[2] - x
+                            
+                            # Draw the player name with the color of the last rank color
+                            name_color = minecraft_colors.get(player_tag[-1][0], (255, 255, 255)) if player_tag else (255, 255, 255)
+                            draw.text((x, y), f"{player_name}", fill=name_color, font=font_footer)
+
+                            draw.text((322,96), ctx.author.name, (255, 255, 255), font=font_footer)
+                            draw.text((262,171), str(bedwars_fkdr), (255, 255, 255), font=font_footer)
+                            draw.text((267,146), str(bedwars_level), (255, 255, 255), font=font_footer)
+                            draw.text((261,121), guild_name, (255, 255, 255), font=font_footer)
                             background_image.save("./assets/outputs/verified.png") # save the img
 
                             # await ctx.send(f"{ctx.author.mention} account is now linked and updated.", file=discord.File("./assets/outputs/verified.png"))

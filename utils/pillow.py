@@ -11,6 +11,12 @@ def center(x, text, font):
         print(f"Error in center function: {e}")
         return x
     
+
+# Function to calculate the width of text
+def get_text_width(draw, text, font):
+    return draw.textbbox((0, 0), text, font=font)[2]
+
+    
     
 def right_align(x, text, font):
     text = str(text)
