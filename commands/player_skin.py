@@ -18,8 +18,8 @@ with open('config.json') as json_file:
     
 
 embed_color = int(data["general"]["embed_color"].strip("#"), 16) 
-font_title = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 60)
-font_footer = ImageFont.truetype("./assets/fonts/Minecraft.ttf", 40)
+font_title = ImageFont.truetype("./assets/fonts/main.ttf", 60)
+font_footer = ImageFont.truetype("./assets/fonts/main.ttf", 40)
     
 
 class minecraft_skin(commands.Cog):
@@ -77,8 +77,8 @@ class minecraft_skin(commands.Cog):
             background_image.paste(back_skin, (850, 235), back_skin)
             
             draw = ImageDraw.Draw(background_image)
-            draw.text((center_x1,20), text1, (255, 255, 255), font=font_title)
-            draw.text((center_x2,1150), text2, (255, 255, 255), font=font_footer)
+            draw.text((center_x1,28), text1, (255, 255, 255), font=font_title)
+            draw.text((center_x2,1158), text2, (255, 255, 255), font=font_footer)
 
             background_image.save("./assets/outputs/player_skin.png") # save the img
 

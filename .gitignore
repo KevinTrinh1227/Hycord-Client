@@ -11,11 +11,6 @@ config.json
 #Ignore .zip files
 .zip
 
-# test files
-#test.py
-test_2.py
-test_3.py
-
 #Ignore JSON file filled with all server member's data
 verified_accounts.json
 user_data.json
@@ -23,6 +18,8 @@ guild_cache.json
 
 # removes the test file
 /commands/test.py
+/commands/test_2.py
+/commands/test_3.py
 ./assets/outputs/*
 
 __pycache__/
