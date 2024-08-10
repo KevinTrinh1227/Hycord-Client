@@ -38,15 +38,13 @@ class minecraft_skin(commands.Cog):
             response = requests.get(url)
             uuid = response.json()['id']
             
-
+            background_image = Image.open("./assets/backgrounds/transparent_1000_1000.png")
             try:
                 headers = {
                     "User-Agent": "HycordBot/2.0 (+https://github.com/KevinTrinh1227/Hycord-Client; https://kevintrinh.dev)"
                 }
                 front_skin_url = f"https://visage.surgeplay.com/full/832/{uuid}.png?no=cape"
                 back_skin_url = f"https://visage.surgeplay.com/full/832/{uuid}.png?no=cape&y=140"
-
-                background_image = Image.open("./assets/backgrounds/player_skin.png")
 
                 front_response = requests.get(front_skin_url, headers=headers)
                 front_skin = Image.open(BytesIO(front_response.content))
