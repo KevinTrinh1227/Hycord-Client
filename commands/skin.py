@@ -29,7 +29,7 @@ class minecraft_skin(commands.Cog):
         self.data = {}
             
     # playerskin
-    @commands.hybrid_command(aliases=["playerskin"], brief="skin [Minecraft IGN]", description="Displays the skin of the specified player", with_app_command=True)
+    @commands.hybrid_command(aliases=["playerskin", "downloadskin"], brief="skin [Minecraft IGN]", description="Displays the skin of the specified player", with_app_command=True)
     @commands.cooldown(1, 10, commands.BucketType.user) # 1 use for every 10 seconds.
     async def skin(self, ctx, *, username):
         
@@ -117,44 +117,6 @@ class minecraft_skin(commands.Cog):
             
             await ctx.send(embed=embed)
             
-            
-            
-    # player skin download feature
-    @commands.hybrid_command(aliases=["downloadskin"], brief="skindownload [Minecraft IGN]", description="Gets a specific player's skin download link", with_app_command=True)
-    @commands.cooldown(1, 10, commands.BucketType.user) # 1 use for every 10 seconds.
-    async def skindownload(self, ctx, *, username):
-        
-        try:            
-            url = f"https://api.mojang.com/users/profiles/minecraft/{username}?"
-            response = requests.get(url)
-            uuid = response.json()['id']
-
-            # await ctx.send(f"https://crafatar.com/skins/{uuid}")
-            
-            
-            embed = discord.Embed(
-                description=f"[Download Link](https://crafatar.com/skins/{uuid})",
-                color = embed_color
-            )
-            embed.set_image(url=f"https://crafatar.com/skins/{uuid}")
-            await ctx.send(embed=embed)
-            
-        except Exception as e:
-            error_message = str(e)
-            print(error_message)
-            embed = discord.Embed(
-                title = f"Username does not exist",
-                url = f"https://mcchecker.net/",
-                description = f"Username: `{username}`\n\nThe username you have entered does not exist. Please check your spelling and try again. (You can use https://mcchecker.net/ to validate the username)",
-                color = embed_color
-            )
-            embed.timestamp = datetime.datetime.now()
-            if(ctx.author.avatar):
-                embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.author.avatar.url)
-            else:
-                embed.set_footer(text = f"Requested by {ctx.author}", icon_url=ctx.guild.icon.url)
-            
-            await ctx.send(embed=embed)
         
 async def setup(client):
     await client.add_cog(minecraft_skin(client))     
