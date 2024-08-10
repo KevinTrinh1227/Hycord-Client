@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 from PIL import Image, ImageFont, ImageDraw
 from io import BytesIO
 import requests
+from discord.ui import Button, View
 
 
 # Open the JSON file and read in the data
@@ -73,16 +74,33 @@ class minecraft_skin(commands.Cog):
             center_x2 = (image_width - text2_width) // 2
 
             # Paste the downloaded image onto the background
-            background_image.paste(front_skin, (180, 235), front_skin)
-            background_image.paste(back_skin, (850, 235), back_skin)
+            background_image.paste(front_skin, (10, 150), front_skin)
+            background_image.paste(back_skin, (510, 150), back_skin)
             
             draw = ImageDraw.Draw(background_image)
-            draw.text((center_x1,28), text1, (255, 255, 255), font=font_title)
-            draw.text((center_x2,1158), text2, (255, 255, 255), font=font_footer)
+            draw.text((center_x1,50), text1, (255, 255, 255), font=font_title)
+            draw.text((center_x2,1050), text2, (255, 255, 255), font=font_footer)
 
             background_image.save("./assets/outputs/player_skin.png") # save the img
 
-            await ctx.send(file=discord.File("./assets/outputs/player_skin.png"))
+            #await ctx.send(file=discord.File("./assets/outputs/player_skin.png"))
+            
+            # Create buttons
+            button1 = Button(label="Download Skin", url=f"https://crafatar.com/skins/{uuid}")
+            button2 = Button(label="NameMC", url=f"https://namemc.com/profile/{uuid}")
+            button3 = Button(label="View", url=f"https://vzge.me/full/832/{uuid}.png")
+
+            # Create a View and add buttons to it
+            view = View()
+            view.add_item(button1)
+            view.add_item(button2)
+            view.add_item(button3)
+
+            # Send the image file along with the buttons in a single message
+            await ctx.send(
+                file=discord.File("./assets/outputs/player_skin.png"),
+                view=view
+            )
             
         except Exception as e:
             error_message = str(e)
