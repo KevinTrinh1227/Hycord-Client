@@ -150,7 +150,7 @@ def activateBot (discord_bot_token, bot_prefix, discord_application_id):
     * checks if the config.json has already been
     * configured. If it hasnt, then it only loads
     * loads up the listeners.command_errors, and
-    * commands.initial_setup cog.
+    * commands.setup cog.
     ========================================== """
     @client.event
     async def on_ready():
@@ -173,7 +173,8 @@ def activateBot (discord_bot_token, bot_prefix, discord_application_id):
         
         if data["config"]["bool"] == 0:
             await client.load_extension("listeners.command_errors")
-            await client.load_extension('commands.initial_setup')
+            await client.load_extension('commands.setup')
+            await client.load_extension('commands.restart_client')
             await client.tree.sync()
             print("YOUR BOT REQUIRES AN INITIAL SETUP. 🟡")
             print("--------------------------------------------------")

@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 import json
 from discord import app_commands
 import traceback
+from discord.ui import Button, View
+from functools import partial
 
 
 # Open the JSON file and read in the data
@@ -21,11 +23,12 @@ embed_color = int(data["general"]["embed_color"].strip("#"), 16) #convert hex co
 class initialsetup(commands.Cog):
     def __init__(self, client):
         self.client = client
-    
+        
 
     @commands.has_permissions(administrator = True)
     @commands.hybrid_command(aliases=["botsetup"], pass_context=True, brief="setup", description="Setup the bot configurations", with_app_command=True)
     async def setup(self, ctx):
+        
         
         # Read the existing config.json file
         with open('config.json', 'r') as config_file:
@@ -39,6 +42,37 @@ class initialsetup(commands.Cog):
 
                 # timeout timer for when it stops
                 timeout_time_in_seconds = 60
+                
+                
+
+
+                # Helper function to create a view with Yes/No buttons
+                async def get_button_response(question):
+                    class YesNoView(View):
+                        def __init__(self, *, timeout=None):
+                            super().__init__(timeout=timeout)
+                            self.value = None
+
+                        @discord.ui.button(label="Yes", style=discord.ButtonStyle.green)
+                        async def yes_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+                            self.value = 1
+                            await interaction.response.defer()
+                            self.stop()
+
+                        @discord.ui.button(label="No", style=discord.ButtonStyle.red)
+                        async def no_button(self, interaction: discord.Interaction, button: discord.ui.Button):
+                            self.value = 0
+                            await interaction.response.defer()
+                            self.stop()
+
+                    view = YesNoView(timeout=timeout_time_in_seconds)
+                    question_message = await ctx.send(question, view=view, reference=None)
+                    await view.wait()
+                    #await question_message.delete()  # Optionally delete the original question message
+                    return view.value
+
+
+                
 
                 # General bot prefix
                 await ctx.send("Enter a bot prefix you would like your bot to use. Note that all commands are hybrid, meaning they will work with either prefix or with a `/`. Some examples: `?`, `.`, `!`.")
@@ -57,31 +91,28 @@ class initialsetup(commands.Cog):
 
 
                 # Server Stats
-                await ctx.send("Enable the server stats channels? These channels will update every 10 minutes with your member count, guild member online count, etc. (0 for No, 1 for Yes)")
-                server_stats = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=timeout_time_in_seconds)
-                config['features']['server_stats'] = int(server_stats.content)
-                # the server stats category and channels will be generated at the end of the setup process
-                    
-                    
+                server_stats = await get_button_response("Enable the server stats channels? These channels will update every 10 minutes with your member count, guild member online count, etc.")
+                config['features']['server_stats'] = server_stats
+                #print(f"the user chose {server_stats}")
+
                 # Coins & level system question
-                await ctx.send("Enable chat coin and level system? This will reward members for chatting and participating in your server channels. (0 for No, 1 for Yes):")
-                filtered_chat = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
-                config['features']['coin_level_system'] = int(filtered_chat.content)
-                
+                filtered_chat = await get_button_response("Enable chat coin and level system? This will reward members for chatting and participating in your server channels.")
+                config['features']['coin_level_system'] = filtered_chat
+                #print(f"the user chose {filtered_chat}")
+
                 # Auto GEXp feature
-                await ctx.send("Enable auto GEXP feature? This feature will automatically send a daily guild points report of the top guild contributors in a specified channel. (0 for No, 1 for Yes):")
-                auto_gexp_feature = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
-                config['features']['auto_daily_gexp'] = int(auto_gexp_feature.content)
+                auto_gexp_feature = await get_button_response("Enable auto GEXP feature? This feature will automatically send a daily guild points report of the top guild contributors in a specified channel.")
+                config['features']['auto_daily_gexp'] = auto_gexp_feature
+                #print(f"the user chose {auto_gexp_feature}")
 
                 # Filtered chat
-                await ctx.send("Enable filtered chat? (0 for No, 1 for Yes):")
-                filtered_chat = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
-                config['features']['filtered_chat'] = int(filtered_chat.content)
+                filtered_chat = await get_button_response("Enable filtered chat?")
+                config['features']['filtered_chat'] = filtered_chat
+                #print(f"the user chose {filtered_chat}")
                 
                 # Self selection roles
-                await ctx.send("Enable self selection roles? This will allow users to select their own public roles from a list of roles you provide in a bit. Remember that you can always edit the description, title, roles labels, etc all inside the `config.json`. (0 for No, 1 for Yes")
-                self_roles = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
-                if self_roles.content == '1':
+                self_roles = await get_button_response("Enable self selection roles? This will allow users to select their own public roles from a list of roles you provide in a bit. Remember that you can always edit the description, title, roles labels, etc all inside the `config.json`.")
+                if self_roles == 1:
                     await ctx.send("How many roles would you like to add to the menu? Please enter an integer number.")
                     roles_count = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout=timeout_time_in_seconds)
                     list_of_roles = []
@@ -111,14 +142,14 @@ class initialsetup(commands.Cog):
                     
 
                 # Inactivity command
-                await ctx.send("Enable inactivity command? This command will allow guild members only, to share a time frame where they will be inactive for, in a specific channel. (0 for No, 1 for Yes):")
-                inactivity_cmd = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
-                config['features']['inactivity_cmd'] = int(inactivity_cmd.content)
+                inactivity_cmd = await get_button_response("Enable inactivity command? This command will allow guild members only, to share a time frame where they will be inactive for, in a specific channel.")
+                config['features']['inactivity_cmd'] = inactivity_cmd
+                #print(f"the user chose {inactivity_cmd}")
 
                 # Punishments command
-                await ctx.send("Enable punishments command? If you want to use a different bot for punishment commands, enter `0`. (0 for No, 1 for Yes):")
-                punishments_cmd = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
-                config['features']['punishments_cmd'] = int(punishments_cmd.content)
+                punishments_cmd = await get_button_response("Enable punishments command? If you want to use a different bot for punishment commands, enter `0`. (0 for No, 1 for Yes):")
+                config['features']['punishments_cmd'] = punishments_cmd
+                #print(f"the user chose {punishments_cmd}")
 
 
                 # Welcome channel
@@ -128,8 +159,8 @@ class initialsetup(commands.Cog):
                 config['text_channel_ids']['welcome'] = str(welcome_channel_id)
 
                 # If the user said 0 or no for the inactivity command, set the inactivity channel to "0" and don't ask to reference the inactivity command
-                if inactivity_cmd.content == "0":
-                    config['text_channel_ids']['inactivity_notice'] = "0"
+                if inactivity_cmd == 0:
+                    config['text_channel_ids']['inactivity_notice'] = 0
                 else:
                     # Inactivity notice channel
                     await ctx.send("Reference your inactivity notice channel (Mention the channel by using #<channel name>):")
@@ -157,8 +188,8 @@ class initialsetup(commands.Cog):
 
 
                 # Daily GEXP message channel
-                if auto_gexp_feature.content == "0":
-                    config['text_channel_ids']['daily_guild_points'] = "0"
+                if auto_gexp_feature == 0:
+                    config['text_channel_ids']['daily_guild_points'] = 0
                 else:
                     await ctx.send("Reference your daily guild points channel (Mention the channel by using #<channel name>):")
                     daily_guild_points_channel_mention = await self.client.wait_for("message", check=lambda message: message.author == ctx.author, timeout = timeout_time_in_seconds)
@@ -240,7 +271,7 @@ class initialsetup(commands.Cog):
 
                 # creates the server stats channels
                 try:
-                    if server_stats.content == "1":
+                    if server_stats == 1:
                         # Create the category
                         category = await guild.create_category('SERVER INFO')
 
@@ -321,8 +352,7 @@ class initialsetup(commands.Cog):
                 await ctx.send("**IMPORTANT:** Remember that you you can always edit your settings, embed messages layout, and everything else inside the `config.json` file. If when you do, restart your bot/client for the new changes to take effect.")
 
                 # saves all the data we just got to the config.json
-                await ctx.send("Configuration settings updated successfully. 🟢")
-                await ctx.send("You must **RESTART** your bot again for it to work! ⚠️ ")
+                await ctx.send(f"Configuration settings updated successfully. 🟢\nYou must **RESTART** your bot again for it to work! ⚠️")
                 
                 # prints to console as well
                 print("\n\n----------------------------------------------------------")
