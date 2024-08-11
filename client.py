@@ -174,7 +174,6 @@ def activateBot (discord_bot_token, bot_prefix, discord_application_id):
         if data["config"]["bool"] == 0:
             await client.load_extension("listeners.command_errors")
             await client.load_extension('commands.setup')
-            await client.load_extension('commands.restart_client')
             await client.tree.sync()
             print("YOUR BOT REQUIRES AN INITIAL SETUP. 🟡")
             print("--------------------------------------------------")
