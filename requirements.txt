@@ -1,6 +1,6 @@
 discord.py==2.4.0
 requests==2.32.3
 python-dotenv==1.0.1
-pytz==2024.1
+pytz==2024.2
 chat-exporter==2.8.0
 pillow==10.4.0
