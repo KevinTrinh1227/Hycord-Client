@@ -2,5 +2,5 @@ discord.py==2.5.0
 requests==2.32.3
 python-dotenv==1.0.1
 pytz==2025.1
-chat-exporter==2.8.1
+chat-exporter==2.8.2
 pillow==11.1.0
