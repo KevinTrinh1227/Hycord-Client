@@ -1,3 +1,35 @@
+<!-- devfoliox
+{
+  "title": "Hycord-Client",
+  "summary": "A Python Discord client that integrates Minecraft player stats and server data into rich Discord embeds.",
+  "description": [
+    "Hycord-Client connects Discord with Minecraft servers, pulling player stats, session history, and game events into a unified dashboard inside Discord.",
+    "It uses caching and background tasks to reduce API spam while keeping stats, leaderboards, and activity summaries up to date."
+  ],
+  "technologies": ["Python", "discord.py", "REST APIs", "Redis"],
+  "start": "May 2024",
+  "end": "Present",
+
+  "stats_stars": true,
+  "stats_forks": true,
+  "stats_downloads": false,
+
+  "links": [
+    {
+      "label": "Source",
+      "href": "https://github.com/KevinTrinh1227/Hycord-Client",
+      "type": "github"
+    },
+    {
+      "label": "Docs",
+      "href": "https://github.com/KevinTrinh1227/Hycord-Client#readme",
+      "type": "docs"
+    }
+  ]
+}
+-->
+
+
 <h4 align="center">
   <a href="https://www.hycord.net" target="_blank"><img src="https://raw.githubusercontent.com/KevinTrinh1227/Hycord-Bot/main/assets/display_banner.png" alt="Display Banner"></a>
 </h4>
