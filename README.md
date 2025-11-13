@@ -12,7 +12,7 @@
 
   "stats_stars": true,
   "stats_forks": true,
-  "stats_downloads": false,
+  "stats_downloads": true,
 
   "links": [
     {
