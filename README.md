@@ -21,8 +21,8 @@
       "type": "github"
     },
     {
-      "label": "Docs",
-      "href": "https://github.com/KevinTrinh1227/Hycord-Client#readme",
+      "label": "Wiki",
+      "href": "https://hycord.netlify.app",
       "type": "docs"
     }
   ]
