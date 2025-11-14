@@ -31,11 +31,11 @@
 
 
 <h4 align="center">
-  <a href="https://www.hycord.net" target="_blank"><img src="https://raw.githubusercontent.com/KevinTrinh1227/Hycord-Bot/main/assets/display_banner.png" alt="Display Banner"></a>
+  <a href="https://hycord.netlify.app" target="_blank"><img src="https://raw.githubusercontent.com/KevinTrinh1227/Hycord-Bot/main/assets/display_banner.png" alt="Display Banner"></a>
 </h4>
 <p align="center">
   A versatile Hypixel-integrated Discord.py client.
-  Visit <a href="https://hycord.net" target="_blank"><strong>hycord.net</strong></a> for more information.
+  Visit <a href="https://hycord.netlify.app" target="_blank"><strong>hycord.netlify.app</strong></a> for more information.
 </p>
 <div align="center">
   <img src="https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg" alt="Maintained status" />
